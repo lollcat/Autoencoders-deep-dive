@@ -31,6 +31,7 @@ $$ q_{\phi}(\mathbf{z} \mid \mathbf{x}) $$  and the true posterior $$ p_{\boldsy
 Note: 
 $$ p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x}) $$ is the true posterior of z because the encoder is trying to predict the distribution of z, that the decoder maps to x. 
 I.e. z that produces x under the decoder is the true posterior. 
+Or is this just the prior and therefore the "true" distribution?
 
 ## Calculating derivates
 ### Decoder
