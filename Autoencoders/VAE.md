@@ -35,9 +35,10 @@ I.e. z that produces x under the decoder is the true posterior.
 ## Calculating derivates
 ### Decoder
 The gradients to the decoder NN (generative model parameters) are relatively easy to find, and are given by:
+
 \\[ \begin{aligned}
-\nabla_{\boldsymbol{\theta}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \\
-&=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \\
+\nabla_{\boldsymbol{\theta}} \mathcal{L_{\boldsymbol{\theta}, \phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E_{q_{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \\
+&=\mathbb{E_{q_{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \\
 & \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \\
 &=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right)
 \end{aligned}
@@ -60,15 +61,17 @@ Or rephrasing - it allows us to "externalise" the randomness in z, by defining z
 This is shown in the below figure from [Kingma and Welling 2019](https://arxiv.org/abs/1906.02691)
 ![](Reparameterisation_trick.PNG)
 
-Summarising, ELBO gets rewritten, to have an expectation w.r.t. $p(\boldsymbol{\epsilon}) .$ as follows:
+Summarising, ELBO gets rewritten, to have an expectation w.r.t. $$p(\boldsymbol{\epsilon}) .$$ as follows:
+
 \\[
 \begin{aligned}
 \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \\
 &=\mathbb{E}_{p(\boldsymbol{\epsilon})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right]
 \end{aligned}
 \\]
+
 where $$\mathbf{z}=g(\epsilon, \phi, \mathbf{x})$$
-As a result we can form a simple Monte Carlo estimator $$\tilde{\mathcal{L}}_{\theta, \phi}(\mathrm{x})$$ of the individual-datapoint ELBO where we use a single noise sample $$\epsilon$ from $p(\epsilon)$$ :
+As a result we can form a simple Monte Carlo estimator $$\tilde{\mathcal{L_{\theta, \phi}}}(\mathrm{x})$$ of the individual-datapoint ELBO where we use a single noise sample $$\epsilon$ from $p(\epsilon)$$ :
 \\[
 \begin{aligned}
 \epsilon & \sim p(\epsilon) \\
