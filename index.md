@@ -1,1 +1,4 @@
+---
+title: Autoencoders deep dive
+---
 
