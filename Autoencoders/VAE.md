@@ -9,14 +9,20 @@ For variational auto-encoders, instead of a deterministic mapping to the latent 
 ## ELBO
 We wish to maximise the marginal likelihood of x given by the model. However, this is intractable (as requires integration over the latent variables). 
 Instead we maximise the evidence lower bound, which can be derived by:
-\\[ \begin{aligned}
-\log p_{\theta}(\mathrm{x})=& \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\theta}(\mathrm{x})\right] \\
-=& \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{p_{\theta}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
-=& \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{q_{\phi}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\phi}(\mathbf{z} \mid \mathbf{x})}{p_{\theta}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
-=& \underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta, \phi}(\mathbf{x})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\phi}(\mathbf{z} \mid \mathbf{x})}{p_{\theta}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{(\mathrm{ELBO})} \\
-& \underbrace{[\mathbf{x})}{=D_{K L}\left(q_{\phi}(\mathbf{z} \mid \mathbf{x})|| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)} \\
+
+{% raw %}
+$$
+\begin{aligned}
+\log p_{\theta}(\mathrm{x})=& \mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log p_{\theta}(\mathrm{x})\right] \\
+=& \mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log \left[\frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{p_{\theta}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
+=& \mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log \left[\frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{q_{\phi}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\phi}(\mathbf{z} \mid \mathbf{x})}{p_{\theta}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
+=& \underbrace{\mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log \left[\frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta, \phi}(\mathbf{x}) = (\mathrm{ELBO})}+\underbrace{\mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log \left[\frac{q_{\phi}(\mathbf{z} \mid \mathbf{x})}{p_{\theta}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\phi}(\mathbf{z} \mid \mathbf{x})|| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)} \\
+
 &
-\end{aligned} \\]
+\end{aligned}
+$$
+{% endraw %}
+
 
 The first term of the final line of the above equation is the evidence lower bound (ELBO).
 The second term is the KL divergence between $$ q_{\phi}(\mathbf{z} \mid \mathbf{x}) $$ (i.e. the approximate posterior) and 
@@ -36,14 +42,15 @@ Or is this just the prior and therefore the "true" distribution?
 ## Calculating derivates
 ### Decoder
 The gradients to the decoder NN (generative model parameters) are relatively easy to find, and are given by:
-
+{% raw %}
 \\[ \begin{aligned}
-\nabla_{\boldsymbol{\theta}} \mathcal{L_{\boldsymbol{\theta}, \phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E_{q_{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \\
-&=\mathbb{E_{q_{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \\
+\nabla_{\boldsymbol{\theta}} \mathcal{L_{\boldsymbol{\theta}, \phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \\
+&=\mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \\
 & \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \\
 &=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right)
 \end{aligned}
 \\]
+{% endraw %}
 Where the last line is a Monte Carlo estimator of the second line and z is a random sample from $$ q_{\phi}(\mathbf{z} \mid \mathbf{x}) $$
 
 ## Encoder
