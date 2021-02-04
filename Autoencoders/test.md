@@ -6,3 +6,11 @@
 & \underbrace{[\mathbf{x})}{=D_{K L}\left(q_{\phi}(\mathbf{z} \mid \mathbf{x})|| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)} \\
 &
 \end{aligned} \\]
+
+\\[\begin{aligned}
+x &= y \\
+y &= x \\
+\end{aligned} \\]
+
+
+
