@@ -43,13 +43,14 @@ Or is this just the prior and therefore the "true" distribution?
 ### Decoder
 The gradients to the decoder NN (generative model parameters) are relatively easy to find, and are given by:
 {% raw %}
-\\[ \begin{aligned}
+$$
+\begin{aligned}
 \nabla_{\boldsymbol{\theta}} \mathcal{L_{\boldsymbol{\theta}, \phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \\
 &=\mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \\
 & \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \\
-&=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right)
+&=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right) \\
 \end{aligned}
-\\]
+$$
 {% endraw %}
 Where the last line is a Monte Carlo estimator of the second line and z is a random sample from $$ q_{\phi}(\mathbf{z} \mid \mathbf{x}) $$
 
