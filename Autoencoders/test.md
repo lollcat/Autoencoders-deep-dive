@@ -8,8 +8,8 @@
 \end{aligned} \\]
 
 \\[\begin{aligned}
-x &= y \\
-y &= x \\
+<div> x &= y \\ </div>
+<div>  y &= x \\ </div>
 \end{aligned} \\]
 
 
