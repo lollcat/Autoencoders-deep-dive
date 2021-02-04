@@ -34,11 +34,16 @@ Maximising ELBO will both (1) approximatey maximise the marginal likelihood $$p_
 $$ q_{\phi}(\mathbf{z} \mid \mathbf{x}) $$  and the true posterior $$ p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x}) $$ - i.e. the latent representation improves
 
 <br>
-Note: 
+Slight note of confusion regarding why $$ p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x}) $$ is the "true posterior" - I guess the reason is:
 $$ p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x}) $$ is the true posterior of z because the encoder is trying to predict the distribution of z, that the decoder maps to x. 
 I.e. z that produces x under the decoder is the true posterior. 
-Or is this just the prior and therefore the "true" distribution?
-
+The equation can be rewritten as
+{% raw %}
+$$
+\mathcal{L}\left(\boldsymbol{\theta}, \boldsymbol{\phi} ; \mathbf{x}^{(i)}\right)=-D_{K L}\left(q_{\phi}\left(\mathbf{z} \mid \mathbf{x}^{(i)}\right) \| p_{\theta}(\mathbf{z})\right)+\mathbb{E_{q_{\phi}\left(\mathbf{z} \mid \mathbf{x}^{(i)}\right)}}\left[\log p_{\theta}\left(\mathbf{x}^{(i)} \mid \mathbf{z}\right)\right]
+$$
+{% endraw %}
+where now the first term can be seen as regularisation encouraging the posterior of $$ q_{\phi}(\mathbf{z} \mid \mathbf{x}) $$ to be similar to the prior, while the second term wishes to maximise the similarity of the reconstruction to the original. 
 ## Calculating derivates
 ### Decoder
 The gradients to the decoder NN (generative model parameters) are relatively easy to find, and are given by:
