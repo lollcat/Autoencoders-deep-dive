@@ -10,5 +10,5 @@ $$
 
 
 {% raw %}
-\begin{equation}\log p_{\theta}(\mathrm{x})=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\theta}(\mathrm{x})\right.\end{equation}
+\begin{equation}\log p_{\theta}(\mathrm{x})=\mathbb{E_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}}\left[\log p_{\theta}(\mathrm{x})\right.\end{equation}
 {% endraw %}
