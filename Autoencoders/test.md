@@ -8,10 +8,10 @@
 &
 \end{aligned} \\]
 
-\\[\begin{aligned}
-x &= y \\\\
-y &= x \\\\
-\end{aligned} \\]
+\\[\begin{align}
+  x &= y \\\\
+  y &= x \\\\
+\end{align} \\]
 
 $$
   \begin{align}
