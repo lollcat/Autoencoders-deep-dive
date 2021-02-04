@@ -21,7 +21,8 @@ $$
 $$
 
 \\[
-\log p_{\theta}(\mathrm{x})=& \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\theta}(\mathrm{x})\right] \\]
+\log p_{\theta}(\mathrm{x})=& \mathbb{E_{q_{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\theta}(\mathrm{x})\right] 
+\\]
 
 \\[
 =& \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{p_{\theta}(\mathbf{z} \mid \mathbf{x})}\right]\right]
