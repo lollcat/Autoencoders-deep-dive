@@ -9,7 +9,7 @@
 
 \\[\begin{aligned}
 x &= y \\\\
-y &= x \\ \\
+y &= x \\\\
 \end{aligned} \\]
 
 \begin{equation}
