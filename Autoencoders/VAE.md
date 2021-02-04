@@ -36,7 +36,7 @@ $$ q_{\phi}(\mathbf{z} \mid \mathbf{x}) $$  and the true posterior $$ p_{\boldsy
 <br>
 Slight note of confusion regarding why $$ p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x}) $$ is the "true posterior" - I guess the reason is:
 $$ p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x}) $$ is the true posterior of z because the encoder is trying to predict the distribution of z, that the decoder maps to x. 
-I.e. z that produces x under the decoder is the true posterior. 
+I.e. z that produces x under the decoder (generative model) is the true posterior. 
 The equation can be rewritten as
 {% raw %}
 $$
