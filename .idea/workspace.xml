@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="012beed5-9cc7-486b-86c8-f3547e58378e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/VAE/.ipynb_checkpoints/run_VAE-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/.ipynb_checkpoints/run_VAE-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/test/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.295.v2" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/test/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.295.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/train/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.287.v2" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/train/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.287.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/run_VAE.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/run_VAE.ipynb" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="b7218811-175d-4924-b881-1ce06b6787fc" />
+  <component name="ProjectId" id="1o1Qs4eOBoZN9f9QEZMWkLDYKQJ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RunManager" selected="Python.run_VAE">
+    <configuration name="Decoder" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CODE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VAE" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VAE/Decoder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Encoder" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="CODE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VAE" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VAE/Encoder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VAE" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CODE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VAE" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VAE/VAE.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_VAE" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CODE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VAE" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VAE/run_VAE.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.run_VAE" />
+        <item itemvalue="Python.VAE" />
+        <item itemvalue="Python.Decoder" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="012beed5-9cc7-486b-86c8-f3547e58378e" name="Default Changelist" comment="" />
+      <created>1612451819849</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1612451819849</updated>
+      <workItem from="1612451820914" duration="4121000" />
+      <workItem from="1612509775554" duration="11676000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1229" y="220" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612451903242">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state x="-1229" y="220" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612451903242" />
+    <state x="-1111" y="485" width="1014" height="382" key="#xdebugger.evaluate" timestamp="1612527602881">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state x="-1111" y="485" width="1014" height="382" key="#xdebugger.evaluate/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527602881" />
+    <state x="-904" y="325" key="FileChooserDialogImpl" timestamp="1612470205945">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state x="-904" y="325" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612470205945" />
+    <state width="1323" height="132" key="GridCell.Tab.0.bottom" timestamp="1612530528245">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
+    <state width="1323" height="132" key="GridCell.Tab.0.center" timestamp="1612530528245">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
+    <state width="1323" height="132" key="GridCell.Tab.0.left" timestamp="1612530528245">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
+    <state width="1323" height="132" key="GridCell.Tab.0.right" timestamp="1612530528245">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
+    <state width="1323" height="142" key="GridCell.Tab.1.bottom" timestamp="1612527711179">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="142" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
+    <state width="1323" height="142" key="GridCell.Tab.1.center" timestamp="1612527711179">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="142" key="GridCell.Tab.1.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
+    <state width="1323" height="142" key="GridCell.Tab.1.left" timestamp="1612527711179">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="142" key="GridCell.Tab.1.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
+    <state width="1323" height="142" key="GridCell.Tab.1.right" timestamp="1612527711179">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="1323" height="142" key="GridCell.Tab.1.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
+    <state x="-1020" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1612530770845">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state x="-1020" y="255" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530770845" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/VAE/VAE.py</url>
+          <line>40</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CODE$Encoder.coverage" NAME="Encoder Coverage Results" MODIFIED="1612527540962" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
+    <SUITE FILE_PATH="coverage/CODE$run_VAE.coverage" NAME="run_VAE Coverage Results" MODIFIED="1612530021908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
+    <SUITE FILE_PATH="coverage/CODE$Decoder.coverage" NAME="Decoder Coverage Results" MODIFIED="1612470447332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
+    <SUITE FILE_PATH="coverage/CODE$VAE.coverage" NAME="VAE Coverage Results" MODIFIED="1612472028969" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
+  </component>
+</project>
