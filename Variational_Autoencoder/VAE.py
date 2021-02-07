@@ -1,12 +1,17 @@
 from tensorflow.keras import Model
 import tensorflow as tf
 from Variational_Autoencoder.Decoder import Decoder
-from Variational_Autoencoder.Encoder_diag_cov import Encoder
+from Variational_Autoencoder.Encoder_diag_cov import Encoder as diag_cov_Encoder
+from Variational_Autoencoder.Encoder_full_cov import Encoder as full_cov_Encoder
 import numpy as np
 
 class VAE(Model):
-    def __init__(self, latent_representation_dim, x_dim, layer_nodes=64):
+    def __init__(self, latent_representation_dim, x_dim, full_cov=True, layer_nodes=64):
         super(VAE, self).__init__()
+        if full_cov is True:
+            Encoder = full_cov_Encoder
+        else:
+            Encoder = diag_cov_Encoder
         self.encoder = Encoder(latent_representation_dim, layer_nodes)
         self.decoder = Decoder(x_dim, layer_nodes)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)

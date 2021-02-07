@@ -48,3 +48,7 @@ if __name__ == "__main__":
     encoder_test = encoder(minitest)
     print(encoder_test[0].shape, encoder_test[1].shape, encoder_test[2].shape)
 
+    with tf.GradientTape() as tape:
+        z, log_probs_z_given_x, log_prob_z_prior = encoder(minitest)
+    variables = encoder.variables
+    tape.gradient(log_probs_z_given_x, variables)

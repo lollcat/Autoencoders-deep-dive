@@ -1,6 +1,7 @@
 from tensorflow.keras import Model
 import tensorflow as tf
-from Encoder import Encoder
+#from Encoder import Encoder
+fr
 from Decoder import Decoder
 import numpy as np
 

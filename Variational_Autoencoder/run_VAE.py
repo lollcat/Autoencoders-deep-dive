@@ -8,12 +8,16 @@ if __name__ == "__main__":
     import datetime
 
     """CONGI PARAMS"""
-    name = "independent normal"
-    latent_representation_dim = 32
-    EPOCHS = 30
+    name = "full_cov"
+    if name == 'full_cov':
+        full_cov = True
+    else:
+        full_cov = False
+    latent_representation_dim = 2
+    EPOCHS = 3
 
     # Define vae
-    vae = VAE(latent_representation_dim, image_dim)
+    vae = VAE(latent_representation_dim, image_dim, full_cov=full_cov)
 
     samples = x_test[0:9, :, :, :][:, :, :]
     example_reconstruction_hist = [vae(samples)[0].numpy()]
