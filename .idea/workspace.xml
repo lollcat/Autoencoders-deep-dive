@@ -1,11 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:code" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="012beed5-9cc7-486b-86c8-f3547e58378e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/VAE/.ipynb_checkpoints/run_VAE-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/.ipynb_checkpoints/run_VAE-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/test/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.295.v2" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/test/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.295.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/train/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.287.v2" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/train/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.287.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAE/run_VAE.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/run_VAE.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/CODE.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IAF/.ipynb_checkpoints/IAF explore-checkpoint.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IAF/IAF explore.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IAF/explore.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VAE_analytical_KL/load_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VAE_analytical_KL/old/VAE.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VAE_analytical_KL/run_VAE.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/.ipynb_checkpoints/run_VAE-checkpoint.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/Decoder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/Encoder_diag_cov.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/VAE.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/load_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-181925independent normal/test/events.out.tfevents.1612628365.LAPTOP-O5D6Q9C8.20768.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-181925independent normal/train/events.out.tfevents.1612628365.LAPTOP-O5D6Q9C8.20768.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-182136independent normal/test/events.out.tfevents.1612628496.LAPTOP-O5D6Q9C8.22272.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-182136independent normal/train/events.out.tfevents.1612628496.LAPTOP-O5D6Q9C8.22272.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-182322independent normal/test/events.out.tfevents.1612628603.LAPTOP-O5D6Q9C8.17668.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-182322independent normal/train/events.out.tfevents.1612628602.LAPTOP-O5D6Q9C8.17668.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-214200independent normal/test/events.out.tfevents.1612640520.LAPTOP-O5D6Q9C8.1516.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-214200independent normal/train/events.out.tfevents.1612640520.LAPTOP-O5D6Q9C8.1516.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-214814independent normal/test/events.out.tfevents.1612640894.LAPTOP-O5D6Q9C8.12780.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-214814independent normal/train/events.out.tfevents.1612640894.LAPTOP-O5D6Q9C8.12780.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-214858independent normal/test/events.out.tfevents.1612640938.LAPTOP-O5D6Q9C8.8332.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-214858independent normal/train/events.out.tfevents.1612640938.LAPTOP-O5D6Q9C8.8332.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215124independent normal/test/events.out.tfevents.1612641084.LAPTOP-O5D6Q9C8.12676.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215124independent normal/train/events.out.tfevents.1612641084.LAPTOP-O5D6Q9C8.12676.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215202independent normal/test/events.out.tfevents.1612641122.LAPTOP-O5D6Q9C8.5064.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215202independent normal/train/events.out.tfevents.1612641122.LAPTOP-O5D6Q9C8.5064.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215310independent normal/test/events.out.tfevents.1612641190.LAPTOP-O5D6Q9C8.9004.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215310independent normal/train/events.out.tfevents.1612641190.LAPTOP-O5D6Q9C8.9004.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215632independent normal/test/events.out.tfevents.1612641392.LAPTOP-O5D6Q9C8.12784.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215632independent normal/train/events.out.tfevents.1612641392.LAPTOP-O5D6Q9C8.12784.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215749independent normal/test/events.out.tfevents.1612641469.LAPTOP-O5D6Q9C8.14260.224.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-215749independent normal/train/events.out.tfevents.1612641469.LAPTOP-O5D6Q9C8.14260.216.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-221538independent normal/test/events.out.tfevents.1612642538.LAPTOP-O5D6Q9C8.2144.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-221538independent normal/train/events.out.tfevents.1612642538.LAPTOP-O5D6Q9C8.2144.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-221721independent normal/test/events.out.tfevents.1612642641.LAPTOP-O5D6Q9C8.6960.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-221721independent normal/train/events.out.tfevents.1612642641.LAPTOP-O5D6Q9C8.6960.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223043independent normal/test/events.out.tfevents.1612643443.LAPTOP-O5D6Q9C8.7124.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223043independent normal/train/events.out.tfevents.1612643443.LAPTOP-O5D6Q9C8.7124.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223231independent normal/test/events.out.tfevents.1612643551.LAPTOP-O5D6Q9C8.7464.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223231independent normal/train/events.out.tfevents.1612643551.LAPTOP-O5D6Q9C8.7464.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223605independent normal/test/events.out.tfevents.1612643765.LAPTOP-O5D6Q9C8.2040.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223605independent normal/train/events.out.tfevents.1612643765.LAPTOP-O5D6Q9C8.2040.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223627independent normal/test/events.out.tfevents.1612643787.LAPTOP-O5D6Q9C8.12904.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223627independent normal/train/events.out.tfevents.1612643787.LAPTOP-O5D6Q9C8.12904.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223803independent normal/test/events.out.tfevents.1612643883.LAPTOP-O5D6Q9C8.7436.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-223803independent normal/train/events.out.tfevents.1612643883.LAPTOP-O5D6Q9C8.7436.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-224045independent normal/test/events.out.tfevents.1612644045.LAPTOP-O5D6Q9C8.1540.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-224045independent normal/train/events.out.tfevents.1612644045.LAPTOP-O5D6Q9C8.1540.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-224720independent normal/test/events.out.tfevents.1612644440.LAPTOP-O5D6Q9C8.12992.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-224720independent normal/train/events.out.tfevents.1612644440.LAPTOP-O5D6Q9C8.12992.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-225119independent normal/test/events.out.tfevents.1612644679.LAPTOP-O5D6Q9C8.11988.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-225119independent normal/train/events.out.tfevents.1612644679.LAPTOP-O5D6Q9C8.11988.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-225521independent normal/test/events.out.tfevents.1612644921.LAPTOP-O5D6Q9C8.1900.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/logs/20210206-225521independent normal/train/events.out.tfevents.1612644921.LAPTOP-O5D6Q9C8.1900.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/run_VAE.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Variational_Autoencoder/run_VAE.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-082433independent normal/test/events.out.tfevents.1612679073.LAPTOP-O5D6Q9C8.11544.295.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-082433independent normal/train/events.out.tfevents.1612679073.LAPTOP-O5D6Q9C8.11544.287.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-082513independent normal/test/events.out.tfevents.1612679114.LAPTOP-O5D6Q9C8.11828.295.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-082513independent normal/train/events.out.tfevents.1612679113.LAPTOP-O5D6Q9C8.11828.287.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-082722independent normal/test/events.out.tfevents.1612679242.LAPTOP-O5D6Q9C8.8512.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-082722independent normal/train/events.out.tfevents.1612679242.LAPTOP-O5D6Q9C8.8512.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-083007independent normal/test/events.out.tfevents.1612679407.LAPTOP-O5D6Q9C8.464.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-083007independent normal/train/events.out.tfevents.1612679407.LAPTOP-O5D6Q9C8.464.215.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-083044independent normal/test/events.out.tfevents.1612679444.LAPTOP-O5D6Q9C8.8136.223.v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/20210207-083044independent normal/train/events.out.tfevents.1612679444.LAPTOP-O5D6Q9C8.8136.215.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/.ipynb_checkpoints/run_VAE-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/Decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/Decoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/Encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/Encoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/VAE.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/VAE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/load_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/load_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/test/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.295.v2" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/logs/20210205-160431independent normal/test/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.295.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/logs/20210205-160431independent normal/train/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.287.v2" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/logs/20210205-160431independent normal/train/events.out.tfevents.1612533871.LAPTOP-O5D6Q9C8.18296.287.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/old/VAE.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/old/.ipynb_checkpoints/VAE-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/run_VAE.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/.ipynb_checkpoints/run_VAE-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/run_VAE.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/run_VAE.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,13 +129,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Variational_Autoencoder" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Variational_Autoencoder" />
+    </key>
   </component>
   <component name="RunManager" selected="Python.run_VAE">
     <configuration name="Decoder" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -67,8 +169,11 @@
       <module name="CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VAE" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -76,6 +181,28 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VAE/Encoder.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VAE (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CODE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Variational_Autoencoder" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Variational_Autoencoder/VAE.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -90,14 +217,36 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VAE" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VAE/VAE.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="explore" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\meatrobot\miniconda3\envs\VAE\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/IAF/explore.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -112,23 +261,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VAE" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Variational_Autoencoder" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VAE/run_VAE.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Variational_Autoencoder/run_VAE.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.Encoder" />
+      <item itemvalue="Python.explore" />
+      <item itemvalue="Python.Decoder" />
+      <item itemvalue="Python.run_VAE" />
+      <item itemvalue="Python.VAE" />
+      <item itemvalue="Python.VAE (1)" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.run_VAE" />
+        <item itemvalue="Python.VAE (1)" />
         <item itemvalue="Python.VAE" />
         <item itemvalue="Python.Decoder" />
       </list>
@@ -143,7 +301,13 @@
       <option name="presentableId" value="Default" />
       <updated>1612451819849</updated>
       <workItem from="1612451820914" duration="4121000" />
-      <workItem from="1612509775554" duration="11676000" />
+      <workItem from="1612509775554" duration="16416000" />
+      <workItem from="1612621355007" duration="13000" />
+      <workItem from="1612621369301" duration="5657000" />
+      <workItem from="1612627203154" duration="25000" />
+      <workItem from="1612627276700" duration="1377000" />
+      <workItem from="1612640417211" duration="5019000" />
+      <workItem from="1612678456654" duration="2894000" />
     </task>
     <servers />
   </component>
@@ -160,52 +324,57 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1229" y="220" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612451903242">
+    <state x="-1229" y="206" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612628250186">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state x="-1229" y="220" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612451903242" />
-    <state x="-1111" y="485" width="1014" height="382" key="#xdebugger.evaluate" timestamp="1612527602881">
+    <state x="-1229" y="206" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612628250186" />
+    <state x="-1084" y="693" width="1014" height="240" key="#xdebugger.evaluate" timestamp="1612644674391">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state x="-1111" y="485" width="1014" height="382" key="#xdebugger.evaluate/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527602881" />
-    <state x="-904" y="325" key="FileChooserDialogImpl" timestamp="1612470205945">
+    <state x="-1084" y="693" width="1014" height="240" key="#xdebugger.evaluate/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612644674391" />
+    <state x="-904" y="325" key="FileChooserDialogImpl" timestamp="1612628246048">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state x="-904" y="325" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612470205945" />
-    <state width="1323" height="132" key="GridCell.Tab.0.bottom" timestamp="1612530528245">
+    <state x="-904" y="325" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612628246048" />
+    <state width="1323" height="132" key="GridCell.Tab.0.bottom" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="132" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
-    <state width="1323" height="132" key="GridCell.Tab.0.center" timestamp="1612530528245">
+    <state width="1323" height="132" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="1323" height="132" key="GridCell.Tab.0.center" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="132" key="GridCell.Tab.0.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
-    <state width="1323" height="132" key="GridCell.Tab.0.left" timestamp="1612530528245">
+    <state width="1323" height="132" key="GridCell.Tab.0.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="1323" height="132" key="GridCell.Tab.0.left" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="132" key="GridCell.Tab.0.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
-    <state width="1323" height="132" key="GridCell.Tab.0.right" timestamp="1612530528245">
+    <state width="1323" height="132" key="GridCell.Tab.0.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="1323" height="132" key="GridCell.Tab.0.right" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="132" key="GridCell.Tab.0.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612530528245" />
-    <state width="1323" height="142" key="GridCell.Tab.1.bottom" timestamp="1612527711179">
+    <state width="1323" height="132" key="GridCell.Tab.0.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="1323" height="132" key="GridCell.Tab.1.bottom" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="142" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
-    <state width="1323" height="142" key="GridCell.Tab.1.center" timestamp="1612527711179">
+    <state width="1323" height="132" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="1323" height="132" key="GridCell.Tab.1.center" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="142" key="GridCell.Tab.1.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
-    <state width="1323" height="142" key="GridCell.Tab.1.left" timestamp="1612527711179">
+    <state width="1323" height="132" key="GridCell.Tab.1.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="1323" height="132" key="GridCell.Tab.1.left" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="142" key="GridCell.Tab.1.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
-    <state width="1323" height="142" key="GridCell.Tab.1.right" timestamp="1612527711179">
+    <state width="1323" height="132" key="GridCell.Tab.1.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="1323" height="132" key="GridCell.Tab.1.right" timestamp="1612645479577">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
-    <state width="1323" height="142" key="GridCell.Tab.1.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612527711179" />
+    <state width="1323" height="132" key="GridCell.Tab.1.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612645479577" />
+    <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1612643590650">
+      <screen x="-1366" y="206" width="1366" height="728" />
+    </state>
+    <state width="691" height="372" key="XDebugger.FullValuePopup/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612643590650" />
     <state x="-1020" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1612530770845">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
@@ -215,17 +384,40 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/VAE/VAE.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="13" />
+          <url>file://$PROJECT_DIR$/IAF/explore.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Variational_Autoencoder/VAE.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="bool(np.isnan(log_prob_x_given_z_decode_batch.numpy()))" language="Python" />
+          <url>file://$PROJECT_DIR$/Variational_Autoencoder/VAE.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Variational_Autoencoder/VAE.py</url>
+          <line>41</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Variational_Autoencoder/VAE.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CODE$Encoder.coverage" NAME="Encoder Coverage Results" MODIFIED="1612527540962" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
-    <SUITE FILE_PATH="coverage/CODE$run_VAE.coverage" NAME="run_VAE Coverage Results" MODIFIED="1612530021908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
+    <SUITE FILE_PATH="coverage/CODE$Encoder.coverage" NAME="Encoder Coverage Results" MODIFIED="1612624532974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CODE$VAE__1_.coverage" NAME="VAE (1) Coverage Results" MODIFIED="1612628428503" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Variational_Autoencoder" />
+    <SUITE FILE_PATH="coverage/CODE$run_VAE.coverage" NAME="run_VAE Coverage Results" MODIFIED="1612644432479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Variational_Autoencoder" />
+    <SUITE FILE_PATH="coverage/CODE$explore.coverage" NAME="explore Coverage Results" MODIFIED="1612612617120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CODE$Decoder.coverage" NAME="Decoder Coverage Results" MODIFIED="1612470447332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
-    <SUITE FILE_PATH="coverage/CODE$VAE.coverage" NAME="VAE Coverage Results" MODIFIED="1612472028969" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VAE" />
+    <SUITE FILE_PATH="coverage/CODE$VAE.coverage" NAME="VAE Coverage Results" MODIFIED="1612626920197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
