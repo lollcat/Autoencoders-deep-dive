@@ -1,26 +1,19 @@
 if __name__ == "__main__":
     # tensorboard --logdir logs
     import tensorflow as tf
-    tf.config.run_functions_eagerly(True)
+    #tf.config.run_functions_eagerly(True)
     from Utils.load_data import x_train, x_test, train_ds, test_ds, image_dim
-    from Variational_Autoencoder.VAE import VAE
+    from Inverse_Autoregressive_Flow.IAF_VAE import IAF_VAE
     import matplotlib.pyplot as plt
     import datetime
-
-    """CONGI PARAMS"""
-    name = "full_cov"
-    if name == 'full_cov':
-        full_cov = True
-    else:
-        full_cov = False
     latent_representation_dim = 2
     EPOCHS = 3
-
+    name = ""
     # Define vae
-    vae = VAE(latent_representation_dim, image_dim, full_cov=full_cov)
+    IAF_vae = IAF_VAE(latent_representation_dim, image_dim)
 
     samples = x_test[0:9, :, :, :][:, :, :]
-    example_reconstruction_hist = [vae(samples)[0].numpy()]
+    example_reconstruction_hist = [IAF_vae(samples)[0].numpy()]
 
     # Tensorboard writer
     logdir = "logs/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -35,7 +28,7 @@ if __name__ == "__main__":
     for epoch in range(EPOCHS):
         total_train_loss = 0
         for images in train_ds:
-            ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch = vae.train_step(images)
+            ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch = IAF_vae.train_step(images)
             total_train_loss -= ELBO
             with train_file_writer.as_default():
                 tf.summary.scalar("ELBO", ELBO)
@@ -48,7 +41,7 @@ if __name__ == "__main__":
 
         total_test_loss = 0
         for test_images in test_ds:
-            ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch = vae.test_step(test_images)
+            ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch = IAF_vae.test_step(test_images)
             total_test_loss -= ELBO
             with test_file_writer.as_default():
                 tf.summary.scalar("ELBO", ELBO)
@@ -59,7 +52,7 @@ if __name__ == "__main__":
 
         train_history.append(total_train_loss / len(train_ds))
         test_history.append(total_test_loss / len(test_ds))
-        example_reconstruction_hist.append(vae(samples)[0].numpy())
+        example_reconstruction_hist.append(IAF_vae(samples)[0].numpy())
 
         print(
             f'Epoch {epoch + 1}, '

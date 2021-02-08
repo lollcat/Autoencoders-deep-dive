@@ -1,18 +1,22 @@
 from tensorflow.keras import Model
 import tensorflow as tf
-from Variational_Autoencoder.Decoder import Decoder
-from Variational_Autoencoder.Encoder_diag_cov import Encoder as diag_cov_Encoder
-from Variational_Autoencoder.Encoder_full_cov import Encoder as full_cov_Encoder
+from Inverse_Autoregressive_Flow.Encoder import IAF_Encoder
+from Inverse_Autoregressive_Flow.Decoder import Decoder
 import numpy as np
 
-class VAE(Model):
-    def __init__(self, latent_representation_dim, x_dim, full_cov=True, layer_nodes=64):
-        super(VAE, self).__init__()
-        if full_cov is True:
-            Encoder = full_cov_Encoder
-        else:
-            Encoder = diag_cov_Encoder
-        self.encoder = Encoder(latent_representation_dim, layer_nodes)
+class IAF_VAE(Model):
+    """
+    TODO maybe rewrite the hyper parameter config?
+    """
+    def __init__(self, latent_representation_dim, x_dim, layer_nodes=64, n_autoregressive_units=3):
+        super(IAF_VAE, self).__init__()
+
+        # currently setting all node numbers to be equal to layer_nodes
+        self.encoder = IAF_Encoder(latent_representation_dim=latent_representation_dim, layer_nodes=64,
+                                   n_autoregressive_units=n_autoregressive_units,
+                                   autoregressive_unit_layer_width=layer_nodes,
+                                   First_Encoder_to_IAF_step_dim=layer_nodes)
+
         self.decoder = Decoder(x_dim, layer_nodes)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
 
@@ -47,6 +51,7 @@ class VAE(Model):
         self.optimizer.apply_gradients(zip(gradients, variables))
         return ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch
 
+
     @tf.function
     def test_step(self, x_data):
         decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data)
@@ -62,12 +67,17 @@ class VAE(Model):
 
 
 if __name__ == "__main__":
+    # just do this file thing so we don't have to mess around with pycharm configs here
+    from pathlib import Path; import os
+    cwd_path = Path.cwd(); set_path = str(cwd_path.parent); os.chdir(set_path)
+
+    # Let's go!
     tf.config.run_functions_eagerly(True)
     from Utils.load_data import x_test, image_dim
     minitest = x_test[0:50, :, :]
 
     latent_representation_dim = 32
-    vae = VAE(latent_representation_dim, image_dim)
+    vae = IAF_VAE(latent_representation_dim, image_dim)
     decoded, log_probs_z_given_x, log_prob_z_prior = vae(minitest)
     print(decoded.shape, log_probs_z_given_x.shape)
     ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch = \
