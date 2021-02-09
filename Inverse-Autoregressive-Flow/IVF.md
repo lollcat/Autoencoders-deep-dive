@@ -2,7 +2,9 @@
 
 Source: [Improved Variational Inference with Inverse Autoregressive Flow](https://arxiv.org/abs/1606.04934)
 
-Summary: Inverse autoregressive flow allows us to express flexible, rich, high dimensional latent variable posterior distributions  using variational inference. 
+## Summary: 
+Inverse autoregressive flow allows us to express flexible, rich, high dimensional latent variable posterior distributions  using variational inference. 
+
 ## Normalising Flows
 Normalising flows create rich posterior distributions by starting with an initially simple distribution \\( p(\mathbf{z_{0}} \mid \mathbf{x})\\)   (e.g. diagonal covariance Gaussian) and repeatedly transforming it via a set of parameterised functions, such that the final result \\( \mathbf{z_T} \\) is a flexible distribution. 
 {% raw %} \begin{equation}
@@ -18,7 +20,7 @@ p_{y}(y)=p_{x}(x)\left|\frac{\mathrm{d} x}{\mathrm{~d} y}\right|
 Thus if we can compute the Jacobian determinant from the transormation, we are able to compute the probabiltiy density function. We express this using the log probability function: 
 {% raw %} 
 \begin{equation}
-\log q\left(\mathbf{z_{T} }\mid \mathbf{x}\right)=\log q\left(\mathbf{z_{0}} \mid \mathbf{x}\right)-\sum_{t=1}^{T} \log \operatorname{det}\left|\frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}}\right| \quad \quad \text{where, } \epsilon \sim \mathcal{N}(0, I)
+\log q\left(\mathbf{z_{T} }\mid \mathbf{x}\right)=\log q\left(\mathbf{z_{0}} \mid \mathbf{x}\right)-\sum_{t=1}^{T} \log \operatorname{det}\left|\frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}}\right| 
 \end{equation}
 {% endraw %} 
 
@@ -36,7 +38,7 @@ and then make sequentially (T times) make the transformation,
 \mathbf{z_{t}}=\boldsymbol{\mu_{t}}+\boldsymbol{\sigma_{t}} \odot \mathbf{z_{t-1}}
 \end{equation}
 {% endraw %} 
-where \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are outputs of a autoregressive neural network, with inputs \\( \mathbf{z_{t-1}} \\) and \\( \mathbf{h} \\). The autoregressive neural network is structured such that elements of \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are only dependent on elements of \\( \mathbf{z_{t-1}} \\) with a lower index than them. This means that the the Jacobians \\( \frac{d \boldsymbol{\mu_{t}}}{d \mathbf{z_{t-1}}} \\) and \\( \frac{d \boldsymbol{\sigma_{t}}}{d \mathbf{z_{t-1}}} \\) are triangular with zeros on the diagonal and \\( \frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}} \\) is triangular with \\( \sigma_{t}^{i} \\)'s on the diagonal. To see this consider the derivative of a single element of \\( \boldsymbol{z_{t}} \\) (denoted (\\( z_{t}^i}) \\) with respect to a single element of \\( \mathbf{z_{t-1}} \\) (denoted \\(  z_{t-1}^j \\) ). 
+where \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are outputs of a autoregressive neural network, with inputs \\( \mathbf{z_{t-1}} \\) and \\( \mathbf{h} \\). The autoregressive neural network is structured such that elements of \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are only dependent on elements of \\( \mathbf{z_{t-1}} \\) with a lower index than them. This means that the the Jacobians \\( \frac{d \boldsymbol{\mu_{t}}}{d \mathbf{z_{t-1}}} \\) and \\( \frac{d \boldsymbol{\sigma_{t}}}{d \mathbf{z_{t-1}}} \\) are triangular with zeros on the diagonal and \\( \frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}} \\) is triangular with \\( \sigma_{t}^{i} \\)'s on the diagonal. To see this consider the derivative of a single element of \\( \boldsymbol{z_{t}} \\) (denoted \\( z_{t}^i} \\) with respect to a single element of \\( \mathbf{z_{t-1}} \\) (denoted \\(  z_{t-1}^j \\) ). 
 {% raw %} 
 \begin{equation}
 \frac{d z_t^i}{d z_{t-1}^j} = \frac{d \mu_t^i}{d z_{t-1}^j} + \frac{d \sigma_t^i}{d z_{t-1}^j} \times z_{t-1}^j + \frac{d z_{t-1}^i}{d z_{t-1}^j} \times \sigma_t^i
@@ -51,7 +53,7 @@ now if i < j all of the above terms are 0. This means that the matrix is triangu
 \end{aligned}
 \end{equation}
 {% endraw %} 
-and therefore the determinant is simply given by \\( \prod_{i=1}^{D} \sigma_{t, i} \\). Thus the density under the final iterate is,
+and therefore the determinant is simply given by \\( \prod_{i=1}^{D} \sigma_t^i \\). Thus the density under the final iterate is,
 {% raw %} 
 \begin{equation}
 \log q\left(\mathbf{z_{T}} \mid \mathbf{x}\right)=-\sum_{i=1}^{D}\left(\frac{1}{2} \epsilon_{i}^{2}+\frac{1}{2} \log (2 \pi)+\sum_{t=0}^{T} \log \sigma_t^i\right)
