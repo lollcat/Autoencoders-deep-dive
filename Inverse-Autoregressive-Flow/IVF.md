@@ -38,7 +38,7 @@ and then make sequentially (T times) make the transformation,
 \mathbf{z_{t}}=\boldsymbol{\mu_{t}}+\boldsymbol{\sigma_{t}} \odot \mathbf{z_{t-1}}
 \end{equation}
 {% endraw %} 
-where \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are outputs of a autoregressive neural network, with inputs \\( \mathbf{z_{t-1}} \\) and \\( \mathbf{h} \\). The autoregressive neural network is structured such that elements of \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are only dependent on elements of \\( \mathbf{z_{t-1}} \\) with a lower index than them. This means that the the Jacobians \\( \frac{d \boldsymbol{\mu_{t}}}{d \mathbf{z_{t-1}}} \\) and \\( \frac{d \boldsymbol{\sigma_{t}}}{d \mathbf{z_{t-1}}} \\) are triangular with zeros on the diagonal and \\( \frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}} \\) is triangular with \\( \sigma_{t}^{i} \\)'s on the diagonal. To see this consider the derivative of a single element of \\( \boldsymbol{z_{t}} \\) (denoted \\( z_{t}^i} \\) with respect to a single element of \\( \mathbf{z_{t-1}} \\) (denoted \\(  z_{t-1}^j \\) ). 
+where \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are outputs of a autoregressive neural network, with inputs \\( \mathbf{z_{t-1}} \\) and \\( \mathbf{h} \\). The autoregressive neural network is structured such that elements of \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are only dependent on elements of \\( \mathbf{z_{t-1}} \\) with a lower index than them. This means that the the Jacobians \\( \frac{d \boldsymbol{\mu_{t}}}{d \mathbf{z_{t-1}}} \\) and \\( \frac{d \boldsymbol{\sigma_{t}}}{d \mathbf{z_{t-1}}} \\) are triangular with zeros on the diagonal and \\( \frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}} \\) is triangular with \\( \sigma_{t}^{i} \\)'s on the diagonal. To see this consider the derivative of a single element of \\( \boldsymbol{z_{t}} \\) (denoted \\( z_{t}^i \\) with respect to a single element of \\( \mathbf{z_{t-1}} \\) (denoted \\(  z_{t-1}^j \\) ). 
 {% raw %} 
 \begin{equation}
 \frac{d z_t^i}{d z_{t-1}^j} = \frac{d \mu_t^i}{d z_{t-1}^j} + \frac{d \sigma_t^i}{d z_{t-1}^j} \times z_{t-1}^j + \frac{d z_{t-1}^i}{d z_{t-1}^j} \times \sigma_t^i
@@ -61,6 +61,6 @@ and therefore the determinant is simply given by \\( \prod_{i=1}^{D} \sigma_t^i 
 {% endraw %} 
 
 
-### EndNote on Autoregressive NN
+### Endnote on Autoregressive NN
 To output i and input j, the autoregressive NN simply blocks connections between nodes that lead from j to i for i < j. To implement this for a deep NN certain nodes are "allocated" to certain outputs (for management of the blocking/ensuring that each input is processes with a sufficient number of nodes), and the blocking is performed using element by element multiplication with a masking matrix (i.e. a matrix with 0's for connects/weights that should be blocked, and 1's for connections that are allowed). 
 
