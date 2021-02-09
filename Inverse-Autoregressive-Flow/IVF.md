@@ -1,18 +1,17 @@
 # Inverse Autoregressive Flow
 
+{% raw %} \[
+2 \times 2
+\] {% endraw %} 
+
 Source: [Improved Variational Inference with Inverse Autoregressive Flow](https://arxiv.org/abs/1606.04934)
 
 Summary: Inverse autoregressive flow allow us to express flexible, rich, high dimensional latent variable posterior distributions  using variational inference. 
-{% raw %} 
-\
-{% endraw %} 
 ## Normalising Flows
 Normalising flows create rich posterior distributions by starting with an initially simple distribution \\( p(\mathbf{z_{0}} \mid \mathbf{x})\\)   (e.g. diagonal covariance Gaussian) and repeatedly transforming it via a set of parameterised functions, such that the final result \\( \mathbf{z_T} \\) is a flexible distribution. 
-{% raw %} 
-\[
+{% raw %} \[
 \mathbf{z_{0}} \sim q\left(\mathbf{z_{0}} \mid \mathbf{x}\right), \quad \mathbf{z_{t}}=\mathbf{f_{t}}\left(\mathbf{z_{t-1}}, \mathbf{x}\right) \quad \forall t=1 \ldots T
-\]
-{% endraw %} 
+\] {% endraw %} 
 
 For variational inference to work, we need to be able to obtain samples from the final distribution, as well as the samples probability \\( p(\mathbf{z_T}) \\). The above equation tells us how to generate samples. To calculate the probability density function of the final iterate, we use the following: The resultant distribution from a change of variables is given by,
 {% raw %} 
