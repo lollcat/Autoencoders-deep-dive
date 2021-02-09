@@ -61,5 +61,6 @@ and therefore the determinant is simply given by \\( \prod_{i=1}^{D} \sigma_t^i 
 {% endraw %} 
 
 
-Note: To output i and input j, the autoregressive NN simply blocks connections between nodes that lead from j to i for i < j. To implement this for a deep NN certain nodes are "allocated" to certain outputs (for management of the blocking/ensuring that each input is processes with a sufficient number of nodes), and the blocking is performed using element by element multiplication with a masking matrix (i.e. a matrix with 0's for connects/weights that should be blocked, and 1's for connections that are allowed). 
+### EndNote on Autoregressive NN
+To output i and input j, the autoregressive NN simply blocks connections between nodes that lead from j to i for i < j. To implement this for a deep NN certain nodes are "allocated" to certain outputs (for management of the blocking/ensuring that each input is processes with a sufficient number of nodes), and the blocking is performed using element by element multiplication with a masking matrix (i.e. a matrix with 0's for connects/weights that should be blocked, and 1's for connections that are allowed). 
 
