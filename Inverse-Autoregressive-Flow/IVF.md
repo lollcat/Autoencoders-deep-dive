@@ -36,17 +36,17 @@ and then make sequentially (T times) make the transformation,
 \mathbf{z_{t}}=\boldsymbol{\mu_{t}}+\boldsymbol{\sigma_{t}} \odot \mathbf{z_{t-1}}
 \end{equation}
 {% endraw %} 
-where \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are outputs of a autoregressive neural network, with inputs \\( \mathbf{z_{t-1}} \\) and \\( \mathbf{h} \\). The autoregressive neural network is structured such that elements of \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are only dependent on elements of \\( \mathbf{z_{t-1}} \\) with a lower index than them. This means that the the Jacobians \\( \frac{d \boldsymbol{\mu_{t}}}{d \mathbf{z_{t-1}}} \\) and \\( \frac{d \boldsymbol{\sigma_{t}}}{d \mathbf{z_{t-1}}} \\) are triangular with zeros on the diagonal and \\( \frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}} \\) is triangular with \\( \sigma_{t}^{i} \\)'s on the diagonal. To see this consider the derivative of a single element of \\( \boldsymbol{z_{t}} \\) (denoted (\\( z_{t}^i} \\) with respect to a single element of \\( \mathbf{z_{t-1}} \\) (denoted \\(  z_{t-1}^j \\) ). 
+where \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are outputs of a autoregressive neural network, with inputs \\( \mathbf{z_{t-1}} \\) and \\( \mathbf{h} \\). The autoregressive neural network is structured such that elements of \\( \boldsymbol{\mu_{t}} \\) and \\( \boldsymbol{\sigma_{t}} \\) are only dependent on elements of \\( \mathbf{z_{t-1}} \\) with a lower index than them. This means that the the Jacobians \\( \frac{d \boldsymbol{\mu_{t}}}{d \mathbf{z_{t-1}}} \\) and \\( \frac{d \boldsymbol{\sigma_{t}}}{d \mathbf{z_{t-1}}} \\) are triangular with zeros on the diagonal and \\( \frac{d \mathbf{z_{t}}}{d \mathbf{z_{t-1}}} \\) is triangular with \\( \sigma_{t}^{i} \\)'s on the diagonal. To see this consider the derivative of a single element of \\( \boldsymbol{z_{t}} \\) (denoted (\\( z_{t}^i}) \\) with respect to a single element of \\( \mathbf{z_{t-1}} \\) (denoted \\(  z_{t-1}^j \\) ). 
 {% raw %} 
 \begin{equation}
-\frac{d z_t^i}{d z_{t-1}^j} = \frac{d \mu_t^i}{d z_{t-1}^j} + \frac{d \sigma_t^i}{d z_{t-1}^j} \times z_{t-1}^j + \frac{d z_{t-1}^i}{d z_{t-1}^j} \times \sigma_t^i}
+\frac{d z_t^i}{d z_{t-1}^j} = \frac{d \mu_t^i}{d z_{t-1}^j} + \frac{d \sigma_t^i}{d z_{t-1}^j} \times z_{t-1}^j + \frac{d z_{t-1}^i}{d z_{t-1}^j} \times \sigma_t^i
 \end{equation}
 {% endraw %} 
 now if i < j all of the above terms are 0. This means that the matrix is triangular, and the jacobian determinant of a triangular matrix is just the diagonal columns. This means we only have to fucus on the derivatives for i = j. For i = j, bothe of the first terms of the above equation become 0 (as \\( \sigma_{t}^i \\) and \\( \mu_{t}^i \\) are only functions of \\( z_{t-1}^{1:i-1} \\). Thus we get
 {% raw %} 
 \begin{equation}
 \begin{aligned}
-\frac{d z_t^i}{d z_{t-1}^i} &= \frac{d \mu_t^i}{d z_{t-1}^i} + \frac{d \sigma_t^i}{d z_{t-1}^i} \times z_{t-1}^i + \frac{d z_{t-1}^i}{d z_{t-1}^i} \times \sigma_t^i} \\
+\frac{d z_t^i}{d z_{t-1}^i} &= \frac{d \mu_t^i}{d z_{t-1}^i} + \frac{d \sigma_t^i}{d z_{t-1}^i} \times z_{t-1}^i + \frac{d z_{t-1}^i}{d z_{t-1}^i} \times \sigma_t^i \\
                             &= 0 + 0 + 1 \times \sigma_t^i
 \end{aligned}
 \end{equation}
