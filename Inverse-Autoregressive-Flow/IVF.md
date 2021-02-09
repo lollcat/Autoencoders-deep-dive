@@ -1,8 +1,6 @@
 # Inverse Autoregressive Flow
 
-{% raw %} \[
-2 \times 2
-\] {% endraw %} 
+{% raw %} \[ 2 \times 2 \] {% endraw %} 
 
 Source: [Improved Variational Inference with Inverse Autoregressive Flow](https://arxiv.org/abs/1606.04934)
 
