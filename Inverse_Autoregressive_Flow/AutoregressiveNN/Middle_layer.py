@@ -21,7 +21,8 @@ class Autoregressive_middle_layer(Layer):
             input_corresponding_max_autoregressive_input_index = input_index//nodes_per_latent_representation_dim
             for node_index in range(units):
                 node_corresponding_max_autoregressive_input_index = node_index//nodes_per_latent_representation_dim
-                if node_corresponding_max_autoregressive_input_index > input_corresponding_max_autoregressive_input_index:
+                # see diagram in notes from why greater than or equal to (rather than just equal to) here
+                if node_corresponding_max_autoregressive_input_index >= input_corresponding_max_autoregressive_input_index:
                     self.autoregressive_weights_mask[input_index, node_index] = 1
         self.autoregressive_weights_mask = tf.convert_to_tensor(self.autoregressive_weights_mask, dtype="float32")
         self.biases = tf.Variable(initial_value=tf.zeros_initializer()(shape=(units,), dtype="float32"),
@@ -30,7 +31,7 @@ class Autoregressive_middle_layer(Layer):
     def call(self, inputs):
         x = tf.matmul(inputs, self.autoregressive_weights*self.autoregressive_weights_mask)  \
             + self.biases
-        return tf.nn.relu(x)
+        return tf.nn.leaky_relu(x)
 
 if __name__ == "__main__":
     from Input_layer import Autoregressive_input_layer

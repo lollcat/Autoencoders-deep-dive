@@ -10,6 +10,9 @@ class AutoRegressiveNN_Unit(Layer):
     """
     We compose this of an input layer, middle layer(s), and output layer to manage all of the shapes cleanly
     Note it is assumed that input layer and middle layer have the same number of nodes
+    We currently include dead nodes (corresponding to the first regressive input which has no dependency on
+    other input elements in the middle layer - as it makes the code clearer
+    See debugging powerpoint for checks on derivative values that confirm autoregressivness
     """
     def __init__(self, latent_representation_dim, h_dim, layer_nodes_per_latent=64, name="AutoRegressiveNN"):
         super(AutoRegressiveNN_Unit, self).__init__()

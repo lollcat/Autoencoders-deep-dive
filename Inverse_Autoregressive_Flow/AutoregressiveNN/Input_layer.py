@@ -40,12 +40,13 @@ class Autoregressive_input_layer(Layer):
         x = tf.matmul(z_autoregressive, self.autoregressive_weights*self.autoregressive_weights_mask) + \
             tf.matmul(h_non_autoregressive, self.non_autoregressive_weights) \
             + self.biases
-        return tf.nn.relu(x)
+        #return tf.nn.relu(x)
+        return tf.nn.leaky_relu(x)
 
 if __name__ == "__main__":
     # simple example with latent dim of 2
-    input_layer = Autoregressive_input_layer(2, 3, units=5)
+    input_layer = Autoregressive_input_layer(3, 4, units=7)
     print(input_layer.autoregressive_weights_mask)
-    latent_z = np.array([1, 1000], dtype="float32")[np.newaxis, :]
-    h = np.ones((3,), dtype="float32")[np.newaxis, :]
+    latent_z = np.array([1, 1000, 1005], dtype="float32")[np.newaxis, :]
+    h = np.ones((4,), dtype="float32")[np.newaxis, :]
     print(input_layer([latent_z, h]))

@@ -1,9 +1,10 @@
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, Layer, Reshape
+from tensorflow.keras import Model
 import tensorflow as tf
 import numpy as np
 from Inverse_Autoregressive_Flow.AutoregressiveNN.AutoregressiveNN import AutoRegressiveNN_Unit
 
-class IAF_Encoder(Layer):
+class IAF_Encoder(Model):#Layer):
     def __init__(self, latent_representation_dim, layer_nodes=64, n_autoregressive_units=3,
                  autoregressive_unit_layer_width=64, First_Encoder_to_IAF_step_dim=64, name="encoder"):
         super(IAF_Encoder, self).__init__()
@@ -45,8 +46,10 @@ class IAF_Encoder(Layer):
         for i in range(self.n_autoregressive_units):
             m, s = self.autoregressive_NNs[i]([z, h])
             sigma = tf.nn.sigmoid(s)
-            z = sigma * z + (1 - sigma)* m
+            z = sigma * z + (1 - sigma) * m
             log_probs_z_given_x -= tf.reduce_sum(tf.math.log(sigma), axis=1)
+            z = tf.keras.backend.reverse(z, axes=1)  # IAF paper reccomends reversing the order the autoregressive step
+
 
         # prior probability (N(0,1))
         log_prob_z_prior = self.independent_normal_log_prob(z)
@@ -56,10 +59,10 @@ class IAF_Encoder(Layer):
     def independent_normal_log_prob(self, x):
         return -0.5*tf.reduce_sum(x**2 + tf.math.log(2*np.pi), axis=1)
 
-    """
+
     def debug_func(self, inputs):
     # check gradients are working
-        with tf.GradientTape() as tape:
+        with tf.GradientTape(persistent=True) as tape:
             # First Encoder NN
             x = self.conv1(inputs)
             x = self.flatten(x)
@@ -78,17 +81,18 @@ class IAF_Encoder(Layer):
 
             # Now IAF steps
             for i in range(self.n_autoregressive_units):
-                m, s = self.autoregressive_NNs[i]([z, h])
+                #m, s = self.autoregressive_NNs[i]([z, h])
+                m, s = self.autoregressive_NNs[i]([z, h*0])
                 sigma = tf.nn.sigmoid(s)
-                z = sigma * z + (1 - sigma)* m
+                z = sigma * z + (1 - sigma) * m
                 log_probs_z_given_x -= tf.reduce_sum(tf.math.log(sigma), axis=1)
 
             # prior probability (N(0,1))
             log_prob_z_prior = self.independent_normal_log_prob(z)
 
-        variables = encoder.variables
+        variables = self.variables
         tape.gradient(log_probs_z_given_x, variables)
-    """
+
 
 
 if __name__ == "__main__":
