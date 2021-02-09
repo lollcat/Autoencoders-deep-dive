@@ -3,7 +3,9 @@
 Source: [Improved Variational Inference with Inverse Autoregressive Flow](https://arxiv.org/abs/1606.04934)
 
 Summary: Inverse autoregressive flow allow us to express flexible, rich, high dimensional latent variable posterior distributions  using variational inference. 
-
+{% raw %} 
+\
+{% endraw %} 
 ## Normalising Flows
 Normalising flows create rich posterior distributions by starting with an initially simple distribution \\( p(\mathbf{z_{0}} \mid \mathbf{x})\\)   (e.g. diagonal covariance Gaussian) and repeatedly transforming it via a set of parameterised functions, such that the final result \\( \mathbf{z_T} \\) is a flexible distribution. 
 {% raw %} 
