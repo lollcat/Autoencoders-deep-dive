@@ -12,3 +12,8 @@ y_train = y_train[..., tf.newaxis].astype("float32")
 image_dim = x_train.shape[1:]
 train_ds = tf.data.Dataset.from_tensor_slices(x_train).shuffle(10000).batch(256)
 test_ds = tf.data.Dataset.from_tensor_slices(x_test).batch(256)
+
+
+if __name__ == "__main__":
+    data_batch = list(train_ds.as_numpy_iterator())[0]
+    pass

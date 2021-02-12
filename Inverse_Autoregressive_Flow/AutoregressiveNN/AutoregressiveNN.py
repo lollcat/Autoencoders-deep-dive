@@ -23,12 +23,25 @@ class AutoRegressiveNN_Unit(Layer):
                                                         units=layer_nodes_per_latent)
         self.output_layer = Autoregressive_output_layer(autoregressive_input_dim=latent_representation_dim,
                                                         previous_layer_units=layer_nodes_per_latent)
+        self.m_skip_weights = \
+            tf.Variable(initial_value=tf.random_normal_initializer()(
+                shape=(latent_representation_dim, latent_representation_dim),dtype="float32"),
+                trainable=True)
+        self.s_skip_weights = \
+            tf.Variable(initial_value=tf.random_normal_initializer()(
+                shape=(latent_representation_dim, latent_representation_dim), dtype="float32"),
+                trainable=True)
+        self.skip_mask = np.ones((latent_representation_dim, latent_representation_dim))
+        self.skip_mask = np.tril(self.skip_mask, k=-1)
 
     def call(self, inputs):
         z, h = inputs
         x = self.input_layer([z, h])
         x = self.middle_layer(x)
         m, s = self.output_layer(x)
+        # TODO not sure if this is correct
+        m = m + tf.matmul(z, self.m_skip_weights*self.skip_mask)
+        s = s + tf.matmul(z, self.s_skip_weights*self.skip_mask)
         return m, s
 
 if __name__ == "__main__":

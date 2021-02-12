@@ -3,17 +3,25 @@ from tensorflow.keras import Model
 import tensorflow as tf
 import numpy as np
 from Inverse_Autoregressive_Flow.AutoregressiveNN.AutoregressiveNN import AutoRegressiveNN_Unit
+from Inverse_Autoregressive_Flow.resnet import resnet_block
 
 class IAF_Encoder(Model):#Layer):
-    def __init__(self, latent_representation_dim, layer_nodes=64, n_autoregressive_units=3,
+    def __init__(self, latent_representation_dim, layer_nodes=450, n_autoregressive_units=3,
                  autoregressive_unit_layer_width=64, First_Encoder_to_IAF_step_dim=64, name="encoder"):
         super(IAF_Encoder, self).__init__()
-        #self.latent_representation_dim = latent_representation_dim
         self.n_autoregressive_units = n_autoregressive_units
-        self.conv1 = Conv2D(32, 3, activation='relu', name="conv1")
+        #self.conv1 = Conv2D(filters=32, kernel_size=(3,3), activation='relu', name="conv1")
+        self.resnet_blocks = []
+        self.resnet_blocks.append(resnet_block(filters=16, kernel_size = (3,3), strides=(2,2)))
+        self.resnet_blocks.append(resnet_block(filters=16, kernel_size=(3, 3), strides=(1, 1)))
+        self.resnet_blocks.append(resnet_block(filters=32, kernel_size = (3,3), strides=(2,2)))
+        self.resnet_blocks.append(resnet_block(filters=32, kernel_size=(3, 3), strides=(1, 1)))
+        self.resnet_blocks.append(resnet_block(filters=32, kernel_size = (3,3), strides=(2,2)))
+        self.resnet_blocks.append(resnet_block(filters=32, kernel_size=(3, 3), strides=(1, 1)))
+
+
         self.flatten = Flatten(name="flatten")
-        self.layer1 = Dense(layer_nodes, activation="relu", name="layer1")
-        self.layer2 = Dense(layer_nodes, activation="relu", name="layer2")
+        self.fc_layer = Dense(layer_nodes, activation="relu", name="layer1")
         self.means = Dense(latent_representation_dim, activation="linear", name="means")
         self.log_stds = Dense(latent_representation_dim, activation="linear", name="log_stds")
         self.First_Encoder_to_IAF = Dense(First_Encoder_to_IAF_step_dim, activation="relu", name="Encoder_to_IAF")
@@ -25,12 +33,12 @@ class IAF_Encoder(Model):#Layer):
                                     h_dim=First_Encoder_to_IAF_step_dim,
                                     layer_nodes_per_latent=autoregressive_unit_layer_width))
 
-    def call(self, inputs):
+    def call(self, x, training=False):
         # First Encoder NN
-        x = self.conv1(inputs)
+        for resblock in self.resnet_blocks:
+            x = resblock(x)
         x = self.flatten(x)
-        x = self.layer1(x)
-        x = self.layer2(x)
+        x = self.fc_layer(x)
         means = self.means(x)
         log_stds = self.log_stds(x)  #/100 # divide by 100 to start initialisation low
         stds = tf.math.exp(log_stds)
@@ -60,14 +68,15 @@ class IAF_Encoder(Model):#Layer):
         return -0.5*tf.reduce_sum(x**2 + tf.math.log(2*np.pi), axis=1)
 
 
-    def debug_func(self, inputs):
+    def debug_func(self, x):
     # check gradients are working
         with tf.GradientTape(persistent=True) as tape:
             # First Encoder NN
-            x = self.conv1(inputs)
+            for resblock in self.resnet_blocks:
+                x = resblock(x)
             x = self.flatten(x)
-            x = self.layer1(x)
-            x = self.layer2(x)
+            x = self.flatten(x)
+            x = self.fc_layer(x)
             means = self.means(x)
             log_stds = self.log_stds(x)  #/100 # divide by 100 to start initialisation low
             stds = tf.math.exp(log_stds)
@@ -102,7 +111,7 @@ if __name__ == "__main__":
 
     # let's go
     tf.config.run_functions_eagerly(True)
-    from Utils.load_data import x_test
+    from Utils.load_plain_mnist import x_test
     latent_representation_dim = 32
     encoder = IAF_Encoder(latent_representation_dim=latent_representation_dim, layer_nodes=64, n_autoregressive_units=3,
                  autoregressive_unit_layer_width=64, First_Encoder_to_IAF_step_dim=64)

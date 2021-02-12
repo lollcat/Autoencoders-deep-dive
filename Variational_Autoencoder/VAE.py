@@ -63,7 +63,7 @@ class VAE(Model):
 
 if __name__ == "__main__":
     tf.config.run_functions_eagerly(True)
-    from Utils.load_data import x_test, image_dim
+    from Utils.load_plain_mnistpy import x_test, image_dim
     minitest = x_test[0:50, :, :]
 
     latent_representation_dim = 32

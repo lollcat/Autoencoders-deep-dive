@@ -41,7 +41,7 @@ class Encoder(Layer):
 
 if __name__ == "__main__":
     tf.config.run_functions_eagerly(True)
-    from Utils.load_data import x_test
+    from Utils.load_plain_mnistpy import x_test
     latent_representation_dim = 32
     encoder = Encoder(latent_representation_dim)
     minitest = x_test[0:50, :, :]

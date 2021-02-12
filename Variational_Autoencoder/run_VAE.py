@@ -2,7 +2,7 @@ if __name__ == "__main__":
     # tensorboard --logdir logs
     import tensorflow as tf
     tf.config.run_functions_eagerly(True)
-    from Utils.load_data import x_train, x_test, train_ds, test_ds, image_dim
+    from Utils.load_plain_mnistpy import x_train, x_test, train_ds, test_ds, image_dim
     from Variational_Autoencoder.VAE import VAE
     import matplotlib.pyplot as plt
     import datetime

@@ -2,6 +2,7 @@ from tensorflow.keras import Model
 import tensorflow as tf
 from Inverse_Autoregressive_Flow.Encoder import IAF_Encoder
 from Inverse_Autoregressive_Flow.Decoder import Decoder
+
 import numpy as np
 
 class IAF_VAE(Model):
@@ -20,7 +21,7 @@ class IAF_VAE(Model):
         self.decoder = Decoder(x_dim, layer_nodes)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
 
-    def call(self, x):
+    def call(self, x, training=False):
         z, log_probs_z_given_x, log_prob_z_prior = self.encoder(x)
         decoded_logits = self.decoder(z)
         return decoded_logits, log_probs_z_given_x, log_prob_z_prior
@@ -31,9 +32,9 @@ class IAF_VAE(Model):
         return z
 
     @tf.function
-    def train_step(self, x_data):
+    def train_step(self, x_data, training=True):
         with tf.GradientTape() as tape:
-            decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data)
+            decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data, training=training)
             # TODO - maybe consider making x_data flat so we don't have to double reduce sum
             #log_prob_x_given_z_decode = tf.reduce_sum(x_data * tf.math.log(reconstruction) + \
             #                                          (1 - x_data) * tf.math.log(1 - reconstruction), axis=[1,2])
@@ -73,7 +74,7 @@ if __name__ == "__main__":
 
     # Let's go!
     tf.config.run_functions_eagerly(True)
-    from Utils.load_data import x_test, image_dim
+    from Utils.load_plain_mnist import x_test, image_dim
     minitest = x_test[0:50, :, :]
 
     latent_representation_dim = 32
