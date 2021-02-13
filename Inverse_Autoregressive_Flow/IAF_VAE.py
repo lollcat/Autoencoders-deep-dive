@@ -9,16 +9,20 @@ class IAF_VAE(Model):
     """
     TODO maybe rewrite the hyper parameter config?
     """
-    def __init__(self, latent_representation_dim, x_dim, layer_nodes=64, n_autoregressive_units=3):
+    def __init__(self, latent_representation_dim, x_dim,
+                 n_autoregressive_units=3, autoregressive_unit_layer_width=8000, First_Encoder_to_IAF_step_dim=64,
+                 encoder_FC_layer_nodes=450,
+                 decoder_layer_width = 450):
         super(IAF_VAE, self).__init__()
 
         # currently setting all node numbers to be equal to layer_nodes
-        self.encoder = IAF_Encoder(latent_representation_dim=latent_representation_dim, layer_nodes=64,
+        self.encoder = IAF_Encoder(latent_representation_dim=latent_representation_dim,
+                                   layer_nodes=encoder_FC_layer_nodes,
                                    n_autoregressive_units=n_autoregressive_units,
-                                   autoregressive_unit_layer_width=layer_nodes,
-                                   First_Encoder_to_IAF_step_dim=layer_nodes)
+                                   autoregressive_unit_layer_width=autoregressive_unit_layer_width,
+                                   First_Encoder_to_IAF_step_dim=First_Encoder_to_IAF_step_dim)
 
-        self.decoder = Decoder(x_dim, layer_nodes)
+        self.decoder = Decoder(x_dim, latent_representation_dim)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
 
     def call(self, x, training=False):

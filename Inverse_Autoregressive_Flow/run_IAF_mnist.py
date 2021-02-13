@@ -8,8 +8,8 @@ if __name__ == "__main__":
     import datetime
     use_tensorboard = False
     binarized_data = True
-    latent_representation_dim = 3
-    EPOCHS = 10
+    latent_representation_dim = 16
+    EPOCHS = 15
     name = f"binarized={binarized_data}__latent_representation_dim={latent_representation_dim}"
     if binarized_data is True:
         from Utils.load_binarized_mnist import x_train, x_test, train_ds, test_ds, image_dim
@@ -18,7 +18,11 @@ if __name__ == "__main__":
 
 
     # Define vae
-    IAF_vae = IAF_VAE(latent_representation_dim, image_dim)
+    IAF_vae = IAF_VAE(latent_representation_dim, x_dim=image_dim,
+                 n_autoregressive_units=3, autoregressive_unit_layer_width=64,
+                 First_Encoder_to_IAF_step_dim=64,
+                 encoder_FC_layer_nodes=64,
+                 decoder_layer_width = 64)
 
     if use_tensorboard is True:
         # Tensorboard writer

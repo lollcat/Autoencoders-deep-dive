@@ -7,7 +7,7 @@ from Inverse_Autoregressive_Flow.resnet import resnet_block
 
 class IAF_Encoder(Model):#Layer):
     def __init__(self, latent_representation_dim, layer_nodes=450, n_autoregressive_units=3,
-                 autoregressive_unit_layer_width=64, First_Encoder_to_IAF_step_dim=64, name="encoder"):
+                 autoregressive_unit_layer_width=8000, First_Encoder_to_IAF_step_dim=64, name="encoder"):
         super(IAF_Encoder, self).__init__()
         self.n_autoregressive_units = n_autoregressive_units
         #self.conv1 = Conv2D(filters=32, kernel_size=(3,3), activation='relu', name="conv1")
@@ -30,8 +30,8 @@ class IAF_Encoder(Model):#Layer):
         for i in range(n_autoregressive_units):
             self.autoregressive_NNs.append(
                 AutoRegressiveNN_Unit(latent_representation_dim=latent_representation_dim,
-                                    h_dim=First_Encoder_to_IAF_step_dim,
-                                    layer_nodes_per_latent=autoregressive_unit_layer_width))
+                                      h_dim=First_Encoder_to_IAF_step_dim,
+                                      layer_nodes=autoregressive_unit_layer_width))
 
     def call(self, x, training=False):
         # First Encoder NN

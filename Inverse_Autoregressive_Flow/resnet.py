@@ -6,6 +6,7 @@ import numpy as np
 class resnet_block(Layer):
     def __init__(self, filters=16, kernel_size = (3,3), strides=(2,2)):
         super(resnet_block, self).__init__()
+        # padding=same gives input and output same heigh/width
         self.conv = Conv2D(filters=filters, kernel_size=kernel_size, strides=strides,
                            padding='same',
                            kernel_initializer='he_normal')

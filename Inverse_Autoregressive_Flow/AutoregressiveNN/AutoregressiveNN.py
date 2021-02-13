@@ -8,21 +8,22 @@ from Inverse_Autoregressive_Flow.AutoregressiveNN.Output_layer import Autoregres
 
 class AutoRegressiveNN_Unit(Layer):
     """
+    # TODO should update these to remove redundant nodes
     We compose this of an input layer, middle layer(s), and output layer to manage all of the shapes cleanly
     Note it is assumed that input layer and middle layer have the same number of nodes
     We currently include dead nodes (corresponding to the first regressive input which has no dependency on
     other input elements in the middle layer - as it makes the code clearer
     See debugging powerpoint for checks on derivative values that confirm autoregressivness
     """
-    def __init__(self, latent_representation_dim, h_dim, layer_nodes_per_latent=64, name="AutoRegressiveNN"):
+    def __init__(self, latent_representation_dim, h_dim, layer_nodes=8000, name="AutoRegressiveNN"):
         super(AutoRegressiveNN_Unit, self).__init__()
         self.input_layer = Autoregressive_input_layer(autoregressive_input_dim=latent_representation_dim,
                                                       non_autoregressive_input_dim=h_dim,
-                                                      units=layer_nodes_per_latent)
+                                                      units=layer_nodes)
         self.middle_layer = Autoregressive_middle_layer(autoregressive_input_dim=latent_representation_dim,
-                                                        units=layer_nodes_per_latent)
+                                                        units=layer_nodes)
         self.output_layer = Autoregressive_output_layer(autoregressive_input_dim=latent_representation_dim,
-                                                        previous_layer_units=layer_nodes_per_latent)
+                                                        previous_layer_units=layer_nodes)
         self.m_skip_weights = \
             tf.Variable(initial_value=tf.random_normal_initializer()(
                 shape=(latent_representation_dim, latent_representation_dim),dtype="float32"),
@@ -53,7 +54,7 @@ if __name__ == "__main__":
     latent_z = np.array([1, 10, 50, 100000], dtype="float32")[np.newaxis, :]
     h = np.ones((3,), dtype="float32")[np.newaxis, :]
 
-    Autoregressive_unit = AutoRegressiveNN_Unit(latent_representation_dim=latent_z.size, h_dim=h.size, layer_nodes_per_latent=64)
+    Autoregressive_unit = AutoRegressiveNN_Unit(latent_representation_dim=latent_z.size, h_dim=h.size, layer_nodes=64)
     m, s = Autoregressive_unit([latent_z, h])
     print(f"mu s are : {m}")
     print(f"sigmas are: {s}")

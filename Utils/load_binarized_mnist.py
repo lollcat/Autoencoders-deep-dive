@@ -1,7 +1,7 @@
 import tensorflow_datasets as tfds
 import tensorflow as tf
 import numpy as np
-batch_size = 64
+batch_size = 100
 x_train, x_test = tfds.load("binarized_mnist", split=['train', 'test'], shuffle_files=True,
                             batch_size=-1)
 x_train = x_train["image"].numpy(); x_test=x_test["image"].numpy()
