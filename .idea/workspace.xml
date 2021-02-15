@@ -20,14 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="012beed5-9cc7-486b-86c8-f3547e58378e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Questions.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/remote-mappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CODE.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CODE.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/.ipynb_checkpoints/4_point-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/.ipynb_checkpoints/4_point-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/4_point.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/4_point.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/AutoregressiveNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/AutoregressiveNN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Output_layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Output_layer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Decoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Encoder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/0.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/10.png" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/10.png" afterDir="false" />
@@ -69,11 +69,6 @@
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/8.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/9.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/im.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/GIF/im.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/IAF_VAE.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/IAF_VAE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/logs/20210208-203346/test/events.out.tfevents.1612809226.LAPTOP-O5D6Q9C8.16436.536.v2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/logs/20210208-203346/train/events.out.tfevents.1612809226.LAPTOP-O5D6Q9C8.16436.528.v2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/logs/20210212-130737/test/events.out.tfevents.1613128057.LAPTOP-O5D6Q9C8.19492.683.v2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/logs/20210212-130737/train/events.out.tfevents.1613128057.LAPTOP-O5D6Q9C8.19492.675.v2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_IAF_mnist.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_IAF_mnist.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,14 +102,16 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Spoke Language Processing and Generation/Practical/CODE" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -196,6 +193,9 @@
       <module name="CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -237,8 +237,11 @@
       <module name="CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -319,6 +322,9 @@
       <workItem from="1613190244047" duration="9223000" />
       <workItem from="1613294525867" duration="21877000" />
       <workItem from="1613338111938" duration="16711000" />
+      <workItem from="1613396814359" duration="4801000" />
+      <workItem from="1613401729104" duration="1342000" />
+      <workItem from="1613404865538" duration="450000" />
     </task>
     <servers />
   </component>
@@ -338,10 +344,23 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1229" y="206" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612628250186">
-      <screen x="-1366" y="206" width="1366" height="728" />
+    <state x="361" y="71" key="#Deployment" timestamp="1613405255782">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="71" key="#Deployment/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613405255782" />
+    <state x="444" y="94" key="#Options" timestamp="1613397574343">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="444" y="94" key="#Options/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613397574343" />
+    <state x="345" y="56" key="#SSH_Configurations" timestamp="1613402514229">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="345" y="56" key="#SSH_Configurations/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613402514229" />
+    <state x="154" y="0" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613402260342">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="-1229" y="206" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612628250186" />
+    <state x="154" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613402260342" />
     <state x="274" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1612808978217">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -352,11 +371,15 @@
     <state x="189" y="188" width="1014" height="334" key="#xdebugger.evaluate/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613211258416" />
     <state x="-1352" y="313" width="1275" height="329" key="#xdebugger.evaluate/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613379288454" />
     <state x="271" y="409" width="1026" height="415" key="#xdebugger.evaluate/0.0.1536.824@0.0.1536.824" timestamp="1612957684749" />
-    <state x="519" y="135" key="FileChooserDialogImpl" timestamp="1613392507807">
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1613402141145">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613402141145" />
+    <state x="519" y="135" key="FileChooserDialogImpl" timestamp="1613401805568">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="-904" y="325" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612628246048" />
-    <state x="519" y="135" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613392507807" />
+    <state x="519" y="135" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613401805568" />
     <state width="1493" height="306" key="GridCell.Tab.0.bottom" timestamp="1613395315618">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -405,6 +428,10 @@
     <state width="1323" height="185" key="GridCell.Tab.1.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613214482663" />
     <state width="1493" height="306" key="GridCell.Tab.1.right/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613395315618" />
     <state width="1493" height="134" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1613405147572">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613405147572" />
     <state width="777" height="422" key="XDebugger.FullValuePopup" timestamp="1613378960881">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -414,6 +441,14 @@
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
     <state x="-1131" y="306" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613210892582" />
+    <state x="370" y="297" width="586" height="266" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1613402067330">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="370" y="297" width="586" height="266" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613402067330" />
+    <state x="218" y="186" width="651" height="493" key="ftp.server.browser" timestamp="1613405250452">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="218" y="186" width="651" height="493" key="ftp.server.browser/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613405250452" />
     <state x="-1020" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1612530770845">
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>

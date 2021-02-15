@@ -1,6 +1,21 @@
 if __name__ == "__main__":
+
     # tensorboard --logdir logs
     import tensorflow as tf
+
+    gpus = tf.config.list_physical_devices('GPU')
+    if len(gpus) > 0:
+        # Restrict TensorFlow to only use the first GPU
+        try:
+            tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
+            logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+            print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
+        except RuntimeError as e:
+            # Visible devices must be set before GPUs have been initialized
+            print(e)
+    else:
+        print("running without GPU")
+
     #tf.config.run_functions_eagerly(True)
 
     from Inverse_Autoregressive_Flow.IAF_VAE import IAF_VAE
@@ -8,8 +23,8 @@ if __name__ == "__main__":
     import datetime
     use_tensorboard = False
     binarized_data = True
-    latent_representation_dim = 20
-    EPOCHS = 20
+    latent_representation_dim = 16
+    EPOCHS = 10
     name = f"binarized={binarized_data}__latent_representation_dim={latent_representation_dim}"
     if binarized_data is True:
         from Utils.load_binarized_mnist import x_train, x_test, train_ds, test_ds, image_dim
@@ -20,7 +35,7 @@ if __name__ == "__main__":
     # Define vae
     IAF_vae = IAF_VAE(latent_representation_dim, x_dim=image_dim,
                  n_autoregressive_units=2, autoregressive_unit_layer_width=320,
-                 First_Encoder_to_IAF_step_dim=64,
+                 First_Encoder_to_IAF_step_dim=16,
                  encoder_FC_layer_nodes=450)
 
     if use_tensorboard is True:
@@ -32,6 +47,8 @@ if __name__ == "__main__":
     train_history = []
     test_history = []
     step_counter = 0
+    n_train_batches = len(list(train_ds))
+    n_test_batches = len(list(test_ds))
     if use_tensorboard is True:
         tf.summary.experimental.set_step(step_counter)
     for epoch in range(EPOCHS):
@@ -61,13 +78,13 @@ if __name__ == "__main__":
                     tf.summary.scalar("log_probs_z_given_x", log_probs_z_given_x_batch)
                     tf.summary.scalar("log_prob_z_prior", log_prob_z_prior_batch)
 
-        train_history.append(total_train_loss / len(train_ds))
-        test_history.append(total_test_loss / len(test_ds))
+        train_history.append(total_train_loss / n_train_batches)
+        test_history.append(total_test_loss / n_test_batches)
 
         print(
             f'Epoch {epoch + 1}, '
-            f'\n Loss: {total_train_loss.numpy() / len(train_ds)}, '
-            f'\n Test Loss: {total_test_loss.numpy() / len(test_ds)}')
+            f'\n Loss: {total_train_loss.numpy() / n_train_batches}, '
+            f'\n Test Loss: {total_test_loss.numpy() / n_test_batches}')
 
     #print(f"marginal likelihood of data is {IAF_vae.get_marginal_likelihood(x_test)}")
     fig, axs = plt.subplots(1, 2)
