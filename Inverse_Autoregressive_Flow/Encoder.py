@@ -1,4 +1,5 @@
-from tensorflow.keras.layers import Dense, Flatten, Conv2D, Layer, Reshape
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, Layer, Reshape, Dropout
+from tensorflow_addons.layers import WeightNormalization
 from tensorflow.keras import Model
 import tensorflow as tf
 import numpy as np
@@ -21,15 +22,21 @@ class IAF_Encoder(Model):#Layer):
 
 
         self.flatten = Flatten(name="flatten")
-        self.fc_layer = Dense(layer_nodes, activation="relu", name="layer1")
-        self.means = Dense(latent_representation_dim, activation="linear", name="means")
-        self.log_stds = Dense(latent_representation_dim, activation="linear", name="log_stds")
-        self.First_Encoder_to_IAF = Dense(First_Encoder_to_IAF_step_dim, activation="relu", name="Encoder_to_IAF")
+        self.fc_layer = WeightNormalization(Dense(layer_nodes, activation="relu", name="layer1"),
+                                            data_init=True)
+        self.fc_layer_dropout = Dropout(0.5)
+        self.means = WeightNormalization(Dense(latent_representation_dim, activation="linear", name="means"),
+                                         data_init=True)
+        self.log_stds = WeightNormalization(Dense(latent_representation_dim, activation="linear", name="log_stds"),
+                                                  data_init=True)
+        self.First_Encoder_to_IAF = WeightNormalization(Dense(First_Encoder_to_IAF_step_dim, activation="elu",
+                                                              name="Encoder_to_IAF"), data_init=True)
+        self.dropout_Enc_to_IAF = Dropout(0.5)
 
         self.autoregressive_NNs = []
         for i in range(n_autoregressive_units):
             self.autoregressive_NNs.append(
-                AutoRegressiveNN_Unit(latent_representation_dim=latent_representation_dim,
+                    AutoRegressiveNN_Unit(latent_representation_dim=latent_representation_dim,
                                       h_dim=First_Encoder_to_IAF_step_dim,
                                       layer_nodes=autoregressive_unit_layer_width))
 
@@ -39,10 +46,12 @@ class IAF_Encoder(Model):#Layer):
             x = resblock(x)
         x = self.flatten(x)
         x = self.fc_layer(x)
+        x = self.fc_layer_dropout(x)
         means = self.means(x)
-        log_stds = self.log_stds(x)  #/100 # divide by 100 to start initialisation low
-        stds = tf.math.exp(log_stds)
+        log_stds = self.log_stds(x)/10  # parameterisation to prevent ensure relatively low initial std
+        stds = tf.math.exp(log_stds)  # parameterise to be positive
         h = self.First_Encoder_to_IAF(x)
+        h = self.dropout_Enc_to_IAF(h)
 
         # Now do sampling with reparameterisation trick
         epsilon = np.random.standard_normal(means.shape).astype("float32")
@@ -63,6 +72,8 @@ class IAF_Encoder(Model):#Layer):
         log_prob_z_prior = self.independent_normal_log_prob(z)
 
         return z, log_probs_z_given_x, log_prob_z_prior
+
+
 
     def independent_normal_log_prob(self, x):
         return -0.5*tf.reduce_sum(x**2 + tf.math.log(2*np.pi), axis=1)
@@ -113,14 +124,14 @@ if __name__ == "__main__":
     tf.config.run_functions_eagerly(True)
     from Utils.load_plain_mnist import x_test
     latent_representation_dim = 32
-    encoder = IAF_Encoder(latent_representation_dim=latent_representation_dim, layer_nodes=64, n_autoregressive_units=3,
-                 autoregressive_unit_layer_width=64, First_Encoder_to_IAF_step_dim=64)
+    encoder = IAF_Encoder(latent_representation_dim=latent_representation_dim,
+                          layer_nodes=100,
+                          n_autoregressive_units=3,
+                          autoregressive_unit_layer_width=100,
+                          First_Encoder_to_IAF_step_dim=100)
     minitest = x_test[0:50, :, :]
-    encoder_test = encoder(minitest)
-    print(encoder_test[0].shape, encoder_test[1].shape, encoder_test[2].shape)
-    encoder.debug_func(minitest)
-
-
-
-
-
+    z, log_probs_z_given_x, log_prob_z_prior = encoder(minitest)
+    #print(f"z, {z}")
+    print(f"log_probs_z_given_x, {log_probs_z_given_x}")
+    #print(f"log_prob_z_prior {log_prob_z_prior}")
+    #encoder.debug_func(minitest)

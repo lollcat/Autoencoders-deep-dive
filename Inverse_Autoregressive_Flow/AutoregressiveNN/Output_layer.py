@@ -42,7 +42,7 @@ class Autoregressive_output_layer(Layer):
         m = tf.matmul(inputs, self.m_autoregressive_weights * self.autoregressive_weights_mask)  \
             + self.m_biases
         s = tf.matmul(inputs, self.s_weights * self.autoregressive_weights_mask)  \
-            + self.s_biases + 1  # paramaterise to make initialisation close to +2
+            + self.s_biases  # paramaterise to make initialisation close to +2
         #return tf.keras.backend.reverse(m, axes=1), tf.keras.backend.reverse(s, axes=1)
         return m, s
 

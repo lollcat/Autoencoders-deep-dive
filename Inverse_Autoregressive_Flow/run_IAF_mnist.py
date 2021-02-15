@@ -8,8 +8,8 @@ if __name__ == "__main__":
     import datetime
     use_tensorboard = False
     binarized_data = True
-    latent_representation_dim = 16
-    EPOCHS = 15
+    latent_representation_dim = 20
+    EPOCHS = 20
     name = f"binarized={binarized_data}__latent_representation_dim={latent_representation_dim}"
     if binarized_data is True:
         from Utils.load_binarized_mnist import x_train, x_test, train_ds, test_ds, image_dim
@@ -19,10 +19,9 @@ if __name__ == "__main__":
 
     # Define vae
     IAF_vae = IAF_VAE(latent_representation_dim, x_dim=image_dim,
-                 n_autoregressive_units=3, autoregressive_unit_layer_width=64,
+                 n_autoregressive_units=2, autoregressive_unit_layer_width=320,
                  First_Encoder_to_IAF_step_dim=64,
-                 encoder_FC_layer_nodes=64,
-                 decoder_layer_width = 64)
+                 encoder_FC_layer_nodes=450)
 
     if use_tensorboard is True:
         # Tensorboard writer
@@ -70,6 +69,7 @@ if __name__ == "__main__":
             f'\n Loss: {total_train_loss.numpy() / len(train_ds)}, '
             f'\n Test Loss: {total_test_loss.numpy() / len(test_ds)}')
 
+    #print(f"marginal likelihood of data is {IAF_vae.get_marginal_likelihood(x_test)}")
     fig, axs = plt.subplots(1, 2)
     axs[0].plot(train_history)
     axs[1].plot(test_history)

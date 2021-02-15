@@ -1,10 +1,13 @@
-from tensorflow.keras.layers import Dense, Flatten, Layer, Reshape, Concatenate
+from tensorflow.keras.layers import Dense, Flatten, Layer, Reshape, Concatenate, \
+    Dropout, LayerNormalization, BatchNormalization
+from tensorflow_addons.layers import WeightNormalization
 import tensorflow as tf
 import numpy as np
 
 from Inverse_Autoregressive_Flow.AutoregressiveNN.Input_layer import Autoregressive_input_layer
 from Inverse_Autoregressive_Flow.AutoregressiveNN.Middle_layer import Autoregressive_middle_layer
 from Inverse_Autoregressive_Flow.AutoregressiveNN.Output_layer import Autoregressive_output_layer
+from tensorflow_addons.layers import WeightNormalization
 
 class AutoRegressiveNN_Unit(Layer):
     """
@@ -20,10 +23,15 @@ class AutoRegressiveNN_Unit(Layer):
         self.input_layer = Autoregressive_input_layer(autoregressive_input_dim=latent_representation_dim,
                                                       non_autoregressive_input_dim=h_dim,
                                                       units=layer_nodes)
+        self.batch_norm1 = BatchNormalization()
+        self.dropout1 = Dropout(0.5)
         self.middle_layer = Autoregressive_middle_layer(autoregressive_input_dim=latent_representation_dim,
                                                         units=layer_nodes)
+        self.batch_norm2 = BatchNormalization()
+        self.dropout2 = Dropout(0.5)
         self.output_layer = Autoregressive_output_layer(autoregressive_input_dim=latent_representation_dim,
                                                         previous_layer_units=layer_nodes)
+
         self.m_skip_weights = \
             tf.Variable(initial_value=tf.random_normal_initializer()(
                 shape=(latent_representation_dim, latent_representation_dim),dtype="float32"),
@@ -34,15 +42,26 @@ class AutoRegressiveNN_Unit(Layer):
                 trainable=True)
         self.skip_mask = np.ones((latent_representation_dim, latent_representation_dim))
         self.skip_mask = np.tril(self.skip_mask, k=-1)
+        self.skip_m_norn = LayerNormalization()
+        self.skip_s_norn = LayerNormalization()
 
-    def call(self, inputs):
+    def call(self, inputs, training=False):
         z, h = inputs
         x = self.input_layer([z, h])
+        x = self.batch_norm1(x)
+        x = self.dropout1(x)
         x = self.middle_layer(x)
+        x = self.batch_norm2(x)
+        x = self.dropout2(x)
         m, s = self.output_layer(x)
         # TODO not sure if this is correct
-        m = m + tf.matmul(z, self.m_skip_weights*self.skip_mask)
-        s = s + tf.matmul(z, self.s_skip_weights*self.skip_mask)
+        m_skip = tf.matmul(z, self.m_skip_weights*self.skip_mask)
+        s_skip = tf.matmul(z, self.s_skip_weights*self.skip_mask)
+        m_skip = self.skip_m_norn(m_skip)
+        s_skip = self.skip_s_norn(s_skip)
+        m = m + m_skip
+        s = s + s_skip
+        s = s/10 + 1.5  # parameterise to be initially round about +1 to +2
         return m, s
 
 if __name__ == "__main__":
