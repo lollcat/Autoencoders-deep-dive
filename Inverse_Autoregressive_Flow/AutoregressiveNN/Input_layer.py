@@ -41,7 +41,7 @@ class Autoregressive_input_layer(Layer):
             tf.matmul(h_non_autoregressive, self.non_autoregressive_weights) \
             + self.biases
         #return tf.nn.relu(x)
-        return tf.nn.leaky_relu(x)
+        return tf.nn.elu(x)
 
 if __name__ == "__main__":
     # simple example with latent dim of 2

@@ -18,27 +18,29 @@ class IAF_Encoder(Model):#Layer):
         self.resnet_blocks.append(resnet_block(filters=32, kernel_size = (3,3), strides=(2,2)))
         self.resnet_blocks.append(resnet_block(filters=32, kernel_size=(3, 3), strides=(1, 1)))
         self.resnet_blocks.append(resnet_block(filters=32, kernel_size = (3,3), strides=(2,2)))
-        self.resnet_blocks.append(resnet_block(filters=32, kernel_size=(3, 3), strides=(1, 1)))
 
 
         self.flatten = Flatten(name="flatten")
-        self.fc_layer = WeightNormalization(Dense(layer_nodes, activation="relu", name="layer1"),
+        self.fc_layer = WeightNormalization(Dense(layer_nodes, activation="elu", name="layer1"),
                                             data_init=True)
         self.fc_layer_dropout = Dropout(0.5)
         self.means = WeightNormalization(Dense(latent_representation_dim, activation="linear", name="means"),
                                          data_init=True)
         self.log_stds = WeightNormalization(Dense(latent_representation_dim, activation="linear", name="log_stds"),
                                                   data_init=True)
-        self.First_Encoder_to_IAF = WeightNormalization(Dense(First_Encoder_to_IAF_step_dim, activation="elu",
-                                                              name="Encoder_to_IAF"), data_init=True)
-        self.dropout_Enc_to_IAF = Dropout(0.5)
+        #self.prior_log_var_scale = tf.Variable(0.0, dtype="float32", trainable=False) #trainable=True)
 
-        self.autoregressive_NNs = []
-        for i in range(n_autoregressive_units):
-            self.autoregressive_NNs.append(
-                    AutoRegressiveNN_Unit(latent_representation_dim=latent_representation_dim,
-                                      h_dim=First_Encoder_to_IAF_step_dim,
-                                      layer_nodes=autoregressive_unit_layer_width))
+
+        if self.n_autoregressive_units > 0:
+            self.First_Encoder_to_IAF = WeightNormalization(Dense(First_Encoder_to_IAF_step_dim, activation="elu",
+                                                                  name="Encoder_to_IAF"), data_init=True)
+            self.dropout_Enc_to_IAF = Dropout(0.5)
+            self.autoregressive_NNs = []
+            for i in range(n_autoregressive_units):
+                self.autoregressive_NNs.append(
+                        AutoRegressiveNN_Unit(latent_representation_dim=latent_representation_dim,
+                                          h_dim=First_Encoder_to_IAF_step_dim,
+                                          layer_nodes=autoregressive_unit_layer_width))
 
     def call(self, x, training=False):
         # First Encoder NN
@@ -50,8 +52,6 @@ class IAF_Encoder(Model):#Layer):
         means = self.means(x)
         log_stds = self.log_stds(x)/10  # parameterisation to prevent ensure relatively low initial std
         stds = tf.math.exp(log_stds)  # parameterise to be positive
-        h = self.First_Encoder_to_IAF(x)
-        h = self.dropout_Enc_to_IAF(h)
 
         # Now do sampling with reparameterisation trick
         epsilon = np.random.standard_normal(means.shape).astype("float32")
@@ -60,12 +60,15 @@ class IAF_Encoder(Model):#Layer):
         log_probs_z_given_x = self.independent_normal_log_prob(epsilon) - tf.math.reduce_sum(log_stds, axis=1)
 
         # Now IAF steps
-        for i in range(self.n_autoregressive_units):
-            m, s = self.autoregressive_NNs[i]([z, h])
-            sigma = tf.nn.sigmoid(s)
-            z = sigma * z + (1 - sigma) * m
-            log_probs_z_given_x -= tf.reduce_sum(tf.math.log(sigma), axis=1)
-            z = tf.keras.backend.reverse(z, axes=1)  # IAF paper reccomends reversing the order the autoregressive step
+        if self.n_autoregressive_units > 0:
+            h = self.First_Encoder_to_IAF(x)
+            h = self.dropout_Enc_to_IAF(h)
+            for i in range(self.n_autoregressive_units):
+                m, s = self.autoregressive_NNs[i]([z, h])
+                sigma = tf.nn.sigmoid(s)
+                z = sigma * z + (1 - sigma) * m
+                log_probs_z_given_x -= tf.reduce_sum(tf.math.log(sigma), axis=1)
+                z = tf.keras.backend.reverse(z, axes=1)  # IAF paper reccomends reversing the order the autoregressive step
 
 
         # prior probability (N(0,1))
@@ -76,7 +79,8 @@ class IAF_Encoder(Model):#Layer):
 
 
     def independent_normal_log_prob(self, x):
-        return -0.5*tf.reduce_sum(x**2 + tf.math.log(2*np.pi), axis=1)
+        n = x.shape[1]
+        return -0.5 * (tf.reduce_sum(x ** 2, axis=1) + n*tf.math.log(2.0 * np.pi))
 
 
     def debug_func(self, x):
@@ -134,4 +138,4 @@ if __name__ == "__main__":
     #print(f"z, {z}")
     print(f"log_probs_z_given_x, {log_probs_z_given_x}")
     #print(f"log_prob_z_prior {log_prob_z_prior}")
-    #encoder.debug_func(minitest)
+    encoder.debug_func(minitest)

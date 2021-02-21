@@ -1,41 +1,35 @@
 from tensorflow.keras.layers import Dense, Layer, Reshape, Conv2DTranspose, BatchNormalization, Dropout
+from Inverse_Autoregressive_Flow.resnet import resnet_block
 import tensorflow as tf
 import numpy as np
 
 class Decoder(Layer):
-    def __init__(self, x_dim, latent_representation_dim):
+    """
+    Has symmetric structure to encoder
+    """
+    def __init__(self, x_dim, latent_representation_dim, layer_nodes=450):
         super(Decoder, self).__init__()
-        self.fc_layer = Dense(7*7*64, activation=tf.nn.elu)
+        self.fc_layer1 = Dense(layer_nodes, activation=tf.nn.elu)
         self.fc_layer_dropout = Dropout(0.5)
-        self.reshape = Reshape([7, 7, 64])
-        self.conv2 = Conv2DTranspose(filters=32, kernel_size=(3, 3), strides=(2,2), padding='same', activation=tf.nn.elu)
-        self.batch_norm1 = BatchNormalization()
-        self.conv3 = Conv2DTranspose(filters=32, kernel_size=(3, 3), strides=(2, 2), padding='same',
-                                     activation=tf.nn.elu)
-        self.batch_norm2 = BatchNormalization()
-        self.conv4 = Conv2DTranspose(filters=1, kernel_size=(3, 3), strides=(1, 1), padding='same')
-        """
-        This is without a fc layer
-        self.reshape = Reshape([1, 1, latent_representation_dim])
-        # padding=valid means no padding # same keeps dimensions the same
-        # currently mixing around to get shapes nice but not very principled
-        # strides 2 doubles the first 2 dimensions
-        assert x_dim[0]%4 == 0
-        first_conv_height = first_conv_width = int(x_dim[0]/4)
-        self.conv1 = Conv2DTranspose(filters=32, kernel_size=(first_conv_height, first_conv_width), strides=(1,1),
-                                     padding='valid', activation=tf.nn.elu)
-        """
+        self.fc_layer2 = Dense(512, activation=tf.nn.elu)   # equivalent to flatten part of encoder
+        self.reshape = Reshape([4, 4, 32])  # reshape for input into resnets
+        self.resnet_blocks = []
+        self.resnet_blocks.append(resnet_block(filters=32, kernel_size=(3, 3), strides=(2, 2), type="transposed"))
+        self.resnet_blocks.append(resnet_block(filters=32, kernel_size=(3, 3), strides=(1, 1), type = "transposed"))
+        self.resnet_blocks.append(resnet_block(filters=16, kernel_size=(3, 3), strides=(2, 2), type = "transposed"))
+        self.resnet_blocks.append(resnet_block(filters=16, kernel_size=(3, 3), strides=(1, 1), type = "transposed"))
+        self.resnet_blocks.append(resnet_block(filters=1, kernel_size=(3, 3), strides=(2, 2), type = "transposed"))
+
 
     def call(self, x, training=False):
-        x = self.fc_layer(x)
+        x = self.fc_layer1(x)
         x = self.fc_layer_dropout(x)
+        x = self.fc_layer2(x)
         x = self.reshape(x)
-        #x = self.conv1(x)
-        x = self.conv2(x)
-        x = self.batch_norm1(x)
-        x = self.conv3(x)
-        x = self.batch_norm2(x)
-        x = self.conv4(x)
+        for i, resblock in enumerate(self.resnet_blocks):
+            x = resblock(x)
+            if i == 0:
+                x = x[:, 0:7, 0:7, :] # need shapes like this to end at (batch_size, 28, 28, 1) for mnist dimensions
         return x
 
 if __name__ == "__main__":

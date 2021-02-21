@@ -31,7 +31,7 @@ class Autoregressive_middle_layer(Layer):
     def call(self, inputs):
         x = tf.matmul(inputs, self.autoregressive_weights*self.autoregressive_weights_mask)  \
             + self.biases
-        return tf.nn.leaky_relu(x)
+        return tf.nn.elu(x)
 
 if __name__ == "__main__":
     from Input_layer import Autoregressive_input_layer

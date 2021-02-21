@@ -76,19 +76,25 @@ class IAF_VAE(Model):
         Estimating marginal likelihood using importance sampling as proposed by Rezende et al., 2014
         # calculate MC estimate of p(x) for each point in the test set
         """
-        """ It seems like they calculate the average p(x) over the test set
+        """ Unsure about whether we take the product of datapoints in the test set or the mean? """
         running_mean = 0
         n = 0
         for i in range(n_x_data_samples ):
-            decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data)
-            log_prob_x_given_z_decode = -tf.reduce_sum(
-                tf.nn.sigmoid_cross_entropy_with_logits(labels=x_data, logits=decoded_logits), axis=[1, 2, 3])
-            p_x_z =  tf.math.exp(log_prob_x_given_z_decode + log_prob_z_prior)
-            q_z_given_x = tf.math.exp(log_probs_z_given_x)
-            monte_carlo_sample = tf.math.divide(p_x_z, q_z_given_x).numpy()
-            running_mean = running_mean + (monte_carlo_sample + running_mean )/ (n + 1)
-        return np.sum(np.log(running_mean))
-        """
+           decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data)
+           log_prob_x_given_z_decode = -tf.reduce_sum(
+               tf.nn.sigmoid_cross_entropy_with_logits(labels=x_data, logits=decoded_logits), axis=[1, 2, 3])
+           #p_x_z =  tf.math.exp(log_prob_x_given_z_decode + log_prob_z_prior)
+           #q_z_given_x = tf.math.exp(log_probs_z_given_x)
+           # the above variables are vectors, of length equal to the number of points in x_data
+           #monte_carlo_sample = tf.math.divide(p_x_z, q_z_given_x).numpy()
+           #log_monte_carlo_sample = log_prob_x_given_z_decode_batch + log_prob_z_prior_batch - log_probs_z_given_x_batch
+           log_monte_carlo_sample = log_prob_x_given_z_decode + log_prob_z_prior - log_probs_z_given_x
+           monte_carlo_sample = tf.math.exp(tf.cast(log_monte_carlo_sample, "float64"))
+           running_mean = running_mean + (monte_carlo_sample - running_mean )/ (n + 1)
+        #return np.log(np.mean(running_mean.numpy()))    # averaging over points here also
+        #return np.mean(np.log(running_mean.numpy()))    # averaging over points log p(x) 's
+        return np.sum(np.log(running_mean.numpy()))      # p(x) for whole test set
+
 
 
 if __name__ == "__main__":
@@ -103,10 +109,10 @@ if __name__ == "__main__":
 
     latent_representation_dim = 32
     vae = IAF_VAE(latent_representation_dim, x_dim=image_dim,
-                 n_autoregressive_units=3, autoregressive_unit_layer_width=100,
-                 First_Encoder_to_IAF_step_dim=32,
-                 encoder_FC_layer_nodes=100,
-                 decoder_layer_width = 100)
+                n_autoregressive_units=3, autoregressive_unit_layer_width=100,
+                First_Encoder_to_IAF_step_dim=32,
+                encoder_FC_layer_nodes=100,
+                decoder_layer_width = 100)
 
 
     decoded, log_probs_z_given_x, log_prob_z_prior = vae(minitest)
@@ -114,7 +120,7 @@ if __name__ == "__main__":
     #print(f"decoded, {decoded}")
     print(f"log_probs_z_given_x, {log_probs_z_given_x}")
     #print(f"log_prob_z_prior, {log_prob_z_prior}")
-
+    
     print(decoded.shape, log_probs_z_given_x.shape)
     """
     ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch = \
@@ -124,3 +130,4 @@ if __name__ == "__main__":
     print(f"ELBO is {ELBO}")
     #print(f"log_prob_x_given_z_decode_batch is {log_prob_x_given_z_decode_batch}")
     print(f"marginal likelihood {vae.get_marginal_likelihood(minitest)}")
+

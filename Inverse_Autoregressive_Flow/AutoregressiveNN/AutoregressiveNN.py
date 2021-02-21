@@ -41,9 +41,8 @@ class AutoRegressiveNN_Unit(Layer):
                 shape=(latent_representation_dim, latent_representation_dim), dtype="float32"),
                 trainable=True)
         self.skip_mask = np.ones((latent_representation_dim, latent_representation_dim))
-        self.skip_mask = np.tril(self.skip_mask, k=-1)
-        self.skip_m_norn = LayerNormalization()
-        self.skip_s_norn = LayerNormalization()
+        self.skip_mask = np.triu(self.skip_mask, k=1)
+
 
     def call(self, inputs, training=False):
         z, h = inputs
@@ -54,15 +53,40 @@ class AutoRegressiveNN_Unit(Layer):
         x = self.batch_norm2(x)
         x = self.dropout2(x)
         m, s = self.output_layer(x)
-        # TODO not sure if this is correct
         m_skip = tf.matmul(z, self.m_skip_weights*self.skip_mask)
         s_skip = tf.matmul(z, self.s_skip_weights*self.skip_mask)
-        m_skip = self.skip_m_norn(m_skip)
-        s_skip = self.skip_s_norn(s_skip)
         m = m + m_skip
         s = s + s_skip
         s = s/10 + 1.5  # parameterise to be initially round about +1 to +2
         return m, s
+
+    def debug(self, inputs, training=True):
+        # debug check to test autoregressiveness
+        z, h = inputs
+        z = tf.Variable(tf.convert_to_tensor(z, dtype="float32"), trainable=True)
+        with tf.GradientTape(persistent=True) as tape:
+            tape.watch(z)
+            x = self.input_layer([z, h])
+            #x = self.batch_norm1(x)
+            x = self.middle_layer(x)
+            #x = self.batch_norm2(x)
+            m_preskip, s_preskip = self.output_layer(x)
+            m_skip = tf.matmul(z, self.m_skip_weights*self.skip_mask)
+            s_skip = tf.matmul(z, self.s_skip_weights*self.skip_mask)
+            m = m_preskip + m_skip
+            s = s_preskip + s_skip
+            s = s/10 + 1.5  # parameterise to be initially round about +1 to +2
+
+            slice_position = 2  # 0 for start, -1 for end
+            m_preskip_slice = m_preskip[:, slice_position]
+            m_slice = m[:, slice_position]
+
+        gradients_m = tape.gradient(m_slice, z)
+        gradients_preskip = tape.gradient(m_preskip_slice, z)
+        assert tf.reduce_sum(gradients_m[slice_position:]) == 0
+
+        return
+
 
 if __name__ == "__main__":
     # just do this file thing so we don't have to mess around with pycharm configs here
@@ -70,10 +94,11 @@ if __name__ == "__main__":
     cwd_path = Path.cwd(); set_path = str(cwd_path.parent.parent); os.chdir(set_path)
 
     # let's go
-    latent_z = np.array([1, 10, 50, 100000], dtype="float32")[np.newaxis, :]
+    latent_z = np.array([1, 10, 50, 100000, 50, 70, 80, 53, 35, 632], dtype="float32")[np.newaxis, :]
     h = np.ones((3,), dtype="float32")[np.newaxis, :]
 
     Autoregressive_unit = AutoRegressiveNN_Unit(latent_representation_dim=latent_z.size, h_dim=h.size, layer_nodes=64)
     m, s = Autoregressive_unit([latent_z, h])
     print(f"mu s are : {m}")
     print(f"sigmas are: {s}")
+    Autoregressive_unit.debug([latent_z, h])
