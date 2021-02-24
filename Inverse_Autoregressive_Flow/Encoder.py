@@ -1,9 +1,13 @@
-from tensorflow.keras.layers import Dense, Flatten, Conv2D, Layer, Reshape, Dropout
-from tensorflow_addons.layers import WeightNormalization
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, Layer, Reshape
+#from tensorflow_addons.layers import WeightNormalization
+from tensorflow_probability import layers as tfp_layers
+WeightNormalization = tfp_layers.weight_norm.WeightNorm
 from tensorflow.keras import Model
 import tensorflow as tf
 import numpy as np
-from Inverse_Autoregressive_Flow.AutoregressiveNN.AutoregressiveNN import AutoRegressiveNN_Unit
+#from Inverse_Autoregressive_Flow.AutoregressiveNN.AutoregressiveNN import AutoRegressiveNN_Unit
+from Inverse_Autoregressive_Flow.AutoregressiveNN.attempt_at_norm_autoregressive_layer.AutoregressiveNN import \
+    AutoRegressiveNN_Unit
 from Inverse_Autoregressive_Flow.resnet import resnet_block
 
 class IAF_Encoder(Model):#Layer):
@@ -11,7 +15,6 @@ class IAF_Encoder(Model):#Layer):
                  autoregressive_unit_layer_width=8000, First_Encoder_to_IAF_step_dim=64, name="encoder"):
         super(IAF_Encoder, self).__init__()
         self.n_autoregressive_units = n_autoregressive_units
-        #self.conv1 = Conv2D(filters=32, kernel_size=(3,3), activation='relu', name="conv1")
         self.resnet_blocks = []
         self.resnet_blocks.append(resnet_block(filters=16, kernel_size = (3,3), strides=(2,2)))
         self.resnet_blocks.append(resnet_block(filters=16, kernel_size=(3, 3), strides=(1, 1)))
@@ -19,22 +22,17 @@ class IAF_Encoder(Model):#Layer):
         self.resnet_blocks.append(resnet_block(filters=32, kernel_size=(3, 3), strides=(1, 1)))
         self.resnet_blocks.append(resnet_block(filters=32, kernel_size = (3,3), strides=(2,2)))
 
-
         self.flatten = Flatten(name="flatten")
         self.fc_layer = WeightNormalization(Dense(layer_nodes, activation="elu", name="layer1"),
                                             data_init=True)
-        self.fc_layer_dropout = Dropout(0.5)
         self.means = WeightNormalization(Dense(latent_representation_dim, activation="linear", name="means"),
                                          data_init=True)
         self.log_stds = WeightNormalization(Dense(latent_representation_dim, activation="linear", name="log_stds"),
                                                   data_init=True)
-        #self.prior_log_var_scale = tf.Variable(0.0, dtype="float32", trainable=False) #trainable=True)
-
 
         if self.n_autoregressive_units > 0:
             self.First_Encoder_to_IAF = WeightNormalization(Dense(First_Encoder_to_IAF_step_dim, activation="elu",
                                                                   name="Encoder_to_IAF"), data_init=True)
-            self.dropout_Enc_to_IAF = Dropout(0.5)
             self.autoregressive_NNs = []
             for i in range(n_autoregressive_units):
                 self.autoregressive_NNs.append(
@@ -48,7 +46,6 @@ class IAF_Encoder(Model):#Layer):
             x = resblock(x)
         x = self.flatten(x)
         x = self.fc_layer(x)
-        x = self.fc_layer_dropout(x)
         means = self.means(x)
         log_stds = self.log_stds(x)/10  # parameterisation to prevent ensure relatively low initial std
         stds = tf.math.exp(log_stds)  # parameterise to be positive
@@ -62,7 +59,6 @@ class IAF_Encoder(Model):#Layer):
         # Now IAF steps
         if self.n_autoregressive_units > 0:
             h = self.First_Encoder_to_IAF(x)
-            h = self.dropout_Enc_to_IAF(h)
             for i in range(self.n_autoregressive_units):
                 m, s = self.autoregressive_NNs[i]([z, h])
                 sigma = tf.nn.sigmoid(s)
@@ -138,4 +134,4 @@ if __name__ == "__main__":
     #print(f"z, {z}")
     print(f"log_probs_z_given_x, {log_probs_z_given_x}")
     #print(f"log_prob_z_prior {log_prob_z_prior}")
-    encoder.debug_func(minitest)
+    #encoder.debug_func(minitest)

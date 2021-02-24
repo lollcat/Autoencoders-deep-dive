@@ -23,7 +23,8 @@ class IAF_VAE(Model):
                                    First_Encoder_to_IAF_step_dim=First_Encoder_to_IAF_step_dim)
 
         self.decoder = Decoder(x_dim, latent_representation_dim)
-        self.optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
+        #self.optimizer = tf.keras.optimizers.Adam(learning_rate=1e-3)
+        self.optimizer = tf.keras.optimizers.Adamax()
 
     def call(self, x, training=False):
         z, log_probs_z_given_x, log_prob_z_prior = self.encoder(x)
@@ -93,7 +94,7 @@ class IAF_VAE(Model):
            running_mean = running_mean + (monte_carlo_sample - running_mean )/ (n + 1)
         #return np.log(np.mean(running_mean.numpy()))    # averaging over points here also
         #return np.mean(np.log(running_mean.numpy()))    # averaging over points log p(x) 's
-        return np.sum(np.log(running_mean.numpy()))      # p(x) for whole test set
+        return np.mean(np.log(running_mean.numpy()))      # p(x) for whole test set
 
 
 

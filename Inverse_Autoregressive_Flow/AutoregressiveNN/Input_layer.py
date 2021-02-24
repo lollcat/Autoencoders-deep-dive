@@ -17,8 +17,6 @@ class Autoregressive_input_layer(Layer):
             tf.Variable(initial_value=weight_initialiser(shape=(autoregressive_input_dim, units),
                         dtype="float32"), trainable=True)
         self.autoregressive_weights_mask = np.zeros((autoregressive_input_dim, units))
-        # TODO can do this without a lengthy loop
-
         nodes_per_latent_representation_dim = units / autoregressive_input_dim
         for i in range(autoregressive_input_dim):
             for j in range(units):
@@ -26,8 +24,7 @@ class Autoregressive_input_layer(Layer):
                 if units_corresponding_max_autoregressive_input_index > i:
                     self.autoregressive_weights_mask[i, j] = 1
         self.autoregressive_weights_mask = tf.convert_to_tensor(self.autoregressive_weights_mask, dtype="float32")
-        #self.L_mask = np.zeros((autoregressive_input_dim, units)).astype("float32")
-        #self.L_mask = np.tril(self.L_mask, k=-1) # we can do this if units=autoregressive_input_dim
+
 
         self.non_autoregressive_weights = \
             tf.Variable(initial_value=weight_initialiser(shape=(non_autoregressive_input_dim, units),
@@ -40,7 +37,6 @@ class Autoregressive_input_layer(Layer):
         x = tf.matmul(z_autoregressive, self.autoregressive_weights*self.autoregressive_weights_mask) + \
             tf.matmul(h_non_autoregressive, self.non_autoregressive_weights) \
             + self.biases
-        #return tf.nn.relu(x)
         return tf.nn.elu(x)
 
 if __name__ == "__main__":

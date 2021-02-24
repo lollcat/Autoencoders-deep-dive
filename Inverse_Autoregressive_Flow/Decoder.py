@@ -1,4 +1,4 @@
-from tensorflow.keras.layers import Dense, Layer, Reshape, Conv2DTranspose, BatchNormalization, Dropout
+from tensorflow.keras.layers import Dense, Layer, Reshape, Conv2DTranspose, BatchNormalization
 from Inverse_Autoregressive_Flow.resnet import resnet_block
 import tensorflow as tf
 import numpy as np
@@ -10,7 +10,6 @@ class Decoder(Layer):
     def __init__(self, x_dim, latent_representation_dim, layer_nodes=450):
         super(Decoder, self).__init__()
         self.fc_layer1 = Dense(layer_nodes, activation=tf.nn.elu)
-        self.fc_layer_dropout = Dropout(0.5)
         self.fc_layer2 = Dense(512, activation=tf.nn.elu)   # equivalent to flatten part of encoder
         self.reshape = Reshape([4, 4, 32])  # reshape for input into resnets
         self.resnet_blocks = []
@@ -23,7 +22,6 @@ class Decoder(Layer):
 
     def call(self, x, training=False):
         x = self.fc_layer1(x)
-        x = self.fc_layer_dropout(x)
         x = self.fc_layer2(x)
         x = self.reshape(x)
         for i, resblock in enumerate(self.resnet_blocks):
