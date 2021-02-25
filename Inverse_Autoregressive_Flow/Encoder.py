@@ -86,12 +86,10 @@ class IAF_Encoder(Model):#Layer):
             for resblock in self.resnet_blocks:
                 x = resblock(x)
             x = self.flatten(x)
-            x = self.flatten(x)
             x = self.fc_layer(x)
             means = self.means(x)
-            log_stds = self.log_stds(x)  #/100 # divide by 100 to start initialisation low
-            stds = tf.math.exp(log_stds)
-            h = self.First_Encoder_to_IAF(x)
+            log_stds = self.log_stds(x) / 10  # parameterisation to prevent ensure relatively low initial std
+            stds = tf.math.exp(log_stds)  # parameterise to be positive
 
             # Now do sampling with reparameterisation trick
             epsilon = np.random.standard_normal(means.shape).astype("float32")
@@ -100,18 +98,22 @@ class IAF_Encoder(Model):#Layer):
             log_probs_z_given_x = self.independent_normal_log_prob(epsilon) - tf.math.reduce_sum(log_stds, axis=1)
 
             # Now IAF steps
-            for i in range(self.n_autoregressive_units):
-                #m, s = self.autoregressive_NNs[i]([z, h])
-                m, s = self.autoregressive_NNs[i]([z, h*0])
-                sigma = tf.nn.sigmoid(s)
-                z = sigma * z + (1 - sigma) * m
-                log_probs_z_given_x -= tf.reduce_sum(tf.math.log(sigma), axis=1)
+            if self.n_autoregressive_units > 0:
+                h = self.First_Encoder_to_IAF(x)
+                for i in range(self.n_autoregressive_units):
+                    m, s = self.autoregressive_NNs[i]([z, h])
+                    sigma = tf.nn.sigmoid(s)
+                    z = sigma * z + (1 - sigma) * m
+                    log_probs_z_given_x -= tf.reduce_sum(tf.math.log(sigma), axis=1)
+                    z = tf.keras.backend.reverse(z,
+                                                 axes=1)  # IAF paper reccomends reversing the order the autoregressive step
 
             # prior probability (N(0,1))
             log_prob_z_prior = self.independent_normal_log_prob(z)
 
         variables = self.variables
-        tape.gradient(log_probs_z_given_x, variables)
+        print(tape.gradient(log_probs_z_given_x, variables))
+
 
 
 
@@ -125,13 +127,13 @@ if __name__ == "__main__":
     from Utils.load_plain_mnist import x_test
     latent_representation_dim = 32
     encoder = IAF_Encoder(latent_representation_dim=latent_representation_dim,
-                          layer_nodes=100,
+                          layer_nodes=64,
                           n_autoregressive_units=3,
-                          autoregressive_unit_layer_width=100,
-                          First_Encoder_to_IAF_step_dim=100)
+                          autoregressive_unit_layer_width=64,
+                          First_Encoder_to_IAF_step_dim=64)
     minitest = x_test[0:50, :, :]
     z, log_probs_z_given_x, log_prob_z_prior = encoder(minitest)
     #print(f"z, {z}")
     print(f"log_probs_z_given_x, {log_probs_z_given_x}")
     #print(f"log_prob_z_prior {log_prob_z_prior}")
-    #encoder.debug_func(minitest)
+    encoder.debug_func(minitest)

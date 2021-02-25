@@ -40,9 +40,6 @@ class IAF_VAE(Model):
     def train_step(self, x_data, training=True):
         with tf.GradientTape() as tape:
             decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data, training=training)
-            # TODO - maybe consider making x_data flat so we don't have to double reduce sum
-            #log_prob_x_given_z_decode = tf.reduce_sum(x_data * tf.math.log(reconstruction) + \
-            #                                          (1 - x_data) * tf.math.log(1 - reconstruction), axis=[1,2])
             log_prob_x_given_z_decode = -tf.reduce_sum(
                 tf.nn.sigmoid_cross_entropy_with_logits(labels=x_data, logits=decoded_logits), axis=[1, 2, 3])
             # compute mean over batch
@@ -110,10 +107,10 @@ if __name__ == "__main__":
 
     latent_representation_dim = 32
     vae = IAF_VAE(latent_representation_dim, x_dim=image_dim,
-                n_autoregressive_units=3, autoregressive_unit_layer_width=100,
+                n_autoregressive_units=2, autoregressive_unit_layer_width=64,
                 First_Encoder_to_IAF_step_dim=32,
-                encoder_FC_layer_nodes=100,
-                decoder_layer_width = 100)
+                encoder_FC_layer_nodes=64,
+                decoder_layer_width = 64)
 
 
     decoded, log_probs_z_given_x, log_prob_z_prior = vae(minitest)
