@@ -2,7 +2,7 @@ if __name__ == "__main__":
     # tensorboard --logdir logs
     #import tensorflow as tf
     #tf.config.run_functions_eagerly(True)
-    from load_data import x_train, x_test, train_ds, test_ds, image_dim
+    from Utils.load_binarized_mnist import x_train, x_test, train_ds, test_ds, image_dim
     from VAE import VAE
     import tensorflow as tf
     import matplotlib.pyplot as plt

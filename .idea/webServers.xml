@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="45ec327d-eb1c-4656-86e8-3bf4568dcc98" name="lim24@localhost:6000 password">
-        <fileTransfer rootFolder="/homes/lim24" accessType="SFTP" host="localhost" port="6000" sshConfigId="882b1012-c4d9-434a-9682-b273ffc352b3" sshConfig="lim24@localhost:6000 password" />
+      <webServer id="018724a9-5279-4bfe-96f4-0806cf6f95a8" name="lim24@localhost:6000 password">
+        <fileTransfer rootFolder="/homes/lim24/" accessType="SFTP" host="localhost" port="6000" sshConfigId="882b1012-c4d9-434a-9682-b273ffc352b3" sshConfig="lim24@localhost:6000 password" />
       </webServer>
     </option>
   </component>

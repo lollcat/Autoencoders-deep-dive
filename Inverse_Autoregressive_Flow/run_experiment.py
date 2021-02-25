@@ -7,22 +7,9 @@ import tensorflow as tf
 def running_mean(new_point, running_mean, i):
     return running_mean + (new_point - running_mean) / (i + 1)
 
-def run_experiment(fig_path, IAF_vae, train_ds, test_ds, x_test, EPOCHS, decay_lr = False, lr_anneal_period=100,
-                   n_points_latent_vis=100
+def run_experiment(fig_path, IAF_vae, train_ds, test_ds, x_test, EPOCHS, latent_dim, decay_lr = False, lr_anneal_period=100,
+                   n_points_latent_vis=10
                    ):
-    gpus = tf.config.list_physical_devices('GPU')
-    if len(gpus) > 0:
-        # Restrict TensorFlow to only use the first GPU
-        try:
-            tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
-            logical_gpus = tf.config.experimental.list_logical_devices('GPU')
-            print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
-        except RuntimeError as e:
-            # Visible devices must be set before GPUs have been initialized
-            print(e)
-    else:
-        print("running without GPU")
-
     train_history = []
     test_history = []
     n_train_batches = len(list(train_ds))
@@ -70,8 +57,8 @@ def run_experiment(fig_path, IAF_vae, train_ds, test_ds, x_test, EPOCHS, decay_l
     fig, axs = plt.subplots(1, 2)
     axs[0].plot(train_history)
     axs[1].plot(test_history)
-    plt.show()
     plt.savefig(f"{fig_path}train_test_hist.png")
+    plt.show()
 
     n = 5
     fig, axs = plt.subplots(n, n)
@@ -124,12 +111,13 @@ def run_experiment(fig_path, IAF_vae, train_ds, test_ds, x_test, EPOCHS, decay_l
     plt.savefig(f"{fig_path}reconstruction.png")
     plt.show()
 
-    cols = mpl.cm.rainbow(np.linspace(0.1, 0.9, n_points_latent_vis))
-    points = []
-    for point_n in range(n_points_latent_vis):
-        point_repeat = np.zeros((500, 28, 28, 1))
-        point_repeat[::, :, :] = x_test[point_n, :, :]
-        encoding_2D = IAF_vae.get_encoding(point_repeat)
-        plt.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n], s=1, )
-    plt.savefig(f"{fig_path}visualise_latent_space.png")
-    plt.show()
+    if latent_dim == 2:
+        cols = mpl.cm.rainbow(np.linspace(0.1, 0.9, n_points_latent_vis))
+        points = []
+        for point_n in range(n_points_latent_vis):
+            point_repeat = np.zeros((500, 28, 28, 1))
+            point_repeat[::, :, :] = x_test[point_n, :, :]
+            encoding_2D = IAF_vae.get_encoding(point_repeat)
+            plt.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n], s=1, )
+        plt.savefig(f"{fig_path}visualise_latent_space.png")
+        plt.show()

@@ -36,7 +36,7 @@ class IAF_VAE(Model):
         z, log_probs_z_given_x, log_prob_z_prior = self.encoder(x)
         return z
 
-    @tf.function
+    #@tf.function
     def train_step(self, x_data, training=True):
         with tf.GradientTape() as tape:
             decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data, training=training)
@@ -55,7 +55,7 @@ class IAF_VAE(Model):
         return ELBO, log_prob_x_given_z_decode_batch, log_probs_z_given_x_batch, log_prob_z_prior_batch
 
 
-    @tf.function
+    #@tf.function
     def test_step(self, x_data):
         decoded_logits, log_probs_z_given_x, log_prob_z_prior = self(x_data)
         log_prob_x_given_z_decode = -tf.reduce_sum(
