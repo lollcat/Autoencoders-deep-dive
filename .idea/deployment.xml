@@ -5,6 +5,13 @@
       <paths name="lim24@localhost:6000 password">
         <serverdata>
           <mappings>
+            <mapping deploy="/VAE" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="lim24@localhost:6000 password (project level)">
+        <serverdata>
+          <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>

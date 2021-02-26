@@ -35,18 +35,23 @@ class First_Layer_Mask(tf.keras.layers.Dense):
         self.bias = None
         autoregressive_input_dim = last_dim
         units = self.units
-        self.autoregressive_weights_mask = np.zeros((autoregressive_input_dim, units))
+        autoregressive_weights_mask = np.zeros((autoregressive_input_dim, units))
         nodes_per_latent_representation_dim = units / autoregressive_input_dim
         for i in range(autoregressive_input_dim):
             for j in range(units):
                 units_corresponding_max_autoregressive_input_index = j // nodes_per_latent_representation_dim
                 if units_corresponding_max_autoregressive_input_index > i:
-                    self.autoregressive_weights_mask[i, j] = 1
-        self.autoregressive_weights_mask = tf.convert_to_tensor(self.autoregressive_weights_mask, dtype="float32")
+                    autoregressive_weights_mask[i, j] = 1
+        self.autoregressive_weights_mask = self.add_weight(
+            'autoregressive_weights_mask',
+            shape=autoregressive_weights_mask.shape,
+            dtype=self.dtype,
+            initializer=lambda x, dtype: tf.convert_to_tensor(autoregressive_weights_mask, dtype=dtype),
+            trainable=False)
         self.built = True
 
 
 if __name__ == "__main__":
     latent_z = np.array([[1, 1000, 1005]], dtype="float32")[np.newaxis, :]
     lay = WeightNormalization(First_Layer_Mask(4))
-    lay(latent_z)
+    print(lay(latent_z))

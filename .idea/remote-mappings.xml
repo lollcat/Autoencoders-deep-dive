@@ -11,6 +11,13 @@
           </settings>
         </remote-mappings>
         <remote-mappings server-id="python@sftp://lim24@localhost:6000/homes/lim24/miniconda3/envs/TF-gpu/bin/python" />
+        <remote-mappings server-id="python@sshConfig://lim24@localhost:6000 password/homes/lim24/miniconda3/envs/TF-gpu/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$" remote-root="/homes/lim24/VAE" />
+            </list>
+          </settings>
+        </remote-mappings>
       </list>
     </list>
   </component>

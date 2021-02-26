@@ -1,4 +1,4 @@
-from Inverse_Autoregressive_Flow.AutoregressiveNN.attempt_at_norm_autoregressive_layer.output_layer_mask import Output_Layer_Mask
+from Inverse_Autoregressive_Flow.AutoregressiveNN.output_layer_mask import Output_Layer_Mask
 from tensorflow.keras.layers import Layer
 from tensorflow_probability import layers as tfp_layers
 WeightNormalization = tfp_layers.weight_norm.WeightNorm

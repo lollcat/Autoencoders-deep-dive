@@ -1,4 +1,4 @@
-from tensorflow.keras.layers import Dense, Flatten, Conv2D, Layer, Reshape
+from tensorflow.keras.layers import Dense, Flatten
 #from tensorflow_addons.layers import WeightNormalization
 from tensorflow_probability import layers as tfp_layers
 WeightNormalization = tfp_layers.weight_norm.WeightNorm
@@ -6,7 +6,7 @@ from tensorflow.keras import Model
 import tensorflow as tf
 import numpy as np
 #from Inverse_Autoregressive_Flow.AutoregressiveNN.AutoregressiveNN import AutoRegressiveNN_Unit
-from Inverse_Autoregressive_Flow.AutoregressiveNN.attempt_at_norm_autoregressive_layer.AutoregressiveNN import \
+from Inverse_Autoregressive_Flow.AutoregressiveNN.AutoregressiveNN import \
     AutoRegressiveNN_Unit
 from Inverse_Autoregressive_Flow.resnet import resnet_block
 

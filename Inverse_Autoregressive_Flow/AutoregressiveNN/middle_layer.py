@@ -43,7 +43,7 @@ class Middle_Layer_Mask(tf.keras.layers.Dense):
         units = self.units
         assert units == last_dim
 
-        self.autoregressive_weights_mask = np.zeros((units, units))
+        autoregressive_weights_mask = np.zeros((units, units))
         nodes_per_latent_representation_dim = self.units / self.n_latent_dim
         for input_index in range(units):
             input_corresponding_max_autoregressive_input_index = input_index // nodes_per_latent_representation_dim
@@ -51,15 +51,20 @@ class Middle_Layer_Mask(tf.keras.layers.Dense):
                 node_corresponding_max_autoregressive_input_index = node_index // nodes_per_latent_representation_dim
                 # see diagram in notes from why greater than or equal to (rather than just equal to) here
                 if node_corresponding_max_autoregressive_input_index >= input_corresponding_max_autoregressive_input_index:
-                    self.autoregressive_weights_mask[input_index, node_index] = 1
-        self.autoregressive_weights_mask = tf.convert_to_tensor(self.autoregressive_weights_mask, dtype="float32")
+                    autoregressive_weights_mask[input_index, node_index] = 1
+        self.autoregressive_weights_mask = self.add_weight(
+            'autoregressive_weights_mask',
+            shape=autoregressive_weights_mask.shape,
+            dtype=self.dtype,
+            initializer=lambda x, dtype: tf.convert_to_tensor(autoregressive_weights_mask, dtype=dtype),
+            trainable=False)
         self.built = True
 
 
 if __name__ == "__main__":
     n_nodes = 32
     latent_z = tf.convert_to_tensor(np.array([[1, 1000, 1005, 25]], dtype="float32"))
-    from Inverse_Autoregressive_Flow.AutoregressiveNN.Weight_norm_AutoregressiveNN.First_Layer_Mask import First_Layer_Mask
+    from Inverse_Autoregressive_Flow.AutoregressiveNN.First_Layer_Mask import First_Layer_Mask
     lay1 = WeightNormalization(First_Layer_Mask(n_nodes), data_init=True)
     lay2 = WeightNormalization(Middle_Layer_Mask(n_latent_dim=4, units=n_nodes), data_init=True)
     lay2(lay1(latent_z))

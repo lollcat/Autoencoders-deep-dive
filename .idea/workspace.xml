@@ -20,18 +20,84 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="012beed5-9cc7-486b-86c8-f3547e58378e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/CODE.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CODE.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/remote-mappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/remote-mappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/IAF_VAE.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/IAF_VAE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/.ipynb_checkpoints/4_point-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/.ipynb_checkpoints/Conv_explore-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/.ipynb_checkpoints/Weight_norm-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/.ipynb_checkpoints/run_IAF-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/4_point.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/AutoregressiveNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/AutoregressiveNN.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Debug checks.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Input_layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Input_layer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Middle_layer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Output_layer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/AutoregressiveNN.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/First_Layer_Mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/First_Layer_Mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/Input_layer_new.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/middle_layer_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/middle_layer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/output_layer_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/output_layer_mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/output_layer_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/output_layer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/gradient_tape_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Conv_explore.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Encoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Weight_norm.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_IAF_mnist.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_IAF_mnist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_experiment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Questions.md" beforeDir="false" afterPath="$PROJECT_DIR$/Questions.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils/load_binarized_mnist.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/load_binarized_mnist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils/running_mean.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/running_mean.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAE_analytical_KL/run_VAE.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE_analytical_KL/run_VAE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Variational_Autoencoder/run_VAE.py" beforeDir="false" afterPath="$PROJECT_DIR$/Variational_Autoencoder/run_VAE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/AutoregressiveNN/AutoregressiveNN.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Decoder.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Encoder.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv2021_02_23-08_26_06_AM/EBLO_components1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv2021_02_23-08_26_06_AM/EBLO_components2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv2021_02_23-08_26_06_AM/ELBO.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv2021_02_23-08_26_06_AM/latent_vis.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv_anneal_lr2021_02_23-08_45_57_AM/EBLO_components1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv_anneal_lr2021_02_23-08_45_57_AM/EBLO_components2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv_anneal_lr2021_02_23-08_45_57_AM/ELBO.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/no_batch_norm_or_conv_anneal_lr2021_02_23-08_45_57_AM/latent_vis.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr2021_02_23-11_12_16_AM/EBLO_components1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr2021_02_23-11_12_16_AM/EBLO_components2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr2021_02_23-11_12_16_AM/ELBO.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr2021_02_23-11_12_16_AM/latent_vis.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr_many_iter2021_02_23-12_20_06_PM/EBLO_components1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr_many_iter2021_02_23-12_20_06_PM/EBLO_components2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr_many_iter2021_02_23-12_20_06_PM/ELBO.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/Figures/weight_norm_anneal_lr_many_iter2021_02_23-12_20_06_PM/latent_vis.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/IAF_VAE.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/resnet.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/run_4_point.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg/run_IAF_mnist.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-082433independent normal/test/events.out.tfevents.1612679073.LAPTOP-O5D6Q9C8.11544.295.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-082433independent normal/train/events.out.tfevents.1612679073.LAPTOP-O5D6Q9C8.11544.287.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-082513independent normal/test/events.out.tfevents.1612679114.LAPTOP-O5D6Q9C8.11828.295.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-082513independent normal/train/events.out.tfevents.1612679113.LAPTOP-O5D6Q9C8.11828.287.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-082722independent normal/test/events.out.tfevents.1612679242.LAPTOP-O5D6Q9C8.8512.223.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-082722independent normal/train/events.out.tfevents.1612679242.LAPTOP-O5D6Q9C8.8512.215.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-083007independent normal/test/events.out.tfevents.1612679407.LAPTOP-O5D6Q9C8.464.223.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-083007independent normal/train/events.out.tfevents.1612679407.LAPTOP-O5D6Q9C8.464.215.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-083044independent normal/test/events.out.tfevents.1612679444.LAPTOP-O5D6Q9C8.8136.223.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-083044independent normal/train/events.out.tfevents.1612679444.LAPTOP-O5D6Q9C8.8136.215.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-104921independent normal/test/events.out.tfevents.1612687761.LAPTOP-O5D6Q9C8.9068.263.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-104921independent normal/train/events.out.tfevents.1612687761.LAPTOP-O5D6Q9C8.9068.255.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-105004diag covariance/test/events.out.tfevents.1612687804.LAPTOP-O5D6Q9C8.14040.263.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-105004diag covariance/train/events.out.tfevents.1612687804.LAPTOP-O5D6Q9C8.14040.255.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-105226independent normal/test/events.out.tfevents.1612687946.LAPTOP-O5D6Q9C8.12212.223.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-105226independent normal/train/events.out.tfevents.1612687946.LAPTOP-O5D6Q9C8.12212.215.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-121339diag covariance/test/events.out.tfevents.1612692819.LAPTOP-O5D6Q9C8.3244.223.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-121339diag covariance/train/events.out.tfevents.1612692819.LAPTOP-O5D6Q9C8.3244.215.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-124038using full covariance/test/events.out.tfevents.1612694438.LAPTOP-O5D6Q9C8.5052.263.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-124038using full covariance/train/events.out.tfevents.1612694438.LAPTOP-O5D6Q9C8.5052.255.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-125725using full covariance/test/events.out.tfevents.1612695445.LAPTOP-O5D6Q9C8.14440.263.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-125725using full covariance/train/events.out.tfevents.1612695445.LAPTOP-O5D6Q9C8.14440.255.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-125954diag covariance/test/events.out.tfevents.1612695594.LAPTOP-O5D6Q9C8.9444.223.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210207-125954diag covariance/train/events.out.tfevents.1612695594.LAPTOP-O5D6Q9C8.9444.215.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210208-203744/test/events.out.tfevents.1612809464.LAPTOP-O5D6Q9C8.18824.734.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210208-203744/train/events.out.tfevents.1612809464.LAPTOP-O5D6Q9C8.18824.726.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210209-121213/test/events.out.tfevents.1612865533.LAPTOP-O5D6Q9C8.16656.557.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210209-121213/train/events.out.tfevents.1612865533.LAPTOP-O5D6Q9C8.16656.549.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210209-122319/test/events.out.tfevents.1612866199.LAPTOP-O5D6Q9C8.16656.179306.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/20210209-122319/train/events.out.tfevents.1612866199.LAPTOP-O5D6Q9C8.16656.179298.v2" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,16 +142,18 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\AutoregressiveNN" />
+      <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\.ipynb_checkpoints" />
+      <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\AutoregressiveNN\attempt_at_norm_autoregressive_layer" />
+      <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse Autoregressive Flow\AutoregressiveNN" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\AutoregressiveNN\attempt_at_norm_autoregressive_layer" />
       <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\AutoregressiveNN" />
       <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\IVF_no_reg_no_conv" />
       <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE" />
       <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\AutoregressiveNN\attempt_at_norm_autoregressive_layer" />
-      <recent name="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse Autoregressive Flow\AutoregressiveNN" />
     </key>
   </component>
   <component name="RunManager" selected="Python.run_IAF_mnist">
@@ -102,29 +170,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/AutoregressiveNN.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Encoder (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="CODE" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/Encoder.py" />
+      <option name="SCRIPT_NAME" value="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\.ipynb_checkpoints\AutoregressiveNN.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -155,7 +201,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="IAF_VAE" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Middle_layer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -163,12 +209,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/IAF_VAE.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/Middle_layer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -203,22 +249,25 @@
       <module name="CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\AutoregressiveNN\attempt_at_norm_autoregressive_layer\middle_layer_new.py" />
+      <option name="SCRIPT_NAME" value="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\.ipynb_checkpoints\middle_layer_new.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="run_4_point" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="output_layer_mask" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -226,14 +275,14 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_4_point.py" />
+      <option name="SCRIPT_NAME" value="D:\Documents\Work\2020\Cambridge MLMI\MLMI\Advanced ML\Assignment\CODE\Inverse_Autoregressive_Flow\.ipynb_checkpoints\output_layer_mask.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -288,15 +337,18 @@
       <module name="CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Inverse_Autoregressive_Flow/run_IAF_mnist.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -308,19 +360,19 @@
       <item itemvalue="Python.explore" />
       <item itemvalue="Python.run_4_point_no_reg" />
       <item itemvalue="Python.run_4_point_dense" />
+      <item itemvalue="Python.Middle_layer" />
+      <item itemvalue="Python.middle_layer_new" />
+      <item itemvalue="Python.output_layer_mask" />
       <item itemvalue="Python.AutoregressiveNN" />
-      <item itemvalue="Python.run_4_point" />
       <item itemvalue="Python.run_IAF_mnist" />
-      <item itemvalue="Python.Encoder (1)" />
-      <item itemvalue="Python.IAF_VAE" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.run_IAF_mnist" />
-        <item itemvalue="Python.run_4_point" />
-        <item itemvalue="Python.IAF_VAE" />
-        <item itemvalue="Python.Encoder (1)" />
         <item itemvalue="Python.AutoregressiveNN" />
+        <item itemvalue="Python.output_layer_mask" />
+        <item itemvalue="Python.middle_layer_new" />
+        <item itemvalue="Python.Middle_layer" />
       </list>
     </recent_temporary>
   </component>
@@ -360,7 +412,8 @@
       <workItem from="1614091646338" duration="266000" />
       <workItem from="1614094783658" duration="7705000" />
       <workItem from="1614182562888" duration="12242000" />
-      <workItem from="1614205845382" duration="30391000" />
+      <workItem from="1614205845382" duration="34227000" />
+      <workItem from="1614333571782" duration="13078000" />
     </task>
     <servers />
   </component>
@@ -380,9 +433,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="137" y="71" width="1038" height="682" key="#Deployment" timestamp="1613463213939">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="-1244" y="45" width="1038" height="682" key="#Deployment" timestamp="1614339327452">
+      <screen x="-1366" y="0" width="1366" height="728" />
     </state>
+    <state x="-1244" y="45" key="#Deployment/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614339327452" />
     <state x="137" y="71" width="1038" height="682" key="#Deployment/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613463213939" />
     <state x="444" y="94" key="#Options" timestamp="1613397574343">
       <screen x="0" y="0" width="1536" height="824" />
@@ -401,10 +455,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="274" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1612808978217" />
-    <state x="-1263" y="369" width="1367" height="362" key="#xdebugger.evaluate" timestamp="1614287159782">
+    <state x="-963" y="329" width="490" height="377" key="#xdebugger.evaluate" timestamp="1614335768485">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state x="-1263" y="369" key="#xdebugger.evaluate/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287159782" />
+    <state x="-963" y="329" width="490" height="377" key="#xdebugger.evaluate/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614335768485" />
     <state x="116" y="418" width="1367" height="362" key="#xdebugger.evaluate/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614257298587" />
     <state x="189" y="188" width="1014" height="334" key="#xdebugger.evaluate/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613211258416" />
     <state x="219" y="498" width="1097" height="293" key="#xdebugger.evaluate/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614102607030" />
@@ -413,79 +467,81 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613402141145" />
-    <state x="519" y="35" width="438" height="589" key="FileChooserDialogImpl" timestamp="1614255521169">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="-904" y="31" width="438" height="589" key="FileChooserDialogImpl" timestamp="1614339239638">
+      <screen x="-1366" y="0" width="1366" height="728" />
     </state>
+    <state x="-904" y="31" key="FileChooserDialogImpl/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614339239638" />
     <state x="519" y="35" key="FileChooserDialogImpl/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614255521169" />
     <state x="-904" y="325" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1612628246048" />
     <state x="519" y="35" width="438" height="589" key="FileChooserDialogImpl/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614030462815" />
-    <state width="997" height="282" key="GridCell.Tab.0.bottom" timestamp="1614287262307">
+    <state width="997" height="354" key="GridCell.Tab.0.bottom" timestamp="1614340542145">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="997" height="354" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614340542145" />
     <state width="1132" height="386" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="217" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613932316477" />
     <state width="1493" height="270" key="GridCell.Tab.0.bottom/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614115382886" />
     <state width="1493" height="134" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state width="997" height="282" key="GridCell.Tab.0.center" timestamp="1614287262307">
+    <state width="997" height="354" key="GridCell.Tab.0.center" timestamp="1614340542145">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.0.center/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="997" height="354" key="GridCell.Tab.0.center/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614340542145" />
     <state width="1132" height="386" key="GridCell.Tab.0.center/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="217" key="GridCell.Tab.0.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613932316476" />
     <state width="1493" height="270" key="GridCell.Tab.0.center/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614115382886" />
     <state width="1493" height="134" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state width="997" height="282" key="GridCell.Tab.0.left" timestamp="1614287262307">
+    <state width="997" height="354" key="GridCell.Tab.0.left" timestamp="1614340542145">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.0.left/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="997" height="354" key="GridCell.Tab.0.left/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614340542145" />
     <state width="1132" height="386" key="GridCell.Tab.0.left/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="217" key="GridCell.Tab.0.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613932316476" />
     <state width="1493" height="270" key="GridCell.Tab.0.left/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614115382885" />
     <state width="1493" height="134" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state width="997" height="282" key="GridCell.Tab.0.right" timestamp="1614287262307">
+    <state width="997" height="354" key="GridCell.Tab.0.right" timestamp="1614340542145">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.0.right/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="997" height="354" key="GridCell.Tab.0.right/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614340542145" />
     <state width="1132" height="386" key="GridCell.Tab.0.right/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="217" key="GridCell.Tab.0.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613932316476" />
     <state width="1493" height="270" key="GridCell.Tab.0.right/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614115382886" />
     <state width="1493" height="134" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state width="997" height="282" key="GridCell.Tab.1.bottom" timestamp="1614287262307">
+    <state width="1323" height="159" key="GridCell.Tab.1.bottom" timestamp="1614336105737">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="1323" height="159" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614336105737" />
     <state width="1132" height="386" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="185" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613214482663" />
     <state width="1493" height="262" key="GridCell.Tab.1.bottom/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614104149344" />
     <state width="1493" height="134" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state width="997" height="282" key="GridCell.Tab.1.center" timestamp="1614287262307">
+    <state width="1323" height="159" key="GridCell.Tab.1.center" timestamp="1614336105737">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.1.center/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="1323" height="159" key="GridCell.Tab.1.center/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614336105737" />
     <state width="1132" height="386" key="GridCell.Tab.1.center/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="185" key="GridCell.Tab.1.center/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613214482663" />
     <state width="1493" height="262" key="GridCell.Tab.1.center/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614104149344" />
     <state width="1493" height="134" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state width="997" height="282" key="GridCell.Tab.1.left" timestamp="1614287262307">
+    <state width="1323" height="159" key="GridCell.Tab.1.left" timestamp="1614336105736">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.1.left/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="1323" height="159" key="GridCell.Tab.1.left/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614336105736" />
     <state width="1132" height="386" key="GridCell.Tab.1.left/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="185" key="GridCell.Tab.1.left/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613214482663" />
     <state width="1493" height="262" key="GridCell.Tab.1.left/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614104149344" />
     <state width="1493" height="134" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state width="997" height="282" key="GridCell.Tab.1.right" timestamp="1614287262307">
+    <state width="1323" height="159" key="GridCell.Tab.1.right" timestamp="1614336105737">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
-    <state width="997" height="282" key="GridCell.Tab.1.right/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614287262307" />
+    <state width="1323" height="159" key="GridCell.Tab.1.right/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614336105737" />
     <state width="1132" height="386" key="GridCell.Tab.1.right/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614261100873" />
     <state width="1323" height="185" key="GridCell.Tab.1.right/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613214482663" />
     <state width="1493" height="262" key="GridCell.Tab.1.right/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1614104149344" />
     <state width="1493" height="134" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1613327881785" />
-    <state x="277" y="57" key="SettingsEditor" timestamp="1613463438258">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="-1120" y="18" key="SettingsEditor" timestamp="1614339267311">
+      <screen x="-1366" y="0" width="1366" height="728" />
     </state>
+    <state x="-1120" y="18" key="SettingsEditor/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614339267311" />
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613463438258" />
     <state width="777" height="422" key="XDebugger.FullValuePopup" timestamp="1614239161665">
       <screen x="0" y="0" width="1536" height="824" />
@@ -497,17 +553,19 @@
       <screen x="-1366" y="206" width="1366" height="728" />
     </state>
     <state x="-1131" y="306" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824/-1366.206.1366.728@-1366.206.1366.728" timestamp="1613210892582" />
-    <state x="370" y="297" width="974" height="266" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1613463001217">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="-1037" y="262" width="797" height="229" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1614339260344">
+      <screen x="-1366" y="0" width="1366" height="728" />
     </state>
+    <state x="-1037" y="262" width="797" height="229" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614339260344" />
     <state x="370" y="297" width="974" height="266" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613463001217" />
     <state x="-1003" y="283" width="594" height="634" key="dock-window-1" timestamp="1614258327898">
       <screen x="-1366" y="0" width="1366" height="728" />
     </state>
     <state x="-1003" y="283" width="594" height="634" key="dock-window-1/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1614258327898" />
-    <state x="218" y="164" width="651" height="515" key="ftp.server.browser" timestamp="1613463419034">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="-1172" y="145" width="651" height="515" key="ftp.server.browser" timestamp="1614339326638">
+      <screen x="-1366" y="0" width="1366" height="728" />
     </state>
+    <state x="-1172" y="145" key="ftp.server.browser/0.0.1536.824/-1366.0.1366.728@-1366.0.1366.728" timestamp="1614339326638" />
     <state x="218" y="164" width="651" height="515" key="ftp.server.browser/0.0.1536.824/-1366.206.1366.728@0.0.1536.824" timestamp="1613463419034" />
     <state x="389" y="55" width="756" height="768" key="search.everywhere.popup" timestamp="1613721935743">
       <screen x="0" y="0" width="1536" height="824" />
@@ -560,16 +618,6 @@
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/gradient_tape_test.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/gradient_tape_test.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Variational_Autoencoder/run_VAE.py</url>
           <line>32</line>
           <option name="timeStamp" value="96" />
@@ -590,11 +638,6 @@
           <option name="timeStamp" value="137" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/AutoregressiveNN.py</url>
-          <line>74</line>
-          <option name="timeStamp" value="141" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Henry_code/run.py</url>
           <line>14</line>
           <option name="timeStamp" value="144" />
@@ -610,17 +653,17 @@
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/middle_layer_new.py</url>
-          <line>72</line>
+          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/middle_layer_new.py</url>
+          <line>77</line>
           <option name="timeStamp" value="172" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/output_layer_mask.py</url>
-          <line>76</line>
+          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/output_layer_mask.py</url>
+          <line>80</line>
           <option name="timeStamp" value="173" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer/output_layer_new.py</url>
+          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/output_layer_new.py</url>
           <line>45</line>
           <option name="timeStamp" value="174" />
         </line-breakpoint>
@@ -640,18 +683,24 @@
           <line>72</line>
           <option name="timeStamp" value="185" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/First_Layer_Mask.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CODE$test.coverage" NAME="test Coverage Results" MODIFIED="1614102900682" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN" />
     <SUITE FILE_PATH="coverage/CODE$resnet__1_.coverage" NAME="resnet (1) Coverage Results" MODIFIED="1614074818958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
+    <SUITE FILE_PATH="coverage/CODE$middle_layer_new.coverage" NAME="middle_layer_new Coverage Results" MODIFIED="1614338923948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
     <SUITE FILE_PATH="coverage/CODE$VAE.coverage" NAME="VAE Coverage Results" MODIFIED="1612808927075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
     <SUITE FILE_PATH="coverage/CODE$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1614103428103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN" />
     <SUITE FILE_PATH="coverage/CODE$run_IAF_bi_mnist.coverage" NAME="run_IAF_bi_mnist Coverage Results" MODIFIED="1613125800411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
     <SUITE FILE_PATH="coverage/CODE$Encoder__1_.coverage" NAME="Encoder (1) Coverage Results" MODIFIED="1614239532244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
     <SUITE FILE_PATH="coverage/CODE$run_IAF.coverage" NAME="run_IAF Coverage Results" MODIFIED="1612809222379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
-    <SUITE FILE_PATH="coverage/CODE$run_IAF_mnist.coverage" NAME="run_IAF_mnist Coverage Results" MODIFIED="1614287206102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CODE$run_IAF_mnist.coverage" NAME="run_IAF_mnist Coverage Results" MODIFIED="1614340548490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
     <SUITE FILE_PATH="coverage/CODE$load_plain_mnist.coverage" NAME="load_plain_mnist Coverage Results" MODIFIED="1613124891009" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Utils" />
     <SUITE FILE_PATH="coverage/CODE$run_4_point_no_reg.coverage" NAME="run_4_point_no_reg Coverage Results" MODIFIED="1613998141841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CODE$Decoder__1_.coverage" NAME="Decoder (1) Coverage Results" MODIFIED="1614076413332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
@@ -663,14 +712,15 @@
     <SUITE FILE_PATH="coverage/CODE$run_4_point.coverage" NAME="run_4_point Coverage Results" MODIFIED="1614248661852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
     <SUITE FILE_PATH="coverage/CODE$VAE__1_.coverage" NAME="VAE (1) Coverage Results" MODIFIED="1612687435388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Variational_Autoencoder" />
     <SUITE FILE_PATH="coverage/CODE$run_VAE.coverage" NAME="run_VAE Coverage Results" MODIFIED="1613206930141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Variational_Autoencoder" />
+    <SUITE FILE_PATH="coverage/CODE$output_layer_mask.coverage" NAME="output_layer_mask Coverage Results" MODIFIED="1614339000096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
     <SUITE FILE_PATH="coverage/CODE$explore.coverage" NAME="explore Coverage Results" MODIFIED="1612612617120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CODE$Encoder_full_cov.coverage" NAME="Encoder_full_cov Coverage Results" MODIFIED="1612694023838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Variational_Autoencoder" />
     <SUITE FILE_PATH="coverage/CODE$Input_layer_new.coverage" NAME="Input_layer_new Coverage Results" MODIFIED="1614115373317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN" />
     <SUITE FILE_PATH="coverage/CODE$IAF_VAE__1_.coverage" NAME="IAF_VAE (1) Coverage Results" MODIFIED="1614076579128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
-    <SUITE FILE_PATH="coverage/CODE$AutoregressiveNN.coverage" NAME="AutoregressiveNN Coverage Results" MODIFIED="1614238882379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
+    <SUITE FILE_PATH="coverage/CODE$AutoregressiveNN.coverage" NAME="AutoregressiveNN Coverage Results" MODIFIED="1614339033236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
     <SUITE FILE_PATH="coverage/CODE$resnet.coverage" NAME="resnet Coverage Results" MODIFIED="1614074668038" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg" />
     <SUITE FILE_PATH="coverage/CODE$Encoder_diag_cov.coverage" NAME="Encoder_diag_cov Coverage Results" MODIFIED="1612693872554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Variational_Autoencoder" />
-    <SUITE FILE_PATH="coverage/CODE$Middle_layer.coverage" NAME="Middle_layer Coverage Results" MODIFIED="1612797929378" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse Autoregressive Flow/AutoregressiveNN" />
+    <SUITE FILE_PATH="coverage/CODE$Middle_layer.coverage" NAME="Middle_layer Coverage Results" MODIFIED="1614338786939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN" />
     <SUITE FILE_PATH="coverage/CODE$run.coverage" NAME="run Coverage Results" MODIFIED="1613936846162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Henry_code" />
     <SUITE FILE_PATH="coverage/CODE$output_layer_new.coverage" NAME="output_layer_new Coverage Results" MODIFIED="1614204741268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
     <SUITE FILE_PATH="coverage/CODE$run_IAF_binarized_mnist.coverage" NAME="run_IAF_binarized_mnist Coverage Results" MODIFIED="1613128052194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow" />
@@ -681,5 +731,6 @@
     <SUITE FILE_PATH="coverage/CODE$CNP.coverage" NAME="CNP Coverage Results" MODIFIED="1612957647777" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CODE$middle_layer_mask.coverage" NAME="middle_layer_mask Coverage Results" MODIFIED="1614186141491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN" />
     <SUITE FILE_PATH="coverage/CODE$Decoder.coverage" NAME="Decoder Coverage Results" MODIFIED="1614076339869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow_no_reg" />
+    <SUITE FILE_PATH="coverage/CODE$First_Layer_Mask.coverage" NAME="First_Layer_Mask Coverage Results" MODIFIED="1614338729001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Inverse_Autoregressive_Flow/AutoregressiveNN/attempt_at_norm_autoregressive_layer" />
   </component>
 </project>
