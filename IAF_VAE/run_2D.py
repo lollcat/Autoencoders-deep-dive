@@ -10,12 +10,13 @@ import pathlib, os
 
 if __name__ == "__main__":
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-    name = current_time + f"latent_2" + "small_model_IAF_without_resnet"
+    name = current_time + f"latent_2" + "with_resnet"
     fig_path = f"IAF_VAE/Figures/{name}/"
     pathlib.Path(os.path.join(os.getcwd(), fig_path)).mkdir(parents=True, exist_ok=True)
 
     train_loader, test_loader = load_data(256)
-    vae = VAE(latent_dim=2, encoder_fc_dim=120, decoder_fc_dim=120, n_IAF_steps=4)
+    vae = VAE(latent_dim=2, encoder_fc_dim=10, decoder_fc_dim=10, n_IAF_steps=2)
+    #vae = VAE(latent_dim=2, encoder_fc_dim=120, decoder_fc_dim=120, n_IAF_steps=2)
     train_history, test_history = vae.train(EPOCHS=20, train_loader=train_loader, test_loader=test_loader)
 
     figure, axs = plt.subplots(len(train_history), 1)

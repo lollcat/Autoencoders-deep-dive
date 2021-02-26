@@ -3,19 +3,25 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from IAF_VAE.AutoregressiveNN.AutoregressiveNN import IAF_NN
+from IAF_VAE.Resnet import ResnetBlock
 
 
 class Encoder(nn.Module):
     def __init__(self, latent_dim, fc_layer_dim, n_IAF_steps, h_dim, IAF_node_width):
         super(Encoder, self).__init__()
-        self.conv1 = nn.Conv2d(1, 32, 3, 1, padding=1)
-        self.conv2 = nn.Conv2d(32, 64, 3, 1, padding=1)
-        self.fc_layer = nn.Linear(28*28*64, fc_layer_dim)
+        self.resnet_blocks = nn.ModuleList([])
+        self.resnet_blocks.append(ResnetBlock(input_filters=1, filter_size=16, stride=2, kernel_size=3, deconv=False))
+        self.resnet_blocks.append(ResnetBlock(input_filters=16, filter_size=16, stride=1, kernel_size=3, deconv=False))
+        self.resnet_blocks.append(ResnetBlock(input_filters=16, filter_size=32, stride=2, kernel_size=3, deconv=False))
+        self.resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=1, kernel_size=3, deconv=False))
+        self.resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=2, kernel_size=3, deconv=False))
+
+        self.fc_layer = nn.Linear(4*4*32, fc_layer_dim)
         self.mean_layer = nn.Linear(fc_layer_dim, latent_dim)
         self.log_std_layer = nn.Linear(fc_layer_dim, latent_dim)
         self.h_layer = nn.Linear(fc_layer_dim, h_dim)
 
-        self.IAF_steps = []
+        self.IAF_steps = nn.ModuleList([])
         for i in range(n_IAF_steps):
             self.IAF_steps.append(
                 IAF_NN(latent_dim=latent_dim, h_dim=h_dim, IAF_node_width=IAF_node_width)
@@ -23,8 +29,8 @@ class Encoder(nn.Module):
 
 
     def forward(self, x):
-        x = self.conv1(x)
-        x = self.conv2(x)
+        for resnet_block in self.resnet_blocks:
+            x = resnet_block(x)
         x = torch.flatten(x, 1)
         x = F.elu(self.fc_layer(x))
         means = self.mean_layer(x)
@@ -56,6 +62,5 @@ if __name__ == "__main__":
     train_loader, test_loader = load_data(26)
     data = next(iter(train_loader))[0]
     my_nn = Encoder(latent_dim=3, fc_layer_dim=10, n_IAF_steps=10, h_dim=4, IAF_node_width=10)
-    print(my_nn)
     z, log_q_z_given_x, log_p_z = my_nn(data)
     print(z.shape)
