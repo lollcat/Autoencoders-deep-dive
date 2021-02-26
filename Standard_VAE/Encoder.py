@@ -24,7 +24,7 @@ class Encoder(nn.Module):
         epsilon = torch.normal(0, 1, size=means.shape)
         log_q_z_given_x = self.unit_MVG_Guassian_log_prob(epsilon)
         z = epsilon * stds + means
-        log_q_z_given_x -= torch.sum(stds, dim=1)
+        log_q_z_given_x -= torch.sum(log_stds, dim=1)
 
         log_p_z = self.unit_MVG_Guassian_log_prob(z)
         return z, log_q_z_given_x, log_p_z
@@ -36,7 +36,7 @@ class Encoder(nn.Module):
 if __name__ == "__main__":
     from Utils.load_mnist_pytorch import load_data
 
-    train_loader, test_loader = load_data(22)
+    train_loader, test_loader = load_data(26)
     data = next(iter(train_loader))[0]
     my_nn = Encoder(latent_dim=3, fc_layer_dim=10)
     print(my_nn)
