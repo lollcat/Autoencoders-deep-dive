@@ -72,19 +72,18 @@ class IAF_VAE_Class(Model):
         return ELBO, p_x_given_z_per_batch, qz_x_per_batch,  p_z_per_batch
 
     def test_step(self, inputs, training=False):
-        with tf.GradientTape() as tape:
-            decoder_output, qz_x, p_z = self(inputs)
-            #p_x_given_z = - tf.reduce_sum(
-            #        keras.losses.binary_crossentropy(inputs, decoder_output), axis=(1, 2))
-            p_x_given_z = -tf.reduce_sum(
-                tf.nn.sigmoid_cross_entropy_with_logits(labels=inputs, logits=decoder_output), axis=[1, 2])
+        decoder_output, qz_x, p_z = self(inputs)
+        #p_x_given_z = - tf.reduce_sum(
+        #        keras.losses.binary_crossentropy(inputs, decoder_output), axis=(1, 2))
+        p_x_given_z = -tf.reduce_sum(
+            tf.nn.sigmoid_cross_entropy_with_logits(labels=inputs, logits=decoder_output), axis=[1, 2])
 
-            qz_x_per_batch = tf.reduce_mean(qz_x)
-            p_z_per_batch = tf.reduce_mean(p_z)
-            p_x_given_z_per_batch = tf.reduce_mean(p_x_given_z)
+        qz_x_per_batch = tf.reduce_mean(qz_x)
+        p_z_per_batch = tf.reduce_mean(p_z)
+        p_x_given_z_per_batch = tf.reduce_mean(p_x_given_z)
 
-            ELBO = p_x_given_z_per_batch + p_z_per_batch - qz_x_per_batch
-            loss = -ELBO
+        ELBO = p_x_given_z_per_batch + p_z_per_batch - qz_x_per_batch
+        loss = -ELBO
         return ELBO, p_x_given_z_per_batch, qz_x_per_batch,  p_z_per_batch
 
 
