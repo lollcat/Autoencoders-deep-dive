@@ -25,12 +25,12 @@ h_dim = 7
 
 # given mean and log variance provided by encoder -> sample z
 class Sampling(Layer):
-    def call(self, inputs):
-        z_mean, z_log_var = inputs
-        batch = tf.shape(z_mean)[0]
-        dim = tf.shape(z_mean)[1]
-        epsilon = tf.keras.backend.random_normal(shape=(batch, dim))
-        return z_mean + tf.exp(0.5 * z_log_var) * epsilon
+  def call(self, inputs):
+    z_mean, z_log_var = inputs
+    batch = tf.shape(z_mean)[0]
+    dim = tf.shape(z_mean)[1]
+    epsilon = tf.keras.backend.random_normal(shape=(batch, dim))
+    return z_mean + tf.exp(z_log_var) * epsilon, epsilon
 
 
 # decoder
@@ -46,7 +46,8 @@ def decoder(input_shape=(latent_dim,)):
     x = Convolution2D(64, 3, padding='same', activation=activation, name='CONV-2')(x)
     x = UpSampling2D((2, 2))(x)
     x = Convolution2D(28, 3, padding='same', activation=activation, name='CONV-3')(x)
-    decoded = Convolution2D(1, 3, padding='same', activation='sigmoid', name='CONV-4')(x)
+    #decoded = Convolution2D(1, 3, padding='same', activation='sigmoid', name='CONV-4')(x)
+    decoded = Convolution2D(1, 3, padding='same', activation='linear', name='CONV-4')(x)
 
     decoder = Model(inputs=model_input, outputs=[decoded], name="decoder")
     # decoder.summary()
@@ -54,29 +55,30 @@ def decoder(input_shape=(latent_dim,)):
 
 
 # encoder
-def encoder(input_shape=(28, 28, 1)):
-    model_input = Input(shape=input_shape)
+def encoder(input_shape=(28,28,1)):
 
-    # ENCODER
-    activation = 'relu'
-    x = Convolution2D(28, 3, padding='same', activation=activation, name='CONV-1')(model_input)
-    x = AveragePooling2D(pool_size=2, name='AVG-POOL-1')(x)
-    # x = Dropout(0.1, name='DROPOUT-1')(x)
-    x = Convolution2D(64, 3, padding='same', activation=activation, name='CONV-2')(x)
-    x = AveragePooling2D(pool_size=2, name='AVG-POOL-2')(x)
-    # x = Dropout(0.1, name='DROPOUT-2')(x)
-    x = Convolution2D(96, 3, padding='same', activation=activation, name='CONV-3')(x)
-    encoder_features = Flatten(name='FLATTEN')(x)
+  model_input = Input(shape=input_shape)
 
-    # SAMPLE means & std
-    z_mean = Dense(latent_dim, activation='linear', name='latent-mean')(encoder_features)
-    z_log_var = Dense(latent_dim, activation='linear', name='latent-std')(encoder_features)
-    h = Dense(h_dim, activation='linear', name='h_embeding')(encoder_features)
-    z_sample = Sampling()([z_mean, z_log_var])
+  # ENCODER
+  activation = 'relu'
+  x= Convolution2D(28,3,padding='same',activation=activation,name='CONV-1')(model_input)
+  x= AveragePooling2D(pool_size=2,name='AVG-POOL-1')(x)
+  # x = Dropout(0.1, name='DROPOUT-1')(x)
+  x= Convolution2D(64,3,padding='same',activation=activation,name='CONV-2')(x)
+  x= AveragePooling2D(pool_size=2,name='AVG-POOL-2')(x)
+  # x = Dropout(0.1, name='DROPOUT-2')(x)
+  x= Convolution2D(96, 3,padding='same',activation=activation,name='CONV-3')(x)
+  encoder_features = Flatten(name='FLATTEN')(x)
 
-    encoder = Model(inputs=model_input, outputs=[z_mean, z_log_var, z_sample, h], name="encoder")
-    # encoder.summary()
-    return encoder
+  # SAMPLE means & std
+  z_mean = Dense(latent_dim, activation='linear', name='latent-mean')(encoder_features)
+  z_log_var = Dense(latent_dim, activation='linear', name='latent-std')(encoder_features)
+  h = Dense(h_dim, activation='linear', name='h_embeding')(encoder_features)
+  z_sample, epsilon = Sampling()([z_mean, z_log_var])
+
+  encoder = Model(inputs=model_input, outputs=[z_mean, z_log_var, z_sample, epsilon, h], name="encoder")
+  # encoder.summary()
+  return encoder
 
 
 
