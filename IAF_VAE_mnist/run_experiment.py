@@ -11,21 +11,20 @@ import time
 import pandas as pd
 
 
-if __name__ == "__main__":
+def run_experiment(vae_kwargs, epochs=2000, batch_size=32):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-    name = current_time + f"latent_32" + "resnet_enc__conv_dec" + "8_layer_1920_width" + "autocast"
-    fig_path = f"IAF_VAE_mnist/Figures/{name}/"
-    use_GPU = True
+    name = ""
+    for key in vae_kwargs:
+        name += f"{key}_{vae_kwargs[key]}__"
+    name += f"{current_time}"
+    fig_path = f"IAF_VAE_mnist/Experiment_results/{name}/"
     save = True
+    use_GPU = True
+    train_loader, test_loader = load_data(batch_size=batch_size)
 
-    train_loader, test_loader = load_data(batch_size=32)
-    latent_dim = 32
-    #vae = VAE(latent_dim=latent_dim, n_IAF_steps=8,
-    #          h_dim=200, IAF_node_width=1920, encoder_fc_dim=450, decoder_fc_dim=450,
-    #          use_GPU = True)
-    vae = VAE(use_GPU=use_GPU)
+    vae = VAE(**vae_kwargs)
     start_time = time.time()
-    train_history, test_history, p_x = vae.train(EPOCHS=2, train_loader=train_loader, test_loader=test_loader)
+    train_history, test_history, p_x = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader)
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
 
@@ -35,7 +34,10 @@ if __name__ == "__main__":
     else:
         device = "cpu"
     train_df = pd.DataFrame(train_history)
+    train_df.to_csv(f"{fig_path}_train_df.csv")
     test_df = pd.DataFrame(test_history)
+    test_df.to_csv(f"{fig_path}_test_df.csv")
+
     with open(f"{fig_path}_final_results", "w") as g:
         g.write("\n".join([f"marginal likelihood: {p_x} \n",
                            f"test ELBO:     {-test_history['loss'][-1]}",
@@ -79,15 +81,11 @@ if __name__ == "__main__":
         plt.savefig(f"{fig_path}reconstruction.png")
     plt.show()
 
-    if latent_dim == 2:
-        n_points_latent_vis = 10
-        cols = mpl.cm.rainbow(np.linspace(0.1, 0.9, n_points_latent_vis))
-        points = []
-        for point_n in range(n_points_latent_vis):
-            point_repeat = np.zeros((500, 1, 28, 28))
-            point_repeat[:, :, :, :] = data_chunk[point_n, :, :, :]
-            encoding_2D = vae.get_latent_encoding(torch.tensor(point_repeat, dtype=torch.float32).to(device))
-            plt.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n], s=1, )
-        if save is True:
-            plt.savefig(f"{fig_path}visualise_latent_space.png")
-        plt.show()
+if __name__ == '__main__':
+    # python -m IAF_VAE_mnist.run_experiment # to run in command line
+    from IAF_VAE_mnist.Experiment_dicts import experiment_dicts
+    # How many epoch?
+    for i, experiment_dict in enumerate(experiment_dicts):
+        print(f"running experiment {experiment_dict}")
+        run_experiment(experiment_dict, epochs=2000)
+        print(f"\n experiment {i} complete \n\n\n")

@@ -1,3 +1,3 @@
 # Issues
 
- - Looks like something funky is happening when we add decoder resnet skip connections
+ - For some reason the resnet decoder only works when run on the cluster

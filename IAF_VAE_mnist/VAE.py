@@ -1,6 +1,6 @@
 from IAF_VAE_mnist.Encoder import Encoder
-from IAF_VAE_mnist.Decoder import Decoder
-#from IAF_VAE_mnist.Decoder_new import Decoder
+#from IAF_VAE_mnist.Decoder import Decoder
+from IAF_VAE_mnist.Decoder_new import Decoder
 from Utils.running_mean import running_mean
 import matplotlib.pyplot as plt
 import torch
@@ -21,8 +21,8 @@ class VAE_model(nn.Module):
         return reconstruction_logits, log_q_z_given_x, log_p_z
 
 class VAE:
-    def __init__(self, latent_dim=2, n_IAF_steps=2, h_dim=32, IAF_node_width=32, encoder_fc_dim=32, decoder_fc_dim=32
-                 , use_GPU = False):
+    def __init__(self, latent_dim=32, n_IAF_steps=2, h_dim=200, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450
+                 , use_GPU = True):
         if use_GPU is True:
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         else:
@@ -51,10 +51,31 @@ class VAE:
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch
 
+    def get_marginal_batch(self, x_batch, n_samples = 128):
+        """
+       This first calculates the estimate of the marginal p(x) for each datapoint in the test set, using importance sampling
+       and then returns the mean p(x) across the different points
+        """
+        running_mean = 0
+        for n in range(n_samples):
+            reconstruction_logits, log_q_z_given_x, log_p_z = self.VAE_model(x_batch)
+            log_p_x_given_z = - torch.sum(self.BCE_loss(reconstruction_logits, x_batch), dim=[1, 2, 3])
+            log_monte_carlo_sample = log_p_x_given_z  + log_p_z - log_q_z_given_x
+            monte_carlo_sample = torch.exp(log_monte_carlo_sample.type(torch.double)).cpu().detach().numpy()
+            running_mean = running_mean + (monte_carlo_sample - running_mean)/(n + 1)
+        return np.mean(np.log(running_mean))
+
+    def get_marginal(self, test_loader, n_samples=128):
+        marginal_running_mean = 0
+        for i, (x,) in enumerate(test_loader):
+            x = x.to(self.device)
+            with torch.cuda.amp.autocast():
+                marginal_batch = self.get_marginal_batch(x, n_samples=n_samples)
+            marginal_running_mean = marginal_running_mean + (marginal_batch - marginal_running_mean)/(i + 1)
+        return marginal_running_mean
 
 
     def train(self, EPOCHS, train_loader, test_loader=None):
-        n_train_batches = len(train_loader)
         train_history = {"loss": [],
                          "log_p_x_given_z": [],
                          "log_q_z_given_x": [],
@@ -93,8 +114,8 @@ class VAE:
                 running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.cpu().detach().numpy(), running_log_p_x_given_z, i)
                 running_log_p_z = running_mean(log_p_z_per_batch.cpu().detach().numpy(), running_log_p_z, i)
 
-            #if i % (round(n_train_batches/1) + 1) == 0:
-            if EPOCH % 10 == 0:
+
+            if EPOCH % (round(EPOCHS/10) + 1) == 0 or EPOCH == EPOCHS - 1:
                 print(f"Epoch: {EPOCH + 1} \n"
                       f"running loss: {running_loss} \n"
                       f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
@@ -118,7 +139,7 @@ class VAE:
                     test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.cpu().detach().numpy(), test_running_log_p_x_given_z, i)
                     test_running_log_p_z = running_mean(log_p_z_per_batch.cpu().detach().numpy(), test_running_log_p_z, i)
 
-                if EPOCH % 10 == 0:
+                if EPOCH % (round(EPOCHS/10) + 1) == 0 or EPOCH == EPOCHS - 1:
                     print(f"Epoch: {EPOCH + 1} \n"
                           f"test running loss: {test_running_loss} \n"
                           f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
@@ -129,8 +150,13 @@ class VAE:
                     test_history["log_q_z_given_x"].append(test_running_log_q_z_given_x)
                     test_history["log_p_z "].append(test_running_log_p_z)
 
-        return train_history, test_history
+                if EPOCH % (round(EPOCHS/3) + 1) == 0:
+                    p_x = self.get_marginal(test_loader, n_samples=20)
+                    print(f"marginal log likelihood is {p_x}")
 
+        p_x = self.get_marginal(test_loader, n_samples=128)
+        print(f"marginal log likelihood is {p_x}")
+        return train_history, test_history, p_x
 
 
 
@@ -139,7 +165,10 @@ if __name__ == "__main__":
     from Utils.load_binirised_mnist import load_data
     train_loader, test_loader = load_data(256)
     vae = VAE()
-    vae.train(EPOCHS = 11, train_loader=train_loader, test_loader=test_loader)
+    vae.train(EPOCHS = 1, train_loader=train_loader, test_loader=test_loader)
+
+    p_x = vae.get_marginal(test_loader, n_samples=20)
+    print(f"marginal log likelihood is {p_x}")
 
     n = 5
     data_chunk = next(iter(train_loader))[0][0:n**2, :, :, :]
