@@ -11,7 +11,7 @@ import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=2000, batch_size=32):
+def run_experiment(vae_kwargs, epochs=2000, batch_size=64):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
     name = ""
     for key in vae_kwargs:
@@ -87,5 +87,5 @@ if __name__ == '__main__':
     # How many epoch?
     for i, experiment_dict in enumerate(experiment_dicts):
         print(f"running experiment {experiment_dict}")
-        run_experiment(experiment_dict, epochs=500)
+        run_experiment(experiment_dict, epochs=1000)
         print(f"\n experiment {i} complete \n\n\n")

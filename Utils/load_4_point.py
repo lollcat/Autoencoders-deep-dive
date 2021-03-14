@@ -11,7 +11,7 @@ x_train = np.load("Data/Binirised_MNIST/x_train.npy")
 x_test = np.load("Data/Binirised_MNIST/x_test.npy")
 x_train = np.squeeze(x_train)[:, np.newaxis, :, :]
 x_train_4_points = x_train[0:4, :, :, :]
-x_train = np.repeat(x_train_4_points , 50000, axis=0)
+x_train = np.repeat(x_train_4_points , 5000, axis=0)
 
 x_train_tensor = torch.Tensor(x_train)
 

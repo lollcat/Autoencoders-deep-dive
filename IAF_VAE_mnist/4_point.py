@@ -11,7 +11,7 @@ import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=100, batch_size=32):
+def run_experiment(vae_kwargs, epochs=100, batch_size=64):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
     name = ""
     for key in vae_kwargs:
@@ -37,9 +37,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=32):
     train_df.to_csv(f"{fig_path}_train_df.csv")
 
     with open(f"{fig_path}_final_results", "w") as g:
-        g.write("\n".join([f"marginal likelihood: {p_x} \n",
-                           f"test ELBO:     {-test_history['loss'][-1]}",
-                           f"train ELBO:     {-train_history['loss'][-1]}",
+        g.write("\n".join([f"train ELBO:     {-train_history['loss'][-1]}",
                            f"runtime: {round(run_time/3600, 2)} hours"]))
 
     figure, axs = plt.subplots(len(train_history), 1, figsize=(6, 10))
@@ -52,7 +50,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=32):
     plt.show()
 
     n = 2
-    data_chunk = x_train_4_points
+    data_chunk = torch.tensor(x_train_4_points)
     fig, axs = plt.subplots(n, n)
     for i in range(n * n):
         row = int(i / n)
@@ -78,21 +76,22 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=32):
 
     n_points_latent_vis = 4
     cols = mpl.cm.rainbow(np.linspace(0.1, 0.9, n_points_latent_vis))
+    plt.figure()
     for point_n in range(n_points_latent_vis):
-        point_repeat = np.zeros((500, 1, 28, 28))
+        point_repeat = np.zeros((1000, 1, 28, 28))
         point_repeat[:, :, :, :] = data_chunk[point_n, :, :, :]
         encoding_2D = vae.get_latent_encoding(torch.tensor(point_repeat, dtype=torch.float32).to(device))
         plt.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n], s=1, )
+    plt.xlabel(r"$z_1$")
+    plt.ylabel(r"$z_2$")
     if save is True:
         plt.savefig(f"{fig_path}visualise_latent_space.png")
     plt.show()
 
 
 if __name__ == '__main__':
-    # python -m IAF_VAE_mnist.run_experiment # to run in command line
-    from IAF_VAE_mnist.Experiment_dicts import experiment_dicts
-    # How many epoch?
-    experiment_dict = experiment_dicts[1]
-    print(f"running 4 point with config {experiment_dict}")
-    run_experiment(experiment_dict, epochs=10)
-    print(f"\n experiment {i} complete \n\n\n")
+    # python -m IAF_VAE_mnist.4_point # to run in command line
+    n_epoch = 1000
+    experiment_dict = {"latent_dim": 2, "n_IAF_steps": 4, "IAF_node_width" : 320}
+    print(f"running 4 point with config {experiment_dict} for {n_epoch} epoch")
+    run_experiment(experiment_dict, epochs=n_epoch)
