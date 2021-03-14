@@ -150,13 +150,15 @@ class VAE:
                     test_history["log_q_z_given_x"].append(test_running_log_q_z_given_x)
                     test_history["log_p_z "].append(test_running_log_p_z)
 
-                if EPOCH % (round(EPOCHS/3) + 1) == 0:
-                    p_x = self.get_marginal(test_loader, n_samples=20)
-                    print(f"marginal log likelihood is {p_x}")
-
-        p_x = self.get_marginal(test_loader, n_samples=128)
-        print(f"marginal log likelihood is {p_x}")
-        return train_history, test_history, p_x
+                #if EPOCH % (round(EPOCHS/3) + 1) == 0:
+                #    p_x = self.get_marginal(test_loader, n_samples=20)
+                #    print(f"marginal log likelihood is {p_x}")
+        if test_loader is not None:
+            p_x = self.get_marginal(test_loader, n_samples=128)
+            print(f"marginal log likelihood is {p_x}")
+            return train_history, test_history, p_x
+        else:
+            return train_history
 
 
 

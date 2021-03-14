@@ -1,4 +1,4 @@
-from Utils.load_binirised_mnist import load_data
+from Utils.load_4_point import load_data, x_train_4_points
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
@@ -11,20 +11,20 @@ import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=2000, batch_size=32):
+def run_experiment(vae_kwargs, epochs=100, batch_size=32):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
     name = ""
     for key in vae_kwargs:
         name += f"{key}_{vae_kwargs[key]}__"
     name += f"{current_time}"
-    fig_path = f"IAF_VAE_mnist/Experiment_results/{name}/"
+    fig_path = f"IAF_VAE_mnist/4_point/{name}/"
     save = True
     use_GPU = True
-    train_loader, test_loader = load_data(batch_size=batch_size)
+    train_loader= load_data(batch_size=batch_size)
 
     vae = VAE(**vae_kwargs)
     start_time = time.time()
-    train_history, test_history, p_x = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader)
+    train_history = vae.train(EPOCHS=epochs, train_loader=train_loader)
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
 
@@ -35,8 +35,6 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=32):
         device = "cpu"
     train_df = pd.DataFrame(train_history)
     train_df.to_csv(f"{fig_path}_train_df.csv")
-    test_df = pd.DataFrame(test_history)
-    test_df.to_csv(f"{fig_path}_test_df.csv")
 
     with open(f"{fig_path}_final_results", "w") as g:
         g.write("\n".join([f"marginal likelihood: {p_x} \n",
@@ -47,17 +45,14 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=32):
     figure, axs = plt.subplots(len(train_history), 1, figsize=(6, 10))
     for i, key in enumerate(train_history):
         axs[i].plot(train_history[key])
-        axs[i].plot(test_history[key])
-        axs[i].legend([key + " train", key + " test"])
-        # if i == 0:
-        #    axs[i].set_yscale("log")
+        axs[i].legend([key + " train"])
     plt.tight_layout()
     if save is True:
         plt.savefig(f"{fig_path}train_test_info.png")
     plt.show()
 
-    n = 5
-    data_chunk = next(iter(train_loader))[0][0:n ** 2, :, :, :]
+    n = 2
+    data_chunk = x_train_4_points
     fig, axs = plt.subplots(n, n)
     for i in range(n * n):
         row = int(i / n)
@@ -69,7 +64,7 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=32):
         plt.savefig(f"{fig_path}original.png")
     plt.show()
 
-    n = 5
+    n = 2
     prediction = vae.get_reconstruction(data_chunk.to(device))
     fig, axs = plt.subplots(n, n)
     for i in range(n * n):
@@ -81,11 +76,23 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=32):
         plt.savefig(f"{fig_path}reconstruction.png")
     plt.show()
 
+    n_points_latent_vis = 4
+    cols = mpl.cm.rainbow(np.linspace(0.1, 0.9, n_points_latent_vis))
+    for point_n in range(n_points_latent_vis):
+        point_repeat = np.zeros((500, 1, 28, 28))
+        point_repeat[:, :, :, :] = data_chunk[point_n, :, :, :]
+        encoding_2D = vae.get_latent_encoding(torch.tensor(point_repeat, dtype=torch.float32).to(device))
+        plt.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n], s=1, )
+    if save is True:
+        plt.savefig(f"{fig_path}visualise_latent_space.png")
+    plt.show()
+
+
 if __name__ == '__main__':
     # python -m IAF_VAE_mnist.run_experiment # to run in command line
     from IAF_VAE_mnist.Experiment_dicts import experiment_dicts
     # How many epoch?
-    for i, experiment_dict in enumerate(experiment_dicts):
-        print(f"running experiment {experiment_dict}")
-        run_experiment(experiment_dict, epochs=500)
-        print(f"\n experiment {i} complete \n\n\n")
+    experiment_dict = experiment_dicts[1]
+    print(f"running 4 point with config {experiment_dict}")
+    run_experiment(experiment_dict, epochs=10)
+    print(f"\n experiment {i} complete \n\n\n")
