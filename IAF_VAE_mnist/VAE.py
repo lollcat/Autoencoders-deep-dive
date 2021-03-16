@@ -199,7 +199,7 @@ class VAE:
             p_x = self.get_marginal(test_loader, n_samples=128)
             print(f"marginal log likelihood is {p_x}")
             return train_history, test_history, p_x
-        elif save_info_during_training is True
+        elif save_info_during_training is True:
             return train_history
         else:
             return
