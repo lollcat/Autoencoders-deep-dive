@@ -43,7 +43,7 @@ class Encoder(nn.Module):
         h = self.h_layer(x)
 
         stds = torch.exp(log_stds)
-        epsilon = self.epsilon_sample_layer.rsample(means.shape) #torch.normal(0, 1, size=means.shape)
+        epsilon = self.epsilon_sample_layer.rsample(means.shape)
         log_q_z_given_x = self.unit_MVG_Guassian_log_prob(epsilon)
         z = epsilon * stds + means
         log_q_z_given_x -= torch.sum(log_stds, dim=1)

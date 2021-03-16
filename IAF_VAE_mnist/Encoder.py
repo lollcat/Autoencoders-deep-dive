@@ -30,8 +30,7 @@ class Encoder(nn.Module):
             self.IAF_steps.append(
                 IAF_NN(latent_dim=latent_dim, h_dim=h_dim, IAF_node_width=IAF_node_width)
             )
-
-
+        self.register_buffer("normalisation_constant", torch.tensor(np.log(2*np.pi)))
 
     def forward(self, x):
         for resnet_block in self.resnet_blocks:
@@ -40,7 +39,7 @@ class Encoder(nn.Module):
         x = F.elu(self.fc_layer(x))
         means = self.mean_layer(x)
         log_stds = self.log_std_layer(x)/10  # reparameterise to start with low std deviation
-        h = self.h_layer(x)
+        h = F.elu(self.h_layer(x))
 
         stds = torch.exp(log_stds)
         epsilon = self.epsilon_sample_layer.rsample(means.shape) #torch.normal(0, 1, size=means.shape)
@@ -58,7 +57,7 @@ class Encoder(nn.Module):
         return z, log_q_z_given_x, log_p_z
 
     def unit_MVG_Guassian_log_prob(self, sample):
-        return -0.5*torch.sum((sample**2 + np.log(2*np.pi)), dim=1)
+        return -0.5*torch.sum((sample**2 + self.normalisation_constant), dim=1)
 
 
 if __name__ == "__main__":

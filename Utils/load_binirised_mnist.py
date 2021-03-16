@@ -19,8 +19,8 @@ train_dataset = TensorDataset(x_train_tensor)
 test_dataset = TensorDataset(x_test_tensor)
 
 def load_data(batch_size = 64):
-    train_loader = DataLoader(train_dataset, batch_size=batch_size)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, num_workers=8)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, num_workers=8)
     return train_loader, test_loader
 
 if __name__ == "__main__":

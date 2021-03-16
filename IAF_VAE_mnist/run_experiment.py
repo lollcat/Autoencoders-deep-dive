@@ -11,13 +11,15 @@ import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=2000, batch_size=64):
+def run_experiment(vae_kwargs, epochs=2000, batch_size=256, experiment_name=""):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-    name = ""
+    if experiment_name != "":
+        assert experiment_name[-1] == "/"
+    name = experiment_name
     for key in vae_kwargs:
         name += f"{key}_{vae_kwargs[key]}__"
     name += f"{current_time}"
-    fig_path = f"IAF_VAE_mnist/Experiment_results/{name}/"
+    results_path = f"IAF_VAE_mnist/Experiment_results/{name}/"
     save = True
     use_GPU = True
     train_loader, test_loader = load_data(batch_size=batch_size)
@@ -28,17 +30,17 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=64):
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
 
-    pathlib.Path(os.path.join(os.getcwd(), fig_path)).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(os.path.join(os.getcwd(), results_path)).mkdir(parents=True, exist_ok=True)
     if use_GPU is True:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
         device = "cpu"
     train_df = pd.DataFrame(train_history)
-    train_df.to_csv(f"{fig_path}_train_df.csv")
+    train_df.to_csv(f"{results_path}_train_df.csv")
     test_df = pd.DataFrame(test_history)
-    test_df.to_csv(f"{fig_path}_test_df.csv")
+    test_df.to_csv(f"{results_path}_test_df.csv")
 
-    with open(f"{fig_path}_final_results", "w") as g:
+    with open(f"{results_path}_final_results", "w") as g:
         g.write("\n".join([f"marginal likelihood: {p_x} \n",
                            f"test ELBO:     {-test_history['loss'][-1]}",
                            f"train ELBO:     {-train_history['loss'][-1]}",
@@ -53,7 +55,7 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=64):
         #    axs[i].set_yscale("log")
     plt.tight_layout()
     if save is True:
-        plt.savefig(f"{fig_path}train_test_info.png")
+        plt.savefig(f"{results_path}train_test_info.png")
     plt.show()
 
     n = 5
@@ -66,7 +68,7 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=64):
                              cmap="gray")
         axs[row, col].axis('off')
     if save is True:
-        plt.savefig(f"{fig_path}original.png")
+        plt.savefig(f"{results_path}original.png")
     plt.show()
 
     n = 5
@@ -78,14 +80,15 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=64):
         axs[row, col].imshow(np.squeeze(prediction[i, :, :, :]), cmap="gray")
         axs[row, col].axis('off')
     if save is True:
-        plt.savefig(f"{fig_path}reconstruction.png")
+        plt.savefig(f"{results_path}reconstruction.png")
     plt.show()
 
 if __name__ == '__main__':
     # python -m IAF_VAE_mnist.run_experiment # to run in command line
     from IAF_VAE_mnist.Experiment_dicts import experiment_dicts
-    # How many epoch?
-    for i, experiment_dict in enumerate(experiment_dicts):
-        print(f"running experiment {experiment_dict}")
-        run_experiment(experiment_dict, epochs=1000)
+    experiment_name = "table_models1/"
+    epoch = 100
+    for i, experiment_dict in enumerate(reversed(experiment_dicts)):
+        print(f"running experiment {experiment_dict} for {epoch} epoch")
+        run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name)
         print(f"\n experiment {i} complete \n\n\n")

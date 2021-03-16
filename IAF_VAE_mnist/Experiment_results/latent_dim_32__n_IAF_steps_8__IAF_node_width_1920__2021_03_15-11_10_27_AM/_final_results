@@ -1,0 +1,5 @@
+marginal likelihood: -83.50848354369539 
+
+test ELBO:     -87.04268661499027
+train ELBO:     -86.51748713684084
+runtime: 3.56 hours

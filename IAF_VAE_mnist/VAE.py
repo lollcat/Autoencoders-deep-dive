@@ -7,6 +7,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+from datetime import datetime
+import pathlib, os
 
 class VAE_model(nn.Module):
     def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450):
@@ -30,12 +32,24 @@ class VAE:
         print(f"running using {self.device}")
         self.VAE_model = VAE_model(latent_dim, n_IAF_steps, h_dim, IAF_node_width, encoder_fc_dim, decoder_fc_dim)\
             .to(self.device)
+
+        current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
+        self.save_NN_path = f"IAF_VAE_mnist/saved_models/latent_dim_{latent_dim}__n_IAF_steps_{n_IAF_steps}__h_dim_{200}_" \
+                            f"IAF_node_width_{IAF_node_width}/{current_time}/"
         self.BCE_loss = torch.nn.BCEWithLogitsLoss(reduction="none")
         self.optimizer = torch.optim.Adamax(self.VAE_model.parameters())
 
     def get_reconstruction(self, x_data):
         # for visualisation
         return torch.sigmoid(self.VAE_model(x_data)[0]).cpu().detach().numpy()
+
+    def save_NN_model(self, epochs_trained_for = 0):
+        model_path = self.save_NN_path + f"epochs_{epochs_trained_for}__model"
+        pathlib.Path(os.path.join(os.getcwd(), model_path)).parent.mkdir(parents=True, exist_ok=True)
+        torch.save(self.VAE_model.state_dict(), model_path)
+
+    def load_NN_model(self, path):
+        self.VAE_model.load_state_dict(torch.load(path, map_location=torch.device(self.device)))
 
     def get_latent_encoding(self, x_data):
         # for visualisation
@@ -75,29 +89,44 @@ class VAE:
         return marginal_running_mean
 
 
-    def train(self, EPOCHS, train_loader, test_loader=None):
-        train_history = {"loss": [],
-                         "log_p_x_given_z": [],
-                         "log_q_z_given_x": [],
-                         "log_p_z ": []}
-        if test_loader is not None:
-            test_history = {"loss": [],
-                         "log_p_x_given_z": [],
-                         "log_q_z_given_x": [],
-                         "log_p_z ": []}
-        else:
-            test_history = None
+    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True, decay_lr=True,
+              save_info_during_training=True):
+        """
+        :param EPOCHS: number of epochs
+        :param train_loader: train data loader
+        :param test_loader: test data loader
+        :param save_model: whether to save model during training
+        :param decay_lr: whether to decay learning rate
+        :param save_info_during_training: whether to save & display loss throughout training
+        :return: train_history, test_history, p_x (depends whichever of these exist based on function settings
+        """
+        if decay_lr is True:  # number of decay steps
+            epoch_per_decay = int(EPOCHS / 10)
+
+        if save_info_during_training is True:
+            train_history = {"loss": [],
+                             "log_p_x_given_z": [],
+                             "log_q_z_given_x": [],
+                             "log_p_z ": []}
+            if test_loader is not None:
+                test_history = {"loss": [],
+                             "log_p_x_given_z": [],
+                             "log_q_z_given_x": [],
+                             "log_p_z ": []}
+            else:
+                test_history = None
 
         for EPOCH in range(EPOCHS):
-            running_loss = 0
-            running_log_q_z_given_x = 0
-            running_log_p_x_given_z = 0
-            running_log_p_z = 0
+            if save_info_during_training is True:
+                running_loss = 0
+                running_log_q_z_given_x = 0
+                running_log_p_x_given_z = 0
+                running_log_p_z = 0
 
-            test_running_loss = 0
-            test_running_log_q_z_given_x = 0
-            test_running_log_p_x_given_z = 0
-            test_running_log_p_z = 0
+                test_running_loss = 0
+                test_running_log_q_z_given_x = 0
+                test_running_log_p_x_given_z = 0
+                test_running_log_p_z = 0
 
 
             for i, (x,) in enumerate(train_loader):
@@ -109,25 +138,30 @@ class VAE:
                     self.loss_function(reconstruction_logits, log_q_z_given_x, log_p_z, x)
                 loss.backward()
                 self.optimizer.step()
-                running_loss = running_mean(loss.cpu().detach().numpy(), running_loss, i)
-                running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.cpu().detach().numpy(), running_log_q_z_given_x, i)
-                running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.cpu().detach().numpy(), running_log_p_x_given_z, i)
-                running_log_p_z = running_mean(log_p_z_per_batch.cpu().detach().numpy(), running_log_p_z, i)
+                if save_info_during_training is True:
+                    running_loss = running_mean(loss.cpu().detach().numpy(), running_loss, i)
+                    running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.cpu().detach().numpy(), running_log_q_z_given_x, i)
+                    running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.cpu().detach().numpy(), running_log_p_x_given_z, i)
+                    running_log_p_z = running_mean(log_p_z_per_batch.cpu().detach().numpy(), running_log_p_z, i)
 
+            if decay_lr is True and EPOCH % epoch_per_decay == 0 and EPOCH > 5:
+                print("learning rate decayed")
+                self.optimizer.param_groups[0]["lr"] *= 0.5
 
-            if EPOCH % (round(EPOCHS/10) + 1) == 0 or EPOCH == EPOCHS - 1:
-                print(f"Epoch: {EPOCH + 1} \n"
-                      f"running loss: {running_loss} \n"
-                      f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
-                      f"running_log_q_z_given_x: {running_log_q_z_given_x} \n"
-                      f"running_log_p_z: {running_log_p_z} \n")
+            if save_info_during_training is True:
+                if EPOCH % (round(EPOCHS/10) + 1) == 0 or EPOCH == EPOCHS - 1:
+                    print(f"Epoch: {EPOCH + 1} \n"
+                          f"running loss: {running_loss} \n"
+                          f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
+                          f"running_log_q_z_given_x: {running_log_q_z_given_x} \n"
+                          f"running_log_p_z: {running_log_p_z} \n")
 
-                train_history["loss"].append(running_loss)
-                train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
-                train_history["log_q_z_given_x"].append(running_log_q_z_given_x)
-                train_history["log_p_z "].append(running_log_p_z)
+                    train_history["loss"].append(running_loss)
+                    train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
+                    train_history["log_q_z_given_x"].append(running_log_q_z_given_x)
+                    train_history["log_p_z "].append(running_log_p_z)
 
-            if test_loader is not None:
+            if test_loader is not None and save_info_during_training is True:
                 for i, (x,) in enumerate(test_loader):
                     x = x.to(self.device)
                     with torch.cuda.amp.autocast():
@@ -150,25 +184,40 @@ class VAE:
                     test_history["log_q_z_given_x"].append(test_running_log_q_z_given_x)
                     test_history["log_p_z "].append(test_running_log_p_z)
 
+            if save_model is True and EPOCH % (round(EPOCHS/10) + 1) == 0 and EPOCH > 10:
+                print(f"saving checkpoint model at epoch {EPOCH}")
+                self.save_NN_model(EPOCH)
+
+            if save_info_during_training is False and EPOCH % (round(EPOCHS/10) + 1) == 0:
+                print(f"EPOCH {EPOCH}")
+
+        if save_model is True:
+            print("model saved")
+            self.save_NN_model(EPOCHS)
+
         if test_loader is not None:
             p_x = self.get_marginal(test_loader, n_samples=128)
             print(f"marginal log likelihood is {p_x}")
             return train_history, test_history, p_x
-        else:
+        elif save_info_during_training is True
             return train_history
-
-
+        else
+            return
 
 
 if __name__ == "__main__":
     from Utils.load_binirised_mnist import load_data
     train_loader, test_loader = load_data(256)
-    vae = VAE()
-    vae.train(EPOCHS = 1, train_loader=train_loader, test_loader=test_loader)
+    vae = VAE(latent_dim=2, n_IAF_steps=2, h_dim=2, IAF_node_width=32, encoder_fc_dim=45, decoder_fc_dim=45)
+    vae.train(EPOCHS = 1, train_loader=train_loader) #, test_loader=test_loader)
+
+    """
+    vae.save_NN_model(0)
+    vae.save_NN_model(1)
+    vae.load_NN_model("IAF_VAE_mnist/saved_models/latent_dim_2__n_IAF_steps_2__h_dim_200_IAF_node_width_32/2021_03_15-03_52_50_PM/epochs_1__model")
 
     p_x = vae.get_marginal(test_loader, n_samples=20)
     print(f"marginal log likelihood is {p_x}")
-
     n = 5
     data_chunk = next(iter(train_loader))[0][0:n**2, :, :, :]
     fig, axs = plt.subplots(n, n)
@@ -188,6 +237,7 @@ if __name__ == "__main__":
         axs[row, col].imshow(np.squeeze(prediction[i, :, :, :]), cmap="gray")
         axs[row, col].axis('off')
     plt.show()
+    """
 
 
 

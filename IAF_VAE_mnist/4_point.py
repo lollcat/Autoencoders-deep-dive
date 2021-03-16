@@ -11,7 +11,7 @@ import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=100, batch_size=64):
+def run_experiment(vae_kwargs, epochs=100, batch_size=256):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
     name = ""
     for key in vae_kwargs:
@@ -24,7 +24,8 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=64):
 
     vae = VAE(**vae_kwargs)
     start_time = time.time()
-    train_history = vae.train(EPOCHS=epochs, train_loader=train_loader)
+    train_history = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=None, save_model=True, decay_lr=True,
+              save_info_during_training=False)
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
 
@@ -78,7 +79,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=64):
     cols = mpl.cm.rainbow(np.linspace(0.1, 0.9, n_points_latent_vis))
     plt.figure()
     for point_n in range(n_points_latent_vis):
-        point_repeat = np.zeros((1000, 1, 28, 28))
+        point_repeat = np.zeros((500, 1, 28, 28))
         point_repeat[:, :, :, :] = data_chunk[point_n, :, :, :]
         encoding_2D = vae.get_latent_encoding(torch.tensor(point_repeat, dtype=torch.float32).to(device))
         plt.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n], s=1, )
@@ -91,7 +92,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=64):
 
 if __name__ == '__main__':
     # python -m IAF_VAE_mnist.4_point # to run in command line
-    n_epoch = 1000
-    experiment_dict = {"latent_dim": 2, "n_IAF_steps": 4, "IAF_node_width" : 320}
+    n_epoch = 200
+    experiment_dict = {"latent_dim": 2, "n_IAF_steps": 6, "IAF_node_width" : 320}
     print(f"running 4 point with config {experiment_dict} for {n_epoch} epoch")
     run_experiment(experiment_dict, epochs=n_epoch)
