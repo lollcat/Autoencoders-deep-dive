@@ -1,2 +1,4 @@
 /Data/
 /.idea
+/IAF_VAE_mnist/saved_models/
+/IAF_VAE_mnist/Experiment_results/

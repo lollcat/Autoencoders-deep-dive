@@ -201,7 +201,7 @@ class VAE:
             return train_history, test_history, p_x
         elif save_info_during_training is True
             return train_history
-        else
+        else:
             return
 
 
