@@ -1,6 +1,6 @@
 from IAF_VAE_mnist.Encoder import Encoder
-from IAF_VAE_mnist.Decoder import Decoder
-#from IAF_VAE_mnist.Decoder_new import Decoder
+#from IAF_VAE_mnist.Decoder import Decoder
+from IAF_VAE_mnist.Decoder_new import Decoder
 from Utils.running_mean import running_mean
 import matplotlib.pyplot as plt
 import torch
@@ -38,7 +38,7 @@ class VAE:
         self.save_NN_path = f"IAF_VAE_mnist/saved_models/latent_dim_{latent_dim}__n_IAF_steps_{n_IAF_steps}__h_dim_{200}_" \
                             f"IAF_node_width_{IAF_node_width}/{current_time}/"
         self.BCE_loss = torch.nn.BCEWithLogitsLoss(reduction="none")
-        self.optimizer = torch.optim.Adamax(self.VAE_model.parameters(), lr=0.01)
+        self.optimizer = torch.optim.Adamax(self.VAE_model.parameters(), lr=0.001)
 
     def get_reconstruction(self, x_data):
         # for visualisation
@@ -85,13 +85,13 @@ class VAE:
         marginal_running_mean = 0
         for i, (x,) in enumerate(test_loader):
             x = x.to(self.device)
-            with torch.cuda.amp.autocast():
-                marginal_batch = self.get_marginal_batch(x, n_samples=n_samples)
+            #with torch.cuda.amp.autocast():
+            marginal_batch = self.get_marginal_batch(x, n_samples=n_samples)
             marginal_running_mean = marginal_running_mean + (marginal_batch - marginal_running_mean)/(i + 1)
         return marginal_running_mean
 
 
-    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True, lr_schedule=True,
+    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True, lr_schedule=False,
               save_info_during_training=True, n_lr_cycles = 3):
         """
         :param EPOCHS: number of epochs
@@ -104,7 +104,7 @@ class VAE:
         """
 
         if lr_schedule is True:  # number of decay steps
-            n_decay_steps = 8
+            n_decay_steps = 5
             epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
             epoch_per_cycle = max(int(EPOCHS/n_lr_cycles), 1)
             original_lr = self.optimizer.param_groups[0]["lr"]

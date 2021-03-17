@@ -99,7 +99,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=32, experiment_name="", sa
 
 if __name__ == '__main__':
     # python -m IAF_VAE_mnist.4_point # to run in command line
-    experiment_name = "with_lr_cycle_2000_epoch/"
+    experiment_name = "no_IAF" + "new_decoder" + "/"
     n_epoch = 2000
     experiment_dict = {"latent_dim": 2, "n_IAF_steps": 8, "IAF_node_width" : 320} #, "use_GPU":False}
     print(f"running 4 point with config {experiment_dict} for {n_epoch} epoch")
