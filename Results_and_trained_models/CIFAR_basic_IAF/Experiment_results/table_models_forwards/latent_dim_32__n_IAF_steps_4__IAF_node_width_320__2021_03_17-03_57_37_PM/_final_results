@@ -1,0 +1,6 @@
+bits per dim: 22.142276079238595 
+
+test ELBO:     -17080.179736328126
+train ELBO:     -17673.65216438139
+runtime: 0.15 hours
+trained for : 5 EPOCH

@@ -8,7 +8,6 @@ import numpy as np
 from datetime import datetime
 import pathlib, os
 
-
 class VAE:
     def __init__(self, latent_dim=32, n_IAF_steps=2, h_dim=200, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450
                  , use_GPU = True):
@@ -131,8 +130,8 @@ class VAE:
             if test_loader is not None:
                 for i, (x,) in enumerate(test_loader):
                     x = x.to(self.device)
-                    with torch.cuda.amp.autocast():
-                        reconstruction_logits, log_q_z_given_x, log_p_z = self.VAE_model(x)
+                    #with torch.cuda.amp.autocast():
+                    reconstruction_logits, log_q_z_given_x, log_p_z = self.VAE_model(x)
                     loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch = \
                         self.loss_function(reconstruction_logits, log_q_z_given_x, log_p_z, x)
                     test_running_loss = running_mean(loss.cpu().detach().numpy(), test_running_loss, i)
@@ -170,8 +169,8 @@ class VAE:
 if __name__ == "__main__":
     from Utils.load_binirised_mnist import load_data
     train_loader, test_loader = load_data(256)
-    vae = VAE(latent_dim=2, n_IAF_steps=2, h_dim=2, IAF_node_width=2, encoder_fc_dim=5, decoder_fc_dim=5)
-    vae.train(EPOCHS = 2, train_loader=train_loader) #, test_loader=test_loader)
+    vae = VAE(latent_dim=2, n_IAF_steps=2, h_dim=10, IAF_node_width=10, encoder_fc_dim=10, decoder_fc_dim=10)
+    vae.train(EPOCHS = 10, train_loader=train_loader) #, test_loader=test_loader)
 
     """
     vae.save_NN_model(0)

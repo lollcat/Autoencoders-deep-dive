@@ -4,7 +4,8 @@ import torch.nn.functional as F
 import numpy as np
 
 from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
-from IAF_VAE_mnist.Decoder_new import Decoder
+from IAF_VAE_mnist.Decoder import Decoder
+#from IAF_VAE_mnist.Decoder_new import Decoder
 
 
 class VAE_ladder_model(nn.Module):
@@ -65,7 +66,7 @@ class VAE_ladder_model(nn.Module):
         TopDown1_mean = self.TopDown1_mean_layer(TopDown1_fc_layer)
         TopDown1_log_std = self.TopDown1_log_std_layer(TopDown1_fc_layer)
         TopDown1_h = F.elu(self.TopDown1_h_layer(TopDown1_fc_layer))
-        TopDown1_conv2 = self.TopDown1_conv2(TopDown1_conv)
+        TopDown1_conv2 = F.elu(self.TopDown1_conv2(TopDown1_conv))
 
         x = TopDown1_conv2 + x
         TopDown2_conv = F.elu(self.TopDown2_conv(x))
@@ -74,8 +75,9 @@ class VAE_ladder_model(nn.Module):
         TopDown2_log_std= self.TopDown1_log_std_layer(TopDown2_fc_layer)
         TopDown2_h = F.elu(self.TopDown2_h_layer(TopDown2_fc_layer))
 
+        # prior
         BottomUp2_mean = self.BottomUp2_mean_layer
-        BottomUp2_log_std =  self.BottomUp2_log_std_layer
+        BottomUp2_log_std = self.BottomUp2_log_std_layer
 
         # now can merge ladder rung 2
         rung_2_mean = TopDown2_mean + BottomUp2_mean
@@ -83,13 +85,13 @@ class VAE_ladder_model(nn.Module):
         rung_2_epsilon = self.epsilon_sample_layer.rsample(rung_2_mean.shape)
         rung_2_log_q_z_given_x = self.unit_MVG_Guassian_log_prob(rung_2_epsilon)
         run_2_z = rung_2_epsilon * torch.exp(rung_2_log_std)  + rung_2_mean
-        rung_2_log_q_z_given_x  -= torch.sum(rung_2_log_std, dim=1)
+        rung_2_log_q_z_given_x -= torch.sum(rung_2_log_std, dim=1)
         # rung 2 IAF step
         rung_2_m, rung_2_s = self.IAF_rung2(run_2_z, TopDown2_h)
         rung_2_sigma = torch.sigmoid(rung_2_s)
         run_2_z = rung_2_sigma * run_2_z + (1 - rung_2_sigma) * rung_2_m
         rung_2_log_q_z_given_x = rung_2_log_q_z_given_x - torch.sum(torch.log(rung_2_sigma), dim=1)
-        rung_2_log_p_z = self.unit_MVG_Guassian_log_prob(run_2_z)
+        rung_2_log_p_z = self.unit_MVG_Guassian_log_prob(run_2_z, mu=BottomUp2_mean, sigma=BottomUp2_log_std)
 
         rung2_concat = self.BottomUp2_processing_layer(torch.cat((run_2_z, rung_2_mean, rung_2_log_std), 1))
 
@@ -109,7 +111,7 @@ class VAE_ladder_model(nn.Module):
         rung_1_sigma = torch.sigmoid(rung_1_s)
         run_1_z = rung_1_sigma * run_1_z + (1 - rung_1_sigma) * rung_1_m
         rung_1_log_q_z_given_x = rung_1_log_q_z_given_x - torch.sum(torch.log(rung_1_sigma), dim=1)
-        rung_1_log_p_z = self.unit_MVG_Guassian_log_prob(run_1_z)
+        rung_1_log_p_z = self.unit_MVG_Guassian_log_prob(run_1_z, mu=BottomUp1_mean, sigma=BottomUp1_log_std)
 
         rung1_concat = self.BottomUp1_processing_layer(torch.cat((run_1_z, rung_1_mean, rung_1_log_std), 1))
 
@@ -122,9 +124,8 @@ class VAE_ladder_model(nn.Module):
         log_p_z = rung_1_log_p_z + rung_2_log_q_z_given_x
         return reconstruction_logits, log_q_z_given_x, log_p_z
 
-    def unit_MVG_Guassian_log_prob(self, sample):
-        return -0.5*torch.sum((sample**2 + np.log(2*np.pi)), dim=1)
-
+    def unit_MVG_Guassian_log_prob(self, sample, mu=0, sigma=1):
+        return -0.5*torch.sum((sample - mu)**2/sigma**2 + np.log(2*np.pi) + 2*np.log(sigma), dim=1)
 
 
 

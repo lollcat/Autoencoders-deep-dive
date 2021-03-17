@@ -3,12 +3,12 @@ if not os.getcwd() in sys.path: # need this check for running without pycharm
     sys.path.append(os.getcwd())
 
 
-from Utils.load_binirised_mnist import load_data
+from Utils.load_CIFAR import load_data
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
 import numpy as np
-from IAF_VAE_mnist.VAE import VAE
+from CIFAR_basic_IAF.VAE import VAE
 import torch
 from datetime import datetime
 import time
@@ -23,29 +23,26 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=256, experiment_name=""):
     for key in vae_kwargs:
         name += f"{key}_{vae_kwargs[key]}__"
     name += f"{current_time}"
-    results_path = f"Results_and_trained_models/IAF_VAE_mnist/Experiment_results/{name}/"
+    results_path = f"Results_and_trained_models/CIFAR_basic_IAF/Experiment_results/{name}/"
     save = True
     use_GPU = True
     train_loader, test_loader = load_data(batch_size=batch_size)
 
     vae = VAE(**vae_kwargs)
     start_time = time.time()
-    train_history, test_history, p_x = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader)
+    train_history, test_history = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader)
     run_time = time.time() - start_time
-    print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
+    print(f"runtime for training is {round(run_time/3600, 2)} hours")
+    bits_per_dim = vae.get_bits_per_dim(test_loader=test_loader)
 
     pathlib.Path(os.path.join(os.getcwd(), results_path)).mkdir(parents=True, exist_ok=True)
-    if use_GPU is True:
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    else:
-        device = "cpu"
     train_df = pd.DataFrame(train_history)
     train_df.to_csv(f"{results_path}_train_df.csv")
     test_df = pd.DataFrame(test_history)
     test_df.to_csv(f"{results_path}_test_df.csv")
 
     with open(f"{results_path}_final_results", "w") as g:
-        g.write("\n".join([f"marginal likelihood: {p_x} \n",
+        g.write("\n".join([f"bits per dim: {bits_per_dim} \n",
                            f"test ELBO:     {-test_history['loss'][-1]}",
                            f"train ELBO:     {-train_history['loss'][-1]}",
                            f"runtime: {round(run_time/3600, 2)} hours",
@@ -77,24 +74,23 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=256, experiment_name=""):
     plt.show()
 
     n = 5
-    prediction = vae.get_reconstruction(data_chunk.to(device))
+    prediction = vae.get_reconstruction(data_chunk.to(vae.device))
     fig, axs = plt.subplots(n, n)
     for i in range(n * n):
         row = int(i / n)
         col = i % n
-        axs[row, col].imshow(np.squeeze(prediction[i, :, :, :]), cmap="gray")
+        axs[row, col].imshow(np.moveaxis(prediction[i, :, :, :], source=0, destination=-1), cmap="gray")
         axs[row, col].axis('off')
-    if save is True:
-        plt.savefig(f"{results_path}reconstruction.png")
     plt.show()
+    return vae
 
 if __name__ == '__main__':
-    # python -m IAF_VAE_mnist.run_experiment # to run in command line
+    # python -m CIFAR_basic_IAF.run_experiment # to run in command line
     from IAF_VAE_mnist.Experiment_dicts import experiment_dicts
-    experiment_name = "table_models_forwards/"
-    epoch = 2000
-    for i, experiment_dict in enumerate(experiment_dicts):
-        #experiment_dict = experiment_dicts[3]
-        print(f"running experiment {experiment_dict} for {epoch} epoch")
-        run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name)
-        print(f"\n experiment {i} complete \n\n\n")
+    experiment_name = "CIFAR_IAF_initial_test/"
+    epoch = 500
+    #for i, experiment_dict in enumerate(experiment_dicts):
+    i = -1; experiment_dict = experiment_dicts[i]
+    print(f"running experiment {experiment_dict} for {epoch} epoch")
+    vae = run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name)
+    print(f"\n experiment {i} complete \n\n\n")

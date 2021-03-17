@@ -1,3 +1,6 @@
+import pathlib, os, sys
+if not os.getcwd() in sys.path:
+    sys.path.append(os.getcwd())
 from Utils.load_4_point import load_data, x_train_4_points
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -6,26 +9,30 @@ import numpy as np
 from IAF_VAE_mnist.VAE import VAE
 import torch
 from datetime import datetime
-import pathlib, os
+
 import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=100, batch_size=256):
+def run_experiment(vae_kwargs, epochs=100, batch_size=32, experiment_name="", save_model=True, lr_schedule=True,
+                              save_info_during_training=False):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-    name = ""
+    if experiment_name != "":
+        assert experiment_name[-1] == "/"
+    name = experiment_name
     for key in vae_kwargs:
         name += f"{key}_{vae_kwargs[key]}__"
     name += f"{current_time}"
-    fig_path = f"IAF_VAE_mnist/4_point/{name}/"
+    fig_path = f"Results_and_trained_models/IAF_VAE_mnist/4_point/{name}/"
     save = True
     use_GPU = True
     train_loader= load_data(batch_size=batch_size)
 
     vae = VAE(**vae_kwargs)
     start_time = time.time()
-    train_history = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=None, save_model=True, decay_lr=True,
-              save_info_during_training=False)
+    train_history = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=None, save_model=save_model,
+                              lr_schedule=lr_schedule,
+                              save_info_during_training=save_info_during_training)
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
 
@@ -92,7 +99,9 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=256):
 
 if __name__ == '__main__':
     # python -m IAF_VAE_mnist.4_point # to run in command line
-    n_epoch = 200
-    experiment_dict = {"latent_dim": 2, "n_IAF_steps": 6, "IAF_node_width" : 320}
+    experiment_name = "with_lr_cycle_2000_epoch/"
+    n_epoch = 2000
+    experiment_dict = {"latent_dim": 2, "n_IAF_steps": 8, "IAF_node_width" : 320} #, "use_GPU":False}
     print(f"running 4 point with config {experiment_dict} for {n_epoch} epoch")
-    run_experiment(experiment_dict, epochs=n_epoch)
+    run_experiment(experiment_dict, epochs=n_epoch, experiment_name=experiment_name,
+                   save_info_during_training=True, save_model=True)

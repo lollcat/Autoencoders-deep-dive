@@ -25,7 +25,7 @@ class Decoder(nn.Module):
         # note unlike mnist we now have 3 output channels
         self.deconv_mean = torch.nn.utils.weight_norm((nn.ConvTranspose2d(in_channels=16, out_channels=3, kernel_size=3, stride=2,
                                           padding=1, output_padding=1)))
-        self.deconv_log_var = torch.nn.utils.weight_norm(
+        self.deconv_log_sigma = torch.nn.utils.weight_norm(
             (nn.ConvTranspose2d(in_channels=16, out_channels=3, kernel_size=3, stride=2,
                                 padding=1, output_padding=1)))
         self.identity_mapping5 = torch.nn.utils.weight_norm(nn.ConvTranspose2d(in_channels=16, out_channels=3,
@@ -40,8 +40,9 @@ class Decoder(nn.Module):
         x = self.deconv3(x) #+ self.identity_mapping3(x)
         x = self.deconv4(x) #+ x
         mean = torch.sigmoid(self.deconv_mean(x)) #+ self.identity_mapping5(x)
-        log_var = self.deconv_log_var(x)
-        return mean, log_var
+        log_sigma = self.deconv_log_sigma(x)
+        return mean, log_sigma
+
 
 if __name__ == "__main__":
     from Utils.load_CIFAR import load_data

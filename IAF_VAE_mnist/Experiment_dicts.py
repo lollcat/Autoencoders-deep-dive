@@ -1,8 +1,15 @@
-experiment_dicts = [{"latent_dim": 32, "n_IAF_steps": 0},
+
+experiment_dicts_paper = [{"latent_dim": 32, "n_IAF_steps": 0},
     {"latent_dim": 32, "n_IAF_steps": 2, "IAF_node_width" : 320},
     {"latent_dim": 32, "n_IAF_steps" : 2, "IAF_node_width": 1920},
     {"latent_dim": 32, "n_IAF_steps" : 4, "IAF_node_width": 1920},
     {"latent_dim": 32, "n_IAF_steps" : 8,"IAF_node_width": 1920}]
+
+experiment_dicts = [{"latent_dim": 32, "n_IAF_steps": 0},
+    {"latent_dim": 32, "n_IAF_steps": 2, "IAF_node_width" : 320},
+    {"latent_dim": 32, "n_IAF_steps" : 4, "IAF_node_width": 320},
+    {"latent_dim": 32, "n_IAF_steps" : 8,"IAF_node_width": 320}]
+
 
 if __name__ == '__main__':
     # test
