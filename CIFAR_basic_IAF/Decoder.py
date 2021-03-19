@@ -35,10 +35,10 @@ class Decoder(nn.Module):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = torch.reshape(x, (-1, 32, 4, 4))
-        x = self.deconv1(x) #+ self.identity_mapping1(x)
-        x = self.deconv2(x) #+ x
-        x = self.deconv3(x) #+ self.identity_mapping3(x)
-        x = self.deconv4(x) #+ x
+        x = F.elu(self.deconv1(x)) #+ self.identity_mapping1(x)
+        x = F.elu(self.deconv2(x)) #+ x
+        x = F.elu(self.deconv3(x)) #+ self.identity_mapping3(x)
+        x = F.elu(self.deconv4(x)) #+ x
         mean = torch.sigmoid(self.deconv_mean(x)) #+ self.identity_mapping5(x)
         log_sigma = self.deconv_log_sigma(x)
         return mean, log_sigma

@@ -18,7 +18,7 @@ x_train_tensor = torch.Tensor(x_train)
 train_dataset = TensorDataset(x_train_tensor)
 
 def load_data(batch_size = 256):
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, num_workers=8, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     return train_loader
 
 if __name__ == "__main__":

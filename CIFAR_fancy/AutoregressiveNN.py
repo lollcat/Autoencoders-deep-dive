@@ -13,10 +13,7 @@ class IAF_NN(nn.Module):
     def __init__(self, in_channels=3, latent_dim=32*32*3, h_dim=32*32*3, IAF_node_width=32*32*3):
         super(IAF_NN, self).__init__()
         self.output_shape = [3, 32, 32]
-        self.PixelCNN = PixelCNN("A", in_channels=in_channels, out_channels=in_channels,
-                                 kernel_size=3, stride=1, padding=1)
-        self.FirstLayer = FirstLayer(latent_dim, h_dim, layer_width=IAF_node_width)
-        #self.MiddleLayer = MiddleLayer(latent_dim=latent_dim, layer_width=IAF_node_width)
+        self.MiddleLayer = MiddleLayer(latent_dim, layer_width=IAF_node_width)
         self.FinalLayer = FinalLayer(latent_dim=latent_dim, layer_width=IAF_node_width)
         self.m_SkipLayer = SkipLayer(latent_dim=latent_dim)
         self.s_SkipLayer = SkipLayer(latent_dim=latent_dim)
@@ -37,10 +34,6 @@ class IAF_NN(nn.Module):
         s = s.unflatten(1, self.output_shape)
         return m, s
 
-    # TODO
-    def forward(self, x):
-        # for testing jacobian of pixelCNN
-        return self.PixelCNN(x)
 
 
 if __name__ == "__main__":

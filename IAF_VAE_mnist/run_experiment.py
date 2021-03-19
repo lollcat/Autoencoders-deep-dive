@@ -15,7 +15,8 @@ import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=2000, batch_size=256, experiment_name=""):
+def run_experiment(vae_kwargs, epochs=2000, batch_size=256, experiment_name="", save_model=True,
+                   save_figures=True):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
     if experiment_name != "":
         assert experiment_name[-1] == "/"
@@ -24,13 +25,14 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=256, experiment_name=""):
         name += f"{key}_{vae_kwargs[key]}__"
     name += f"{current_time}"
     results_path = f"Results_and_trained_models/IAF_VAE_mnist/Experiment_results/{name}/"
-    save = True
+    save = save_figures
     use_GPU = True
     train_loader, test_loader = load_data(batch_size=batch_size)
 
     vae = VAE(**vae_kwargs)
     start_time = time.time()
-    train_history, test_history, p_x = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader)
+    train_history, test_history, p_x = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader,
+                                                 save_model=save_model)
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
 
@@ -88,13 +90,14 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=256, experiment_name=""):
         plt.savefig(f"{results_path}reconstruction.png")
     plt.show()
 
+
 if __name__ == '__main__':
     # python -m IAF_VAE_mnist.run_experiment # to run in command line
     from IAF_VAE_mnist.Experiment_dicts import experiment_dicts
-    experiment_name = "table_models_forwards/"
+    experiment_name = "new_decoder_decay/"
     epoch = 2000
-    for i, experiment_dict in enumerate(experiment_dicts):
-        #experiment_dict = experiment_dicts[3]
-        print(f"running experiment {experiment_dict} for {epoch} epoch")
-        run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name)
-        print(f"\n experiment {i} complete \n\n\n")
+    #for i, experiment_dict in enumerate(experiment_dicts):
+    i = 1; experiment_dict = experiment_dicts[i]
+    print(f"running experiment {experiment_name}, number {i} {experiment_dict} for {epoch} epoch")
+    run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name)
+    print(f"\n experiment {i} complete \n\n\n")

@@ -1,5 +1,4 @@
 from IAF_VAE_mnist.Encoder import Encoder
-#from IAF_VAE_mnist.Decoder import Decoder
 from IAF_VAE_mnist.Decoder_new import Decoder
 from Utils.running_mean import running_mean
 import matplotlib.pyplot as plt
@@ -10,6 +9,7 @@ import numpy as np
 from datetime import datetime
 import pathlib, os
 import time
+from tqdm import tqdm
 
 class VAE_model(nn.Module):
     def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450):
@@ -25,7 +25,7 @@ class VAE_model(nn.Module):
 
 class VAE:
     def __init__(self, latent_dim=32, n_IAF_steps=2, h_dim=200, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450
-                 , use_GPU = True):
+                 , use_GPU = True, name=""):
         if use_GPU is True:
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         else:
@@ -35,7 +35,8 @@ class VAE:
             .to(self.device)
 
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-        self.save_NN_path = f"IAF_VAE_mnist/saved_models/latent_dim_{latent_dim}__n_IAF_steps_{n_IAF_steps}__h_dim_{200}_" \
+        self.save_NN_path = f"Results_and_trained_models/IAF_VAE_mnist/saved_models/{name}__latent_dim_{latent_dim}" \
+                            f"__n_IAF_steps_{n_IAF_steps}__h_dim_{200}_" \
                             f"IAF_node_width_{IAF_node_width}/{current_time}/"
         self.BCE_loss = torch.nn.BCEWithLogitsLoss(reduction="none")
         self.optimizer = torch.optim.Adamax(self.VAE_model.parameters(), lr=0.001)
@@ -51,10 +52,14 @@ class VAE:
 
     def load_NN_model(self, path):
         self.VAE_model.load_state_dict(torch.load(path, map_location=torch.device(self.device)))
+        print(f"loaded model from {path}")
 
     def get_latent_encoding(self, x_data):
         # for visualisation
         return self.VAE_model.encoder(x_data)[0].cpu().detach().numpy()
+
+    def get_reconstruction_from_latent(self, z):
+        return torch.sigmoid(self.VAE_model.decoder(z)).cpu().detach().numpy()
 
 
     def loss_function(self, reconstruction_logits, log_q_z_given_x, log_p_z, x_target):
@@ -64,7 +69,7 @@ class VAE:
         log_p_z_per_batch = torch.mean(log_p_z)
         ELBO = log_p_x_given_z_per_batch + log_p_z_per_batch - log_q_z_given_x_per_batch
         loss = -ELBO
-        loss = torch.clamp_max(loss, 1e4)
+        #loss = torch.clamp_max(loss, 1e4)
         return loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch
 
     def get_marginal_batch(self, x_batch, n_samples = 128):
@@ -92,7 +97,7 @@ class VAE:
 
 
     def train(self, EPOCHS, train_loader, test_loader=None, save_model=True, lr_schedule=False,
-              save_info_during_training=True, n_lr_cycles = 3):
+              save_info_during_training=True, n_lr_cycles = 3, epoch_per_info_min=50):
         """
         :param EPOCHS: number of epochs
         :param train_loader: train data loader
@@ -104,11 +109,11 @@ class VAE:
         """
 
         if lr_schedule is True:  # number of decay steps
-            n_decay_steps = 5
+            n_decay_steps = 8
             epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
-            epoch_per_cycle = max(int(EPOCHS/n_lr_cycles), 1)
+            epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
             original_lr = self.optimizer.param_groups[0]["lr"]
-        epoch_per_info = max(min(100, round(EPOCHS / 10)), 1)
+        epoch_per_info = max(min(epoch_per_info_min, round(EPOCHS / 10)), 1)
         if save_info_during_training is True:
             train_history = {"loss": [],
                              "log_p_x_given_z": [],
@@ -122,7 +127,7 @@ class VAE:
             else:
                 test_history = None
 
-        for EPOCH in range(EPOCHS):
+        for EPOCH in tqdm(range(EPOCHS)):
             if save_info_during_training is True:
                 running_loss = 0
                 running_log_q_z_given_x = 0
@@ -137,7 +142,6 @@ class VAE:
 
             for i, (x,) in enumerate(train_loader):
                 x = x.to(self.device)
-                #with torch.cuda.amp.autocast():
                 reconstruction_logits, log_q_z_given_x, log_p_z = self.VAE_model(x)
                 loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch = \
                     self.loss_function(reconstruction_logits, log_q_z_given_x, log_p_z, x)
@@ -145,8 +149,6 @@ class VAE:
                     raise Exception("NAN loss encountered")
                 self.optimizer.zero_grad()
                 loss.backward()
-                #grad_norm = torch.nn.utils.clip_grad_norm(self.VAE_model.parameters(), max_norm=5)
-                torch.nn.utils.clip_grad_value_(self.VAE_model.parameters(), 1)
                 self.optimizer.step()
                 if save_info_during_training is True:
                     running_loss = running_mean(loss.item(), running_loss, i)
@@ -202,7 +204,7 @@ class VAE:
                           f"test running_log_p_z: {test_running_log_p_z} \n")
 
 
-            if save_model is True and EPOCH % (round(EPOCHS/2) + 1) == 0 and EPOCH > 10:
+            if save_model is True and EPOCH % (round(EPOCHS/3) + 1) == 0 and EPOCH > 10:
                 print(f"saving checkpoint model at epoch {EPOCH}")
                 self.save_NN_model(EPOCH)
 
@@ -227,42 +229,4 @@ if __name__ == "__main__":
     from Utils.load_binirised_mnist import load_data
     train_loader, test_loader = load_data(100)
     vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20, IAF_node_width=450, encoder_fc_dim=450, decoder_fc_dim=450)
-    vae.train(EPOCHS = 1, train_loader=train_loader, save_model=False) #, test_loader=test_loader)
-
-    """
-    vae.save_NN_model(0)
-    vae.save_NN_model(1)
-    vae.load_NN_model("IAF_VAE_mnist/saved_models/latent_dim_2__n_IAF_steps_2__h_dim_200_IAF_node_width_32/2021_03_15-03_52_50_PM/epochs_1__model")
-
-    p_x = vae.get_marginal(test_loader, n_samples=20)
-    print(f"marginal log likelihood is {p_x}")
-    n = 5
-    data_chunk = next(iter(train_loader))[0][0:n**2, :, :, :]
-    fig, axs = plt.subplots(n, n)
-    for i in range(n * n):
-        row = int(i / n)
-        col = i % n
-        axs[row, col].imshow(np.squeeze(data_chunk [i, :, :, :]), cmap="gray")
-        axs[row, col].axis('off')
-    plt.show()
-
-    n = 5
-    prediction = vae.VAE_model(data_chunk)[0].detach().numpy()
-    fig, axs = plt.subplots(n, n)
-    for i in range(n * n):
-        row = int(i / n)
-        col = i % n
-        axs[row, col].imshow(np.squeeze(prediction[i, :, :, :]), cmap="gray")
-        axs[row, col].axis('off')
-    plt.show()
-    """
-
-
-
-
-
-
-
-
-
-
+    vae.train(EPOCHS = 3, train_loader=train_loader, save_model=False) #, test_loader=test_loader)

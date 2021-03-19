@@ -30,7 +30,7 @@ class ResnetBlock(nn.Module):
             x = x + self.identity_mapping(input)
         else:
             x = x + input
-        return x
+        return x  # F.elu(x)
 
 if __name__ == "__main__":
     from Utils.load_binirised_mnist import load_data
