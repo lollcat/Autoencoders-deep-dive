@@ -11,5 +11,5 @@ x_train = x_train.astype("float32"); x_test = x_test.astype("float32")
 
 if __name__ == "__main__":
     pathlib.Path(os.path.join(os.getcwd(), "Pytorch_VAE/Data/Binirised_MNIST/")).mkdir(parents=True, exist_ok=True)
-    np.save("Pytorch_VAE/Data/Binirised_MNIST/x_train", x_train)
-    np.save("Pytorch_VAE/Data/Binirised_MNIST/x_test", x_test)
+    np.save("Data/Binirised_MNIST/x_train", x_train)
+    np.save("Data/Binirised_MNIST/x_test", x_test)

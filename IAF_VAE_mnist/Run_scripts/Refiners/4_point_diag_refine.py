@@ -13,7 +13,7 @@ from datetime import datetime
 import time
 import pandas as pd
 
-# carry on training diag file for 4_point overfit plot
+# carry on training diag file for experiment_4_point overfit plot
 def run_experiment(vae_kwargs, epochs=100, batch_size=256, experiment_name="", save_model=True, lr_schedule=False,
                               save_info_during_training=True):
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
@@ -36,7 +36,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=256, experiment_name="", s
 
 
 if __name__ == '__main__':
-    # python -m IAF_VAE_mnist.4_point # to run in command line
+    # python -m IAF_VAE_mnist.experiment_4_point # to run in command line
     experiment_name = "IAF" + "decoder_lr_schedule" + "/"
     print(f"running experiment {experiment_name}")
     n_epoch = 1000

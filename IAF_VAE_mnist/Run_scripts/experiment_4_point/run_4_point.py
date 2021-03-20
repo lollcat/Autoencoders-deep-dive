@@ -27,7 +27,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=256, experiment_name="", s
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
 
 if __name__ == '__main__':
-    # python -m IAF_VAE_mnist.4_point # to run in command line
+    # python -m IAF_VAE_mnist.experiment_4_point # to run in command line
     experiment_name = ""
     print(f"running experiment {experiment_name}")
     n_epoch = 3000
