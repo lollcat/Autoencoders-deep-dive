@@ -4,13 +4,13 @@ import torch.nn.functional as F
 
 
 class UpwardBlock(nn.Module):
-    def __init__(self, in_channels=3, latent_dim=32):
+    def __init__(self, in_channels=3, latent_dim=32, image_dim=32):
         super(UpwardBlock, self).__init__()
         self.up_conv1 = torch.nn.utils.weight_norm(nn.Conv2d(in_channels=in_channels, out_channels=in_channels,
                                                              kernel_size=3, stride=1, padding=1))
-        self.up_means = torch.nn.utils.weight_norm(nn.Linear(32**2*3, latent_dim))
-        self.up_vars = torch.nn.utils.weight_norm(nn.Linear(32**2*3, latent_dim))
-        self.up_h = torch.nn.utils.weight_norm(nn.Linear(32**2*3, latent_dim)) # assume h has same dim as latent
+        self.up_means = torch.nn.utils.weight_norm(nn.Linear(image_dim**2*in_channels, latent_dim))
+        self.up_vars = torch.nn.utils.weight_norm(nn.Linear(image_dim**2*in_channels, latent_dim))
+        self.up_h = torch.nn.utils.weight_norm(nn.Linear(image_dim**2*in_channels, latent_dim)) # assume h has same dim as latent
         self.up_conv2 = torch.nn.utils.weight_norm(nn.Conv2d(in_channels=in_channels, out_channels=in_channels,
                                                              kernel_size=3, stride=1, padding=1))
 
@@ -24,6 +24,7 @@ class UpwardBlock(nn.Module):
         return up_means, up_vars, h, to_next_rung
 
 if __name__ == '__main__':
+    """ # CIFAR
     from Utils.load_CIFAR import load_data
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     train_loader, test_loader = load_data(26)
@@ -31,3 +32,14 @@ if __name__ == '__main__':
     upblock = UpwardBlock()
     up_means, up_vars, h, to_next_rung = upblock(data)
     print(up_means.shape, up_vars.shape,h.shape, to_next_rung.shape)
+    """
+
+    # MNIST
+    from Utils.load_binirised_mnist import load_data
+    train_loader, test_loader = load_data(100)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    data = next(iter(train_loader))[0].to(device)
+    upblock = UpwardBlock(in_channels=1, latent_dim=5, image_dim=28)
+    up_means, up_vars, h, to_next_rung = upblock(data)
+    print(up_means.shape, up_vars.shape, h.shape, to_next_rung.shape)
+

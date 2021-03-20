@@ -1,14 +1,12 @@
 from IAF_VAE_mnist.Encoder import Encoder
 from IAF_VAE_mnist.Decoder_new import Decoder
 from Utils.running_mean import running_mean
-import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from datetime import datetime
 import pathlib, os
-import time
 from tqdm import tqdm
 
 class VAE_model(nn.Module):
@@ -36,7 +34,7 @@ class VAE:
 
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
         self.save_NN_path = f"Results_and_trained_models/IAF_VAE_mnist/saved_models/{name}__latent_dim_{latent_dim}" \
-                            f"__n_IAF_steps_{n_IAF_steps}__h_dim_{200}_" \
+                            f"__n_IAF_steps_{n_IAF_steps}__h_dim_{h_dim}_" \
                             f"IAF_node_width_{IAF_node_width}/{current_time}/"
         self.BCE_loss = torch.nn.BCEWithLogitsLoss(reduction="none")
         self.optimizer = torch.optim.Adamax(self.VAE_model.parameters(), lr=0.001)
@@ -45,8 +43,8 @@ class VAE:
         # for visualisation
         return torch.sigmoid(self.VAE_model(x_data)[0]).cpu().detach().numpy()
 
-    def save_NN_model(self, epochs_trained_for = 0):
-        model_path = self.save_NN_path + f"epochs_{epochs_trained_for}__model"
+    def save_NN_model(self, epochs_trained_for = 0, additional_name_info=""):
+        model_path = self.save_NN_path + f"epochs_{epochs_trained_for}__model__" + additional_name_info
         pathlib.Path(os.path.join(os.getcwd(), model_path)).parent.mkdir(parents=True, exist_ok=True)
         torch.save(self.VAE_model.state_dict(), model_path)
 
@@ -109,7 +107,7 @@ class VAE:
         """
 
         if lr_schedule is True:  # number of decay steps
-            n_decay_steps = 8
+            n_decay_steps = 5
             epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
             epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
             original_lr = self.optimizer.param_groups[0]["lr"]
@@ -228,5 +226,7 @@ class VAE:
 if __name__ == "__main__":
     from Utils.load_binirised_mnist import load_data
     train_loader, test_loader = load_data(100)
-    vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20, IAF_node_width=450, encoder_fc_dim=450, decoder_fc_dim=450)
-    vae.train(EPOCHS = 3, train_loader=train_loader, save_model=False) #, test_loader=test_loader)
+    data = next(iter(train_loader))[0]
+    print(data.shape)
+    #vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20, IAF_node_width=450, encoder_fc_dim=450, decoder_fc_dim=450)
+    #vae.train(EPOCHS = 3, train_loader=train_loader, save_model=False) #, test_loader=test_loader)

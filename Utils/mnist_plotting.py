@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-mpl.rcParams['figure.dpi'] = 300
+#mpl.rcParams['figure.dpi'] = 300
 import numpy as np
 
 def plot_train_test(train_history, test_history):
@@ -42,8 +42,8 @@ def plot_4_point_overfit(vae, cols=None, n_scatter_points=10000):
         point_repeat[:, :, :, :] = data_chunk[point_n, :, :, :]
         encoding_2D = vae.get_latent_encoding(torch.tensor(point_repeat, dtype=torch.float32).to(vae.device))
         ax.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n, :], s=2, alpha=0.8)
-    ax.set_xlabel(r"$z_1$")
-    ax.set_ylabel(r"$z_2$")
+    #ax.set_xlabel(r"$z_1$")
+    #ax.set_ylabel(r"$z_2$")
     lim = 3
     ax.set_ylim((-lim, lim))
     ax.set_xlim((-lim, lim))
@@ -56,8 +56,8 @@ def plot_prior():
     fig, ax = plt.subplots(figsize=(5, 5))
     prior = np.random.normal(size=(20000, 2))
     ax.scatter(prior[:, 0], prior[:, 1], c=np.array([200, 200, 200]) / 255, s=2, alpha=1)
-    ax.set_xlabel(r"$z_1$")
-    ax.set_ylabel(r"$z_2$")
+    #ax.set_xlabel(r"$z_1$")
+    #ax.set_ylabel(r"$z_2$")
     ax.set_ylim((-lim, lim))
     ax.set_xlim((-lim, lim))
     ax.set_axisbelow(True)

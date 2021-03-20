@@ -103,13 +103,13 @@ class VAE:
 
             for i, (x, _) in enumerate(train_loader):
                 x = x.to(self.device)
-                self.optimizer.zero_grad()
                 #with torch.cuda.amp.autocast():
                 reconstruction_means, reconstruction_log_vars, log_q_z_given_x, log_p_z = self.VAE_model(x)
                 loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch = \
                     self.loss_function(reconstruction_means, reconstruction_log_vars, log_q_z_given_x, log_p_z, x)
                 if torch.isnan(loss).item():
                     raise Exception("NAN loss encountered")
+                self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
                 running_loss = running_mean(loss.item(), running_loss, i)
