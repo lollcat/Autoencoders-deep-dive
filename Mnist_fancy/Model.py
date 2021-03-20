@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 
 from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
-from IAF_VAE_mnist.Decoder import Decoder
+from IAF_VAE_mnist.Decoder_old import Decoder
 #from IAF_VAE_mnist.Decoder_new import Decoder
 
 
