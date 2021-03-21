@@ -51,11 +51,24 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
 
 
 if __name__ == '__main__':
-    # python -m IAF_VAE_mnist.run_experiment # to run in command line
-    from IAF_VAE_mnist.Experiment_dicts import experiment_dicts, experiment_dicts_paper
-    experiment_name = "new_decoder_decay/"
+    import sys
+    experiment_number = 0 #int(sys.argv[1])
+    print(f"experiment argument {experiment_number}")
+    dict_number = 3# int(sys.argv[2])
+    print(f"dict argument {dict_number}")
+    if experiment_number == 0:
+        from IAF_VAE_mnist.Experiment_dicts import experiment_dicts_paper as experiment_dicts
+        experiment_name = "paper_table_replication/"
+    elif experiment_number == 1:
+        from IAF_VAE_mnist.Experiment_dicts import experiment_dicts_no_sigma as experiment_dicts
+        experiment_name = "no_sigma/"
+    else:
+        raise Exception("experiment incorrectly specified")
+
     epoch = 2000
-    i = 1; experiment_dict = experiment_dicts[i]
-    print(f"running experiment {experiment_name}, number {i} {experiment_dict} for {epoch} epoch")
-    vae = run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name)
-    print(f"\n experiment {i} complete \n\n\n")
+    experiment_dict = experiment_dicts[dict_number]
+
+    print(f"running experiment {experiment_name}, {experiment_dict} for {epoch} epoch")
+    vae = run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name,
+                         save=True, n_lr_cycles=1, lr_schedule=False)
+    print(f"\n completed experiment {experiment_name}, {experiment_dict} for {epoch} epoch")

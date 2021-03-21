@@ -235,4 +235,5 @@ if __name__ == "__main__":
               IAF_node_width=450, encoder_fc_dim=450,
               decoder_fc_dim=450, constant_sigma=True)
     vae.VAE_model(data)
+    # vae.VAE_model.encoder.IAF_steps[0].FinalLayer.state_dict() # useful for checking sigma constant
     #vae.train(EPOCHS = 3, train_loader=train_loader, save_model=False) #, test_loader=test_loader)
