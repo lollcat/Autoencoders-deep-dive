@@ -10,10 +10,11 @@ import pathlib, os
 from tqdm import tqdm
 
 class VAE_model(nn.Module):
-    def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450):
+    def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450,
+                 constant_sigma=False):
         super(VAE_model, self).__init__()
         self.encoder = Encoder(latent_dim=latent_dim, fc_layer_dim=encoder_fc_dim, n_IAF_steps=n_IAF_steps,
-                               h_dim=h_dim, IAF_node_width=IAF_node_width)
+                               h_dim=h_dim, IAF_node_width=IAF_node_width, constant_sigma=constant_sigma)
         self.decoder = Decoder(latent_dim=latent_dim, fc_dim=decoder_fc_dim)
 
     def forward(self, x):
@@ -21,15 +22,17 @@ class VAE_model(nn.Module):
         reconstruction_logits = self.decoder(z)
         return reconstruction_logits, log_q_z_given_x, log_p_z
 
+
 class VAE:
     def __init__(self, latent_dim=32, n_IAF_steps=2, h_dim=200, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450
-                 , use_GPU = True, name=""):
+                 , use_GPU = True, name="", constant_sigma=False):
         if use_GPU is True:
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         else:
             self.device = "cpu"
         print(f"running using {self.device}")
-        self.VAE_model = VAE_model(latent_dim, n_IAF_steps, h_dim, IAF_node_width, encoder_fc_dim, decoder_fc_dim)\
+        self.VAE_model = VAE_model(latent_dim, n_IAF_steps, h_dim, IAF_node_width, encoder_fc_dim,
+                                   decoder_fc_dim, constant_sigma=constant_sigma)\
             .to(self.device)
 
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
@@ -228,5 +231,8 @@ if __name__ == "__main__":
     train_loader, test_loader = load_data(100)
     data = next(iter(train_loader))[0]
     print(data.shape)
-    #vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20, IAF_node_width=450, encoder_fc_dim=450, decoder_fc_dim=450)
+    vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20,
+              IAF_node_width=450, encoder_fc_dim=450,
+              decoder_fc_dim=450, constant_sigma=True)
+    vae.VAE_model(data)
     #vae.train(EPOCHS = 3, train_loader=train_loader, save_model=False) #, test_loader=test_loader)
