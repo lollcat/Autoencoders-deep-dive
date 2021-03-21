@@ -41,6 +41,7 @@ class VAE_ladder:
         num_pixels = 32*32
         ELBO = 0
         for i, (x, _) in enumerate(test_loader):
+            x = x.to(self.device)
             reconstruction_mu, reconstruction_log_sigma, KL_ELBO_term = self.model(x)
             batch_ELBO = - self.loss_function(reconstruction_mu, reconstruction_log_sigma, KL_ELBO_term, x)[0].item()
             ELBO += (batch_ELBO - ELBO)/(i+1)

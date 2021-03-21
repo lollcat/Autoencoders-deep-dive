@@ -50,6 +50,7 @@ class VAE:
         num_pixels = 32*32
         ELBO = 0
         for i, (x, _) in enumerate(test_loader):
+            x = x.to(self.device)
             reconstruction_mu, reconstruction_log_sigma, log_q_z_given_x, log_p_z = self.VAE_model(x)
             batch_ELBO = - self.loss_function(reconstruction_mu, reconstruction_log_sigma,
                                               log_q_z_given_x, log_p_z, x)[0].item()
