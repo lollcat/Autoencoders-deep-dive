@@ -50,7 +50,7 @@ class VAE_ladder_model(nn.Module):
 
         log_p_z_full_ladder = 0
         log_q_z_given_x_full_ladder = 0
-        generative_conv_starting = torch.ones(x.shape)
+        generative_conv_starting = torch.ones_like(x)
         for j in reversed(range(self.n_rungs)):
             generative_conv1 = F.elu(self.generative_block_conv1[j](generative_conv_starting))
             flat_conv1 = torch.flatten(generative_conv1, start_dim=1, end_dim=3)
@@ -88,5 +88,5 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data = next(iter(train_loader))[0].to(device)
     test_model = VAE_ladder_model(latent_dim=10, n_rungs=3, n_IAF_steps=1, IAF_node_width=20)
-    reconstruction_logits, KL_ELBO_term = test_model(data)
+    reconstruction_logits, log_q_z_given_x_full_ladder, log_p_z_full_ladder = test_model(data)
     print(reconstruction_logits.shape)

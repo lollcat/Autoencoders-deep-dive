@@ -48,7 +48,7 @@ class VAE_ladder_model(nn.Module):
             x = to_next_rung
 
         KL_ELBO_term = 0
-        generative_conv_starting = torch.ones(x.shape)
+        generative_conv_starting = torch.ones_like(x)
         for j in reversed(range(self.n_rungs)):
             generative_conv1 = F.elu(self.generative_block_conv1[j](generative_conv_starting))
             flat_conv1 = torch.flatten(generative_conv1, start_dim=1, end_dim=3)
