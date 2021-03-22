@@ -2,13 +2,17 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
 from IAF_VAE_mnist.Resnet import ResnetBlock
 
 
 class Encoder(nn.Module):
-    def __init__(self, latent_dim, fc_layer_dim, n_IAF_steps, h_dim, IAF_node_width):
+    def __init__(self, latent_dim, fc_layer_dim, n_IAF_steps, h_dim, IAF_node_width, constant_sigma=False):
         super(Encoder, self).__init__()
+        if constant_sigma is False:
+            from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
+        else:
+            from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN_constant_sigma import IAF_NN
+
         self.resnet_blocks = nn.ModuleList([])
         self.resnet_blocks.append(ResnetBlock(input_filters=3, filter_size=16, stride=2, kernel_size=3, deconv=False))
         self.resnet_blocks.append(ResnetBlock(input_filters=16, filter_size=16, stride=1, kernel_size=3, deconv=False))
@@ -30,6 +34,8 @@ class Encoder(nn.Module):
             self.IAF_steps.append(
                 IAF_NN(latent_dim=latent_dim, h_dim=h_dim, IAF_node_width=IAF_node_width)
             )
+
+        self.register_buffer("normalisation_constant", torch.tensor(np.log(2 * np.pi)))
 
 
 

@@ -33,7 +33,7 @@ def plot_4_point_overfit(vae, cols=None, n_scatter_points=10000):
     from Utils.load_4_point import x_train_4_points
     import torch
     data_chunk = torch.tensor(x_train_4_points)
-    if cols == None:
+    if cols is None:
         cols = mpl.cm.rainbow(np.linspace(0.1, 0.9, 4))
     fig, ax = plt.subplots(figsize=(5,5))
     n_points_latent_vis = 4
@@ -42,8 +42,8 @@ def plot_4_point_overfit(vae, cols=None, n_scatter_points=10000):
         point_repeat[:, :, :, :] = data_chunk[point_n, :, :, :]
         encoding_2D = vae.get_latent_encoding(torch.tensor(point_repeat, dtype=torch.float32).to(vae.device))
         ax.scatter(encoding_2D[:, 0], encoding_2D[:, 1], color=cols[point_n, :], s=2, alpha=0.8)
-    #ax.set_xlabel(r"$z_1$")
-    #ax.set_ylabel(r"$z_2$")
+    ax.set_xlabel(r"$z_1$")
+    ax.set_ylabel(r"$z_2$")
     lim = 3
     ax.set_ylim((-lim, lim))
     ax.set_xlim((-lim, lim))
@@ -51,13 +51,13 @@ def plot_4_point_overfit(vae, cols=None, n_scatter_points=10000):
     ax.grid()
     return fig, ax
 
-def plot_prior():
+def plot_prior(c = np.array([200, 200, 200]) / 255, alpha=1):
     lim=3
     fig, ax = plt.subplots(figsize=(5, 5))
     prior = np.random.normal(size=(20000, 2))
-    ax.scatter(prior[:, 0], prior[:, 1], c=np.array([200, 200, 200]) / 255, s=2, alpha=1)
-    #ax.set_xlabel(r"$z_1$")
-    #ax.set_ylabel(r"$z_2$")
+    ax.scatter(prior[:, 0], prior[:, 1], c=c, s=2, alpha=alpha)
+    ax.set_xlabel(r"$z_1$")
+    ax.set_ylabel(r"$z_2$")
     ax.set_ylim((-lim, lim))
     ax.set_xlim((-lim, lim))
     ax.set_axisbelow(True)
@@ -87,5 +87,7 @@ def plot_latent_space(vae):
     sample_range_y = np.round(grid_y, 1)
     plt.xticks(pixel_range, sample_range_x)
     plt.yticks(pixel_range, sample_range_y)
+    ax.set_xlabel(r"$z_1$", fontsize=15)
+    ax.set_ylabel(r"$z_2$", fontsize=15)
     ax.imshow(figure, cmap="gray")
     return fig, ax

@@ -52,9 +52,9 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
 
 if __name__ == '__main__':
     import sys
-    experiment_number = 0 #int(sys.argv[1])
+    experiment_number = int(sys.argv[1])
     print(f"experiment argument {experiment_number}")
-    dict_number = 3# int(sys.argv[2])
+    dict_number = int(sys.argv[2])
     print(f"dict argument {dict_number}")
     if experiment_number == 0:
         from IAF_VAE_mnist.Experiment_dicts import experiment_dicts_paper as experiment_dicts
