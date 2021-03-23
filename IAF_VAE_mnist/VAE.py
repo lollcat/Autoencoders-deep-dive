@@ -110,7 +110,7 @@ class VAE:
         """
 
         if lr_schedule is True:  # number of decay steps
-            n_decay_steps = 5
+            n_decay_steps = 8
             epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
             epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
             original_lr = self.optimizer.param_groups[0]["lr"]

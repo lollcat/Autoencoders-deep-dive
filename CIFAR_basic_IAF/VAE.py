@@ -129,30 +129,32 @@ class VAE:
                       f"running_log_q_z_given_x: {running_log_q_z_given_x} \n"
                       f"running_log_p_z: {running_log_p_z} \n")
 
-            if test_loader is not None:
-                for i, (x, _) in enumerate(test_loader):
-                    x = x.to(self.device)
-                    #with torch.cuda.amp.autocast():
-                    reconstruction_means, reconstruction_log_vars, log_q_z_given_x, log_p_z = self.VAE_model(x)
-                    loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch = \
-                        self.loss_function(reconstruction_means, reconstruction_log_vars, log_q_z_given_x, log_p_z, x)
-                    test_running_loss = running_mean(loss.item(), test_running_loss, i)
-                    test_running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.item(), test_running_log_q_z_given_x, i)
-                    test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), test_running_log_p_x_given_z, i)
-                    test_running_log_p_z = running_mean(log_p_z_per_batch.item(), test_running_log_p_z, i)
 
-                test_history["loss"].append(test_running_loss)
-                test_history["log_p_x_given_z"].append(test_running_log_p_x_given_z)
-                test_history["log_q_z_given_x"].append(test_running_log_q_z_given_x)
-                test_history["log_p_z "].append(test_running_log_p_z)
+            for i, (x, _) in enumerate(test_loader):
+                x = x.to(self.device)
+                #with torch.cuda.amp.autocast():
+                reconstruction_means, reconstruction_log_vars, log_q_z_given_x, log_p_z = self.VAE_model(x)
+                loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch = \
+                    self.loss_function(reconstruction_means, reconstruction_log_vars, log_q_z_given_x, log_p_z, x)
+                test_running_loss = running_mean(loss.item(), test_running_loss, i)
+                test_running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.item(), test_running_log_q_z_given_x, i)
+                test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), test_running_log_p_x_given_z, i)
+                test_running_log_p_z = running_mean(log_p_z_per_batch.item(), test_running_log_p_z, i)
 
-                if EPOCH % epoch_per_info == 0:
-                    print(f"Epoch: {EPOCH + 1} \n"
-                          f"test running loss: {test_running_loss} \n"
-                          f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
-                          f"test running_log_q_z_given_x: {test_running_log_q_z_given_x} \n"
-                          f"test running_log_p_z: {test_running_log_p_z} \n")
-        return train_history, test_history
+            test_history["loss"].append(test_running_loss)
+            test_history["log_p_x_given_z"].append(test_running_log_p_x_given_z)
+            test_history["log_q_z_given_x"].append(test_running_log_q_z_given_x)
+            test_history["log_p_z "].append(test_running_log_p_z)
+
+            if EPOCH % epoch_per_info == 0:
+                print(f"Epoch: {EPOCH + 1} \n"
+                      f"test running loss: {test_running_loss} \n"
+                      f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
+                      f"test running_log_q_z_given_x: {test_running_log_q_z_given_x} \n"
+                      f"test running_log_p_z: {test_running_log_p_z} \n")
+
+        bits_per_dim = self.get_bits_per_dim(test_loader=test_loader)
+        return train_history, test_history, bits_per_dim
 
 
 

@@ -9,7 +9,7 @@ class VAE_ladder_model(nn.Module):
     """
     We have written Mnist version a bit more generally
     """
-    def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450):
+    def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, constant_sigma=False):
         super(VAE_ladder_model, self).__init__()
         self.n_rungs = n_rungs
         self.upward_blocks = nn.ModuleList([])
@@ -22,7 +22,7 @@ class VAE_ladder_model(nn.Module):
         for rung in range(n_rungs):
             self.upward_blocks.append(UpwardBlock(latent_dim=latent_dim))
             self.latent_blocks.append(LatentBlock(latent_dim=latent_dim, n_IAF_steps=n_IAF_steps,
-                                                  IAF_node_width=IAF_node_width))
+                                                  IAF_node_width=IAF_node_width, constant_sigma=constant_sigma))
             self.generative_block_conv1.append(
                 torch.nn.utils.weight_norm(nn.Conv2d(in_channels=3, out_channels=3,
                                                              kernel_size=3, stride=1, padding=1))

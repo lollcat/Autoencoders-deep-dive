@@ -22,9 +22,10 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
     if experiment_name != "":
         assert experiment_name[-1] == "/"
     name = experiment_name
+    vae_setting = ""
     for key in vae_kwargs:
-        name += f"{key}_{vae_kwargs[key]}__"
-    name += f"{current_time}"
+        vae_setting += f"{key}_{vae_kwargs[key]}__"
+    name += vae_setting +  f"{current_time}"
     results_path = f"Results_and_trained_models/IAF_VAE_mnist/Experiment_results/{name}/"
     train_loader, test_loader = load_data(batch_size=batch_size)
     vae = VAE(**vae_kwargs)
@@ -42,12 +43,14 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
         test_df.to_csv(f"{results_path}_test_df.csv")
 
         with open(f"{results_path}_final_results", "w") as g:
-            g.write("\n".join([f"marginal likelihood: {p_x} \n",
+            g.write("\n".join([f"{vae_setting} \n\n"
+                               f"n_lr_cycles={n_lr_cycles}, lr_schedule={lr_schedule} \n\n"
+                               f"marginal likelihood: {p_x}",
                                f"test ELBO:     {-test_history['loss'][-1]}",
                                f"train ELBO:     {-train_history['loss'][-1]}",
                                f"runtime: {round(run_time/3600, 2)} hours",
                                f"trained for : {epochs} EPOCH"]))
-    return train_history, test_history, p_x
+    return vae, train_history, test_history, p_x
 
 
 if __name__ == '__main__':

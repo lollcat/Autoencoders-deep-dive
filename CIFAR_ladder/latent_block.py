@@ -1,13 +1,17 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
 import numpy as np
 
 
 class LatentBlock(nn.Module):
-    def __init__(self, latent_dim, n_IAF_steps=1, IAF_node_width=450):
+    def __init__(self, latent_dim, n_IAF_steps=1, IAF_node_width=450, constant_sigma=False):
         super(LatentBlock, self).__init__()
+        if constant_sigma is False:
+            from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
+        else:
+            from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN_constant_sigma import IAF_NN
+
         self.epsilon_mean = nn.Parameter(torch.tensor(0.0), requires_grad=False) # need to do this to ensure epsilon on cuda
         self.epsilon_std = nn.Parameter(torch.tensor(1.0), requires_grad=False)
         self.epsilon_sample_layer = torch.distributions.normal.Normal(self.epsilon_mean, self.epsilon_std)

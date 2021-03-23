@@ -11,10 +11,11 @@ from CIFAR_ladder.model import VAE_ladder_model
 
 
 class VAE_ladder:
-    def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, use_GPU = True, name=""):
+    def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, use_GPU = True, name="",
+                 constant_sigma=False):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = VAE_ladder_model(latent_dim=latent_dim, n_rungs=n_rungs, n_IAF_steps=n_IAF_steps,
-                                      IAF_node_width=IAF_node_width).to(self.device)
+                                      IAF_node_width=IAF_node_width, constant_sigma=constant_sigma).to(self.device)
         self.optimizer = torch.optim.Adamax(self.model.parameters(), lr=0.001)
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
         self.save_NN_path = f"Results_and_trained_models/IAF_VAE_mnist/saved_models/{name}__latent_dim_{latent_dim}" \
