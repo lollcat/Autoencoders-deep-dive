@@ -58,9 +58,9 @@ class VAE_ladder_model(nn.Module):
             prior_mean = self.generative_block_mean_prior[j](flat_conv1)
             prior_log_std = self.generative_block_log_std_prior[j](flat_conv1)
             posterior_mean = prior_mean + up_variables[j][0]
-            posterior_log_var = prior_log_std + up_variables[j][1]
+            posterior_log_std = prior_log_std + up_variables[j][1]
             iaf_h = up_variables[j][2]
-            z, log_q_z_given_x = self.latent_blocks[j](posterior_mean, posterior_log_var, iaf_h)
+            z, log_q_z_given_x = self.latent_blocks[j](posterior_mean, posterior_log_std, iaf_h)
             prior_std = torch.exp(prior_log_std)
             log_p_z = self.unit_MVG_Guassian_log_prob(z, prior_mean, prior_std)
             process_stochastic_feat = self.generative_block_fc_before_concat[j](z)
@@ -68,12 +68,13 @@ class VAE_ladder_model(nn.Module):
             generative_concat_features = torch.cat([process_stochastic_feat, generative_conv1], dim=1)
             generative_conv2 = F.elu(self.generative_block_conv2[j](generative_concat_features))
             generative_conv_starting = generative_conv2 + generative_conv_starting  # now loop to next rung
-            rung_KL = torch.mean(log_q_z_given_x - log_p_z)
+            rung_KL = log_q_z_given_x - log_p_z
             KL_q_p += rung_KL
-            KL_free_bits_term = - torch.maximum(KL_q_p, self.lambda_free_bits*torch.ones_like(KL_q_p))
-
+            KL_free_bits_term -= torch.maximum(torch.mean(rung_KL),
+                                                self.lambda_free_bits*torch.ones(1)*0)
         reconstruction_mu = torch.sigmoid(self.reconstruction_mu(generative_conv_starting))
         reconstruction_log_sigma = self.reconstruction_log_sigma(generative_conv_starting)
+
         # note KL is KL(q(z|x) | p(z) )
         return reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term,  KL_q_p
 

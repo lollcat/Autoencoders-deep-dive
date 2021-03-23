@@ -4,7 +4,9 @@
  - https://paperswithcode.com/sota/image-generation-on-binarized-mnist
  
 # Code to write
-- either warmup or lambda max thing for ladder
+- numerically stable version of marginal for ladder
+- ladder make sure free bits thing is working
+- less glaringly important: numerically stable version for mnist
  
 # tests to do
  - does sigma have an effect (mnist and CIFAR)

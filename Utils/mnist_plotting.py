@@ -12,9 +12,9 @@ def plot_train_test(train_history, test_history):
     plt.tight_layout()
     return figure, axs
 
-def plot_original_and_reconstruction(vae, train_loader):
+def plot_original_and_reconstruction(vae, test_loader):
     n = 5
-    data_chunk = next(iter(train_loader))[0][0:n ** 2, :, :, :]
+    data_chunk = next(iter(test_loader))[0][0:n ** 2, :, :, :]
     prediction = vae.get_reconstruction(data_chunk.to(vae.device))
     fig_original, axs_original = plt.subplots(n, n)
     fig_reconstruct, axs_reconstruct = plt.subplots(n, n)

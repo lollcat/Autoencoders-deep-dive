@@ -78,6 +78,7 @@ class VAE:
         mean_log_p_x = torch.mean(log_p_x_per_sample)
         return mean_log_p_x.item()
 
+    @torch.no_grad()
     def get_marginal(self, test_loader, n_samples=128):
         marginal_running_mean = 0
         for i, (x,_) in enumerate(test_loader):
@@ -109,7 +110,7 @@ class VAE:
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader=None, lr_schedule=False, n_lr_cycles=1, epoch_per_info_min=50,
+    def train(self, EPOCHS, train_loader, test_loader, lr_schedule=False, n_lr_cycles=1, epoch_per_info_min=50,
               save_model=False):
         if lr_schedule is True:  # number of decay steps
             n_decay_steps = 5
@@ -117,9 +118,6 @@ class VAE:
             epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
             original_lr = self.optimizer.param_groups[0]["lr"]
         epoch_per_info = max(min(epoch_per_info_min, round(EPOCHS / 10)), 1)
-
-        epoch_per_info = max(min(100, round(EPOCHS / 10)), 1)
-        n_train_batches = len(train_loader)
         train_history = {"loss": [],
                          "log_p_x_given_z": [],
                          "log_q_z_given_x": [],
@@ -161,11 +159,11 @@ class VAE:
 
             if lr_schedule is True and EPOCH > 50: # use max lr for first 50 epoch
                 if EPOCH % epoch_per_cycle == 0:
-                    print("learning rate reset")
                     self.optimizer.param_groups[0]["lr"] = original_lr
+                    print("learning rate reset")
                 elif EPOCH % epoch_per_decay == 0:
-                    print("learning rate decayed")
                     self.optimizer.param_groups[0]["lr"] *= 0.5
+                    print("learning rate decayed")
 
             train_history["loss"].append(running_loss)
             train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
@@ -218,11 +216,7 @@ if __name__ == "__main__":
     data_chunk = next(iter(train_loader))[0]
     vae = VAE()
     print(vae.get_bits_per_dim(test_loader=test_loader, n_samples=3))
-    #reconstruction_means, reconstruction_log_vars, log_q_z_given_x, log_p_z = vae.VAE_model(data_chunk)
-    #log_probs = vae.discretized_log_lik(data_chunk, reconstruction_means, reconstruction_log_vars)
-    vae.train(EPOCHS = 3, train_loader=train_loader, test_loader=test_loader, save_model=True)
-    print(vae.get_bits_per_dim(test_loader=test_loader, n_samples=3))
-
+    vae.train(EPOCHS = 1, train_loader=train_loader, test_loader=test_loader, save_model=False)
     """
     n = 5
     data_chunk = next(iter(train_loader))[0][0:n**2, :, :, :]
