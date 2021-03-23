@@ -71,7 +71,7 @@ class VAE_ladder_model(nn.Module):
             rung_KL = log_q_z_given_x - log_p_z
             KL_q_p += rung_KL
             KL_free_bits_term -= torch.maximum(torch.mean(rung_KL),
-                                                self.lambda_free_bits*torch.ones(1)*0)
+                                                self.lambda_free_bits*torch.ones(1, device=self.device)*0)
         reconstruction_mu = torch.sigmoid(self.reconstruction_mu(generative_conv_starting))
         reconstruction_log_sigma = self.reconstruction_log_sigma(generative_conv_starting)
 
