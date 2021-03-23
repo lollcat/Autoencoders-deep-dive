@@ -48,7 +48,6 @@ if __name__ == '__main__':
     from IAF_VAE_mnist.Experiment_dicts import experiment_dicts_paper
     experiment_name = "CIFAR_IAF_initial_test/"
     epoch = 500
-    #for i, experiment_dict in enumerate(experiment_dicts):
     i = -1; experiment_dict = experiment_dicts_paper[i]
     print(f"running experiment {experiment_dict} for {epoch} epoch")
     vae = run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name)

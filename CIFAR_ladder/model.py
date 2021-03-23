@@ -9,8 +9,10 @@ class VAE_ladder_model(nn.Module):
     """
     We have written Mnist version a bit more generally
     """
-    def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, constant_sigma=False):
+    def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, constant_sigma=False,
+                 lambda_free_bits = 0.25):
         super(VAE_ladder_model, self).__init__()
+        self.lambda_free_bits = lambda_free_bits
         self.n_rungs = n_rungs
         self.upward_blocks = nn.ModuleList([])
         self.latent_blocks = nn.ModuleList([])
@@ -47,7 +49,8 @@ class VAE_ladder_model(nn.Module):
             up_variables.append((up_mean, up_log_std, h))
             x = to_next_rung
 
-        KL_ELBO_term = 0
+        KL_q_p = 0
+        KL_free_bits_term = 0
         generative_conv_starting = torch.ones_like(x)
         for j in reversed(range(self.n_rungs)):
             generative_conv1 = F.elu(self.generative_block_conv1[j](generative_conv_starting))
@@ -65,13 +68,14 @@ class VAE_ladder_model(nn.Module):
             generative_concat_features = torch.cat([process_stochastic_feat, generative_conv1], dim=1)
             generative_conv2 = F.elu(self.generative_block_conv2[j](generative_concat_features))
             generative_conv_starting = generative_conv2 + generative_conv_starting  # now loop to next rung
-            KL_ELBO_term += torch.mean(log_p_z - log_q_z_given_x)
+            rung_KL = torch.mean(log_q_z_given_x - log_p_z)
+            KL_q_p += rung_KL
+            KL_free_bits_term = - torch.maximum(KL_q_p, self.lambda_free_bits*torch.ones_like(KL_q_p))
 
         reconstruction_mu = torch.sigmoid(self.reconstruction_mu(generative_conv_starting))
         reconstruction_log_sigma = self.reconstruction_log_sigma(generative_conv_starting)
-
-        # note KL_ELBO term is -KL(q(z|x) | p(z) )
-        return reconstruction_mu, reconstruction_log_sigma, KL_ELBO_term
+        # note KL is KL(q(z|x) | p(z) )
+        return reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term,  KL_q_p
 
 
     def unit_MVG_Guassian_log_prob(self, sample, mu=0, sigma=1):

@@ -21,3 +21,6 @@ MNIST standard experiment (we aren't relying on this for next steps)
     - maybe run 100 steps with different latent dim first to check
 - CIFAR ladder
 - CIFAR constant sigma
+
+## Learning rate
+    - if to big we get Nans, default adamax val of 0.002 works, 0.01 breaks things

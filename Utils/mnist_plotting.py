@@ -76,7 +76,7 @@ def plot_latent_space(vae):
     for i, yi in enumerate(grid_x):
         for j, xi in enumerate(grid_y):
             z_sample = torch.tensor(np.array([[xi, yi]])).float().to(vae.device)
-            digit = torch.sigmoid(vae.VAE_model.decoder(z_sample)).cpu().detach().numpy()
+            digit = torch.sigmoid(vae.model.decoder(z_sample)).cpu().detach().numpy()
             figure[i * digit_size: (i + 1) * digit_size,
             j * digit_size: (j + 1) * digit_size] = digit
     fig, ax = plt.subplots(figsize=(10, 10))

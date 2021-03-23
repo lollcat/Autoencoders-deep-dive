@@ -56,7 +56,7 @@ if __name__ == "__main__":
     plt.show()
 
     n = 5
-    prediction = vae.VAE_model(data_chunk)[0].detach().numpy()
+    prediction = vae.model(data_chunk)[0].detach().numpy()
     fig, axs = plt.subplots(n, n)
     for i in range(n * n):
         row = int(i / n)
