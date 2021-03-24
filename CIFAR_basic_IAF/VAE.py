@@ -88,7 +88,7 @@ class VAE:
         return marginal_running_mean
 
     def get_bits_per_dim(self, test_loader, n_samples=128):
-        num_pixels = 32*32
+        num_pixels = 32*32*3
         log_p_x = self.get_marginal(test_loader=test_loader, n_samples=n_samples)
         return - log_p_x/num_pixels/np.log(2)
 
