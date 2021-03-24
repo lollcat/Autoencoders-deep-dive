@@ -11,6 +11,7 @@ from CIFAR_basic_IAF.VAE import VAE
 
 
 class VAE_ladder(VAE):
+    # note this class inherits important functions from CIFAR_basic_IAF\VAE such as bits per dim
     def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, use_GPU = True, name="",
                  constant_sigma=False, lambda_free_bits=0.25):
         super(VAE_ladder, self).__init__()
@@ -43,19 +44,6 @@ class VAE_ladder(VAE):
         log_p_x_per_sample = torch.logsumexp(log_monte_carlo_sample_s, dim=0) - torch.log(torch.tensor(n_samples).float())
         mean_log_p_x = torch.mean(log_p_x_per_sample)
         return mean_log_p_x.item()
-
-    def get_marginal(self, test_loader, n_samples=128):
-        marginal_running_mean = 0
-        for i, (x,_) in enumerate(test_loader):
-            x = x.to(self.device)
-            marginal_batch = self.get_marginal_batch(x, n_samples=n_samples)
-            marginal_running_mean = marginal_running_mean + (marginal_batch - marginal_running_mean)/(i + 1)
-        return marginal_running_mean
-
-    def get_bits_per_dim(self, test_loader, n_samples=128):
-        num_pixels = 32*32*3
-        log_p_x = self.get_marginal(test_loader=test_loader, n_samples=n_samples)
-        return - log_p_x/num_pixels/np.log(2)
 
     def loss_function(self, reconstruction_means, reconstruction_log_sigmas
                       , KL_free_bits_term, x_target):
