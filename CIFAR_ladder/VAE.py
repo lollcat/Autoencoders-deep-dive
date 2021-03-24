@@ -105,9 +105,6 @@ class VAE_ladder(VAE):
                 running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), running_log_p_x_given_z, i)
                 running_KL = running_mean(KL_mean.item(), running_KL, i)
                 running_KL_free_bits = running_mean(-KL_free_bits_term.item(), running_KL_free_bits, i)
-                if i > 10:
-                    break
-
 
             if lr_schedule is True and EPOCH > 50: # use max lr for first 50 epoch
                 if EPOCH % epoch_per_cycle == 0:
@@ -167,9 +164,10 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     train_loader, test_loader = load_data(100)
     x_data = next(iter(train_loader))[0].to(device)
-    test_model = VAE_ladder(latent_dim=2, n_rungs=2, n_IAF_steps=1, IAF_node_width=20)
+    experiment_dict = {"latent_dim": 3, "n_IAF_steps": 1, "IAF_node_width": 10, "n_rungs": 4}
+    test_model = VAE_ladder(**experiment_dict)
     print(test_model.get_bits_per_dim(test_loader, n_samples=3))
-    train_history, test_history, bits_per_dim = test_model.train(5, train_loader, test_loader,
+    train_history, test_history, bits_per_dim = test_model.train(2, train_loader, test_loader,
                                                                   lr_schedule=False, n_lr_cycles=1,
                                                                   epoch_per_info_min=50,
                                                                   save_model=False)

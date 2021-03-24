@@ -59,10 +59,10 @@ class Encoder(nn.Module):
             m, s = IAF(z, h)
             if self.constant_sigma is False:
                 sigma = torch.sigmoid(s)
-            else:
-                sigma = s  # sigma = 1
-            z = sigma * z + (1 - sigma) * m
-            log_q_z_given_x = log_q_z_given_x - torch.sum(torch.log(sigma), dim=1)
+                z = sigma * z + (1 - sigma) * m
+                log_q_z_given_x = log_q_z_given_x - torch.sum(torch.log(sigma), dim=1)
+            else: # constant scaling factor of one, "location-only" transform
+                z = z + m
 
         log_p_z = self.unit_MVG_Guassian_log_prob(z)
         return z, log_q_z_given_x, log_p_z

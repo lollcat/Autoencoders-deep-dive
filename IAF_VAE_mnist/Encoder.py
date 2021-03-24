@@ -62,7 +62,6 @@ class Encoder(nn.Module):
             else:
                 z = z + m  # sigma = 1, and we don't have to re-estimate log_q_z_given_x
 
-
         log_p_z = self.unit_MVG_Guassian_log_prob(z)
         return z, log_q_z_given_x, log_p_z
 

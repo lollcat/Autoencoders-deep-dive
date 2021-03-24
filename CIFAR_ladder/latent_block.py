@@ -7,6 +7,7 @@ import numpy as np
 class LatentBlock(nn.Module):
     def __init__(self, latent_dim, n_IAF_steps=1, IAF_node_width=450, constant_sigma=False):
         super(LatentBlock, self).__init__()
+        self.constant_sigma = constant_sigma
         if constant_sigma is False:
             from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
         else:
@@ -25,6 +26,7 @@ class LatentBlock(nn.Module):
         self.register_buffer("normalisation_constant", torch.tensor(np.log(2*np.pi)))
 
     def forward(self, means, log_stds, h):
+        log_stds = log_stds/10  # reparameterise to start of low
         stds = torch.exp(log_stds)
         epsilon = self.epsilon_sample_layer.rsample(means.shape)
         log_q_z_given_x = self.unit_MVG_Guassian_log_prob(epsilon)
@@ -33,9 +35,13 @@ class LatentBlock(nn.Module):
 
         for IAF in self.IAF_steps:
             m, s = IAF(z, h)
-            sigma = torch.sigmoid(s)
-            z = sigma * z + (1 - sigma) * m
-            log_q_z_given_x = log_q_z_given_x - torch.sum(torch.log(sigma), dim=1)
+            if self.constant_sigma is False:
+                sigma = torch.sigmoid(s)
+                z = sigma * z + (1 - sigma) * m
+                log_q_z_given_x = log_q_z_given_x - torch.sum(torch.log(sigma), dim=1)
+            else: # constant scaling factor of one, "location-only" transform
+                z = z + m
+
         return z, log_q_z_given_x
 
 

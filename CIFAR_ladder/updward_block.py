@@ -9,16 +9,16 @@ class UpwardBlock(nn.Module):
         self.up_conv1 = torch.nn.utils.weight_norm(nn.Conv2d(in_channels=in_channels, out_channels=in_channels,
                                                              kernel_size=3, stride=1, padding=1))
         self.up_means = torch.nn.utils.weight_norm(nn.Linear(image_dim**2*in_channels, latent_dim))
-        self.up_vars = torch.nn.utils.weight_norm(nn.Linear(image_dim**2*in_channels, latent_dim))
+        self.up_log_stds = torch.nn.utils.weight_norm(nn.Linear(image_dim ** 2 * in_channels, latent_dim))
         self.up_h = torch.nn.utils.weight_norm(nn.Linear(image_dim**2*in_channels, latent_dim)) # assume h has same dim as latent
         self.up_conv2 = torch.nn.utils.weight_norm(nn.Conv2d(in_channels=in_channels, out_channels=in_channels,
                                                              kernel_size=3, stride=1, padding=1))
 
     def forward(self, x):
-        up_conv1 = self.up_conv1(x)
+        up_conv1 = F.elu(self.up_conv1(x))
         flatten_conv1 = torch.flatten(up_conv1, start_dim=1, end_dim=3)
-        up_means = F.elu(self.up_means(flatten_conv1))
-        up_log_stds = F.softplus(self.up_vars(flatten_conv1))
+        up_means = self.up_means(flatten_conv1)
+        up_log_stds = self.up_log_stds(flatten_conv1)
         h = F.elu(self.up_h(flatten_conv1))
         to_next_rung = F.elu(self.up_conv2(up_conv1)) + x
         return up_means, up_log_stds, h, to_next_rung
