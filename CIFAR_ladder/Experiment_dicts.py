@@ -1,5 +1,5 @@
 latent_dim = 32
-experiment_dicts_paper = [{"latent_dim": latent_dim, "n_IAF_steps": 0, "n_rungs":4},  # 0
+experiment_dicts = [{"latent_dim": latent_dim, "n_IAF_steps": 0, "n_rungs":4},  # 0
     {"latent_dim": latent_dim, "n_IAF_steps": 1, "IAF_node_width" : 320, "n_rungs":4},  # 1
     {"latent_dim": latent_dim, "n_IAF_steps": 0, "n_rungs":8},  # 3
     {"latent_dim": latent_dim, "n_IAF_steps": 1, "IAF_node_width" : 320, "n_rungs":8}, # 4

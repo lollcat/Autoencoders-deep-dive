@@ -1,11 +1,5 @@
-from Utils.running_mean import running_mean
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
 from datetime import datetime
-import pathlib, os
-from tqdm import tqdm
 from MNIST_ladder.model import VAE_ladder_model
 from IAF_VAE_mnist.VAE import VAE
 

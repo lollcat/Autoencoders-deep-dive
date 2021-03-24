@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import numpy as np
-from tqdm import tqdm
+#from tqdm import tqdm
+from tqdm.notebook import tqdm
 import pathlib, os
 from datetime import datetime
 

@@ -5,7 +5,8 @@ import torch.nn.functional as F
 import numpy as np
 from datetime import datetime
 import pathlib, os
-from tqdm import tqdm
+#from tqdm import tqdm
+from tqdm.notebook import tqdm
 from CIFAR_ladder.model import VAE_ladder_model
 from CIFAR_basic_IAF.VAE import VAE
 

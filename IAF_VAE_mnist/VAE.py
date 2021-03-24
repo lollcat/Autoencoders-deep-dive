@@ -7,7 +7,8 @@ import torch.nn.functional as F
 import numpy as np
 from datetime import datetime
 import pathlib, os
-from tqdm import tqdm
+#from tqdm import tqdm
+from tqdm.notebook import tqdm
 
 class VAE_model(nn.Module):
     def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450,
