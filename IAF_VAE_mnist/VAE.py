@@ -32,8 +32,8 @@ class VAE:
         else:
             self.device = "cpu"
         print(f"running using {self.device}")
-        self.VAE_model = VAE_model(latent_dim, n_IAF_steps, h_dim, IAF_node_width, encoder_fc_dim,
-                                   decoder_fc_dim, constant_sigma=constant_sigma)\
+        self.model = VAE_model(latent_dim, n_IAF_steps, h_dim, IAF_node_width, encoder_fc_dim,
+                               decoder_fc_dim, constant_sigma=constant_sigma)\
             .to(self.device)
 
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
@@ -41,27 +41,27 @@ class VAE:
                             f"__n_IAF_steps_{n_IAF_steps}__h_dim_{h_dim}_constant_sigma_{constant_sigma}__" \
                             f"IAF_node_width_{IAF_node_width}/{current_time}/"
         self.BCE_loss = torch.nn.BCEWithLogitsLoss(reduction="none")
-        self.optimizer = torch.optim.Adamax(self.VAE_model.parameters())
+        self.optimizer = torch.optim.Adamax(self.model.parameters())
 
     def get_reconstruction(self, x_data):
         # for visualisation
-        return torch.sigmoid(self.VAE_model(x_data)[0]).cpu().detach().numpy()
+        return torch.sigmoid(self.model(x_data)[0]).cpu().detach().numpy()
 
     def save_NN_model(self, epochs_trained_for = 0, additional_name_info=""):
         model_path = self.save_NN_path + f"epochs_{epochs_trained_for}__model__" + additional_name_info
         pathlib.Path(os.path.join(os.getcwd(), model_path)).parent.mkdir(parents=True, exist_ok=True)
-        torch.save(self.VAE_model.state_dict(), model_path)
+        torch.save(self.model.state_dict(), model_path)
 
     def load_NN_model(self, path):
-        self.VAE_model.load_state_dict(torch.load(path, map_location=torch.device(self.device)))
+        self.model.load_state_dict(torch.load(path, map_location=torch.device(self.device)))
         print(f"loaded model from {path}")
 
     def get_latent_encoding(self, x_data):
         # for visualisation
-        return self.VAE_model.encoder(x_data)[0].cpu().detach().numpy()
+        return self.model.encoder(x_data)[0].cpu().detach().numpy()
 
     def get_reconstruction_from_latent(self, z):
-        return torch.sigmoid(self.VAE_model.decoder(z)).cpu().detach().numpy()
+        return torch.sigmoid(self.model.decoder(z)).cpu().detach().numpy()
 
 
     def loss_function(self, reconstruction_logits, log_q_z_given_x, log_p_z, x_target):
@@ -81,7 +81,7 @@ class VAE:
         """
         running_mean = 0
         for n in range(n_samples):
-            reconstruction_logits, log_q_z_given_x, log_p_z = self.VAE_model(x_batch)
+            reconstruction_logits, log_q_z_given_x, log_p_z = self.model(x_batch)
             log_p_x_given_z = - torch.sum(self.BCE_loss(reconstruction_logits, x_batch), dim=[1, 2, 3])
             log_monte_carlo_sample = log_p_x_given_z  + log_p_z - log_q_z_given_x
             monte_carlo_sample = torch.exp(log_monte_carlo_sample.type(torch.double)).cpu().detach().numpy()
@@ -143,7 +143,7 @@ class VAE:
 
             for i, (x,) in enumerate(train_loader):
                 x = x.to(self.device)
-                reconstruction_logits, log_q_z_given_x, log_p_z = self.VAE_model(x)
+                reconstruction_logits, log_q_z_given_x, log_p_z = self.model(x)
                 loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch = \
                     self.loss_function(reconstruction_logits, log_q_z_given_x, log_p_z, x)
                 if torch.isnan(loss).item():
@@ -184,7 +184,7 @@ class VAE:
                     torch.no_grad()
                     x = x.to(self.device)
                     with torch.cuda.amp.autocast():
-                        reconstruction_logits, log_q_z_given_x, log_p_z = self.VAE_model(x)
+                        reconstruction_logits, log_q_z_given_x, log_p_z = self.model(x)
                     loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch = \
                         self.loss_function(reconstruction_logits, log_q_z_given_x, log_p_z, x)
                     test_running_loss = running_mean(loss.item(), test_running_loss, i)
@@ -234,6 +234,6 @@ if __name__ == "__main__":
     vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20,
               IAF_node_width=450, encoder_fc_dim=450,
               decoder_fc_dim=450, constant_sigma=True)
-    vae.VAE_model(data)
+    vae.model(data)
     # vae.VAE_model.encoder.IAF_steps[0].FinalLayer.state_dict() # useful for checking sigma constant
     #vae.train(EPOCHS = 3, train_loader=train_loader, save_model=False) #, test_loader=test_loader)
