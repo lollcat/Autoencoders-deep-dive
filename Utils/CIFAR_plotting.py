@@ -1,5 +1,3 @@
-from Utils.mnist_plotting import plot_train_test
-from Utils.mnist_plotting import plot_original_and_reconstruction
 import matplotlib.pyplot as plt
 import numpy as np
 

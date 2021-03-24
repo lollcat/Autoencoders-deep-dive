@@ -18,10 +18,10 @@ class UpwardBlock(nn.Module):
         up_conv1 = self.up_conv1(x)
         flatten_conv1 = torch.flatten(up_conv1, start_dim=1, end_dim=3)
         up_means = F.elu(self.up_means(flatten_conv1))
-        up_vars = F.softplus(self.up_vars(flatten_conv1))
+        up_log_stds = F.softplus(self.up_vars(flatten_conv1))
         h = F.elu(self.up_h(flatten_conv1))
         to_next_rung = F.elu(self.up_conv2(up_conv1)) + x
-        return up_means, up_vars, h, to_next_rung
+        return up_means, up_log_stds, h, to_next_rung
 
 if __name__ == '__main__':
     """ # CIFAR

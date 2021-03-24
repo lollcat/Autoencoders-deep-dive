@@ -9,6 +9,7 @@ from IAF_VAE_mnist.Resnet import ResnetBlock
 class Encoder(nn.Module):
     def __init__(self, latent_dim, fc_layer_dim, n_IAF_steps, h_dim, IAF_node_width, constant_sigma=False):
         super(Encoder, self).__init__()
+        self.constant_sigma = constant_sigma
         if constant_sigma is False:
             from IAF_VAE_mnist.AutoregressiveNN.AutoregressiveNN import IAF_NN
         else:
@@ -54,7 +55,10 @@ class Encoder(nn.Module):
 
         for IAF in self.IAF_steps:
             m, s = IAF(z, h)
-            sigma = torch.sigmoid(s)
+            if self.constant_sigma is False:
+                sigma = torch.sigmoid(s)
+            else:
+                sigma = s  # sigma = 1
             z = sigma * z + (1 - sigma) * m
             log_q_z_given_x = log_q_z_given_x - torch.sum(torch.log(sigma), dim=1)
 
