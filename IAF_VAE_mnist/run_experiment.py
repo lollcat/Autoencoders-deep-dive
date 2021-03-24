@@ -20,7 +20,8 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
     """
     current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
     if experiment_name != "":
-        assert experiment_name[-1] == "/"
+        if experiment_name[-1] == "/": # must end in / for use as folder
+            experiment_name += "/"
     name = experiment_name
     vae_setting = ""
     for key in vae_kwargs:
@@ -54,12 +55,13 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
 
 
 if __name__ == '__main__':
+    """
     import sys
     experiment_number = int(sys.argv[1])
     print(f"experiment argument {experiment_number}")
     dict_number = int(sys.argv[2])
     print(f"dict argument {dict_number}")
-    if experiment_number == 0:
+        if experiment_number == 0:
         from IAF_VAE_mnist.Experiment_dicts import experiment_dicts_paper as experiment_dicts
         experiment_name = "paper_table_replication/"
     elif experiment_number == 1:
@@ -67,11 +69,12 @@ if __name__ == '__main__':
         experiment_name = "no_sigma/"
     else:
         raise Exception("experiment incorrectly specified")
-
+    """
+    experiment_number = 1
     epoch = 2000
-    experiment_dict = experiment_dicts[dict_number]
-
+    experiment_dict = {"constant_sigma": True, "latent_dim": 5, "n_IAF_steps": 2, "IAF_node_width" : 10}
+    experiment_name = "constant_sigma/"
     print(f"running experiment {experiment_name}, {experiment_dict} for {epoch} epoch")
     vae = run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name,
-                         save=True, n_lr_cycles=1, lr_schedule=False)
+                         save=False, n_lr_cycles=1, lr_schedule=True)
     print(f"\n completed experiment {experiment_name}, {experiment_dict} for {epoch} epoch")
