@@ -9,6 +9,7 @@ import numpy as np
 from tqdm.notebook import tqdm
 import pathlib, os
 from datetime import datetime
+from Utils.epoch_manager import EpochManager
 
 
 class VAE_model(nn.Module):
@@ -111,7 +112,7 @@ class VAE:
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader, lr_schedule=False, n_lr_cycles=1, epoch_per_info_min=50,
+    def train(self, EPOCHS, train_loader, test_loader, lr_schedule=False, n_lr_cycles=1,
               save_model=False, early_stopping = True):
         if early_stopping is True:
             counts_with_increased_test_loss = 0
@@ -121,7 +122,7 @@ class VAE:
             epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
             epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
             original_lr = self.optimizer.param_groups[0]["lr"]
-        epoch_per_info = max(min(epoch_per_info_min, round(EPOCHS / 10)), 1)
+        epoch_per_info = max(round(EPOCHS / 10), 1)
         train_history = {"loss": [],
                          "log_p_x_given_z": [],
                          "log_q_z_given_x": [],

@@ -7,8 +7,8 @@ import torch.nn.functional as F
 import numpy as np
 from datetime import datetime
 import pathlib, os
-from tqdm import tqdm
-#from tqdm.notebook import tqdm
+#from tqdm import tqdm
+from tqdm.notebook import tqdm
 from Utils.epoch_manager import EpochManager
 
 class VAE_model(nn.Module):
@@ -111,12 +111,11 @@ class VAE:
         :param save_info_during_training: whether to save & display loss throughout training
         :return: train_history, test_history, p_x (depends whichever of these exist based on function settings
         """
-        epoch_per_info_min = 50
         epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
                                      early_stopping=early_stopping,
                                      early_stopping_criterion=early_stopping_criterion,
                                      validation_based_decay=validation_based_decay)
-        epoch_per_info = max(min(epoch_per_info_min, round(EPOCHS / 10)), 1)
+        epoch_per_info = max(round(EPOCHS / 10), 1)
         if save_info_during_training is True:
             train_history = {"loss": [],
                              "log_p_x_given_z": [],

@@ -26,18 +26,21 @@ class EpochManager:
 
         if self.lr_decay is True and EPOCH > 0:  # use max lr for first 50 epoch no matter what
             if self.validation_based_decay is True:
-                if EPOCH > self.decay_step_criterion: # just to make sure we don't get a slicing error
-                    if np.all(test_history[-self.decay_step_criterion:] > test_history[-self.decay_step_criterion - 1]):
-                        print(f"lr decay due to {self.decay_step_criterion} steps without improvement")
-                        self.optimizer.param_groups[0]["lr"] *= 0.5
-                        self.n_decay_steps_counter += 1
-                        if self.n_decay_steps_counter > self.max_decay_steps:
-                            print("stopping because maximum number of decay steps reached")
-                            halt_training = True
+                if EPOCH % self.decay_step_criterion:
+                    if EPOCH > self.decay_step_criterion: # just to make sure we don't get a slicing error
+                        if np.all(test_history[-self.decay_step_criterion:] > test_history[-self.decay_step_criterion - 1]):
+                            self.optimizer.param_groups[0]["lr"] *= 0.5
+                            self.n_decay_steps_counter += 1
+                            print(f"lr decay due to {self.decay_step_criterion} steps without improvement")
+                            print(f"learning rate decayed to {self.optimizer.param_groups[0]['lr']}")
+                            print(f"{self.n_decay_steps_counter} decay steps out of max {self.max_decay_steps}")
+                            if self.n_decay_steps_counter > self.max_decay_steps:
+                                print("stopping because maximum number of decay steps reached")
+                                halt_training = True
             else: # fixed number of decay steps
                 if EPOCH % self.epoch_per_decay == 0:
-                    print("learning rate decayed")
                     self.optimizer.param_groups[0]["lr"] *= 0.5
+                    print(f"learning rate decayed to {self.optimizer.param_groups[0]['lr']}")
         return halt_training
 
 

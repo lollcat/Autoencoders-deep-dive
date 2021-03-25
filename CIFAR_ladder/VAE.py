@@ -9,6 +9,7 @@ import pathlib, os
 from tqdm.notebook import tqdm
 from CIFAR_ladder.model import VAE_ladder_model
 from CIFAR_basic_IAF.VAE import VAE
+from Utils.epoch_manager import EpochManager
 
 
 class VAE_ladder(VAE):
@@ -54,10 +55,9 @@ class VAE_ladder(VAE):
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader, lr_decay=True, epoch_per_info_min=50,
+    def train(self, EPOCHS, train_loader, test_loader, lr_decay=True,
               save_model=False, early_stopping=True, early_stopping_criterion=20):
-        epoch_per_info = max(min(epoch_per_info_min, round(EPOCHS / 10)), 1)
-
+        epoch_per_info = max(round(EPOCHS / 10), 1)
         train_history = {"loss": [],
                          "log_p_x_given_z": [],
                          "KL": [],

@@ -8,8 +8,7 @@ import time
 import pandas as pd
 
 
-def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", save=True,
-                   n_lr_cycles=1, lr_schedule=False):
+def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", save=True, lr_decay=True):
     """
     :param vae_kwargs:
     :param epochs:
@@ -32,8 +31,7 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
     vae = VAE(**vae_kwargs)
     start_time = time.time()
     train_history, test_history, p_x = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader,
-                                                 save_model=save,
-                                                 n_lr_cycles=n_lr_cycles, lr_decay=lr_schedule)
+                                                 save_model=save, lr_decay=lr_decay)
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
     if save:
@@ -45,7 +43,7 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
 
         with open(f"{results_path}_final_results", "w") as g:
             g.write("\n".join([f"{vae_setting} \n\n"
-                               f"n_lr_cycles={n_lr_cycles}, lr_schedule={lr_schedule} \n\n"
+                               f"n_lr_cycles={n_lr_cycles}, lr_schedule={lr_decay} \n\n"
                                f"marginal likelihood: {p_x}",
                                f"test ELBO:     {-test_history['loss'][-1]}",
                                f"train ELBO:     {-train_history['loss'][-1]}",
@@ -76,5 +74,5 @@ if __name__ == '__main__':
     experiment_name = "constant_sigma/"
     print(f"running experiment {experiment_name}, {experiment_dict} for {epoch} epoch")
     vae = run_experiment(experiment_dict, epochs=epoch, experiment_name=experiment_name,
-                         save=False, n_lr_cycles=1, lr_schedule=True)
+                         save=False, n_lr_cycles=1, lr_decay=True)
     print(f"\n completed experiment {experiment_name}, {experiment_dict} for {epoch} epoch")
