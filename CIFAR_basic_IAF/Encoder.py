@@ -21,14 +21,14 @@ class Encoder(nn.Module):
         self.resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=1, kernel_size=3, deconv=False))
         self.resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=2, kernel_size=3, deconv=False))
 
-        self.fc_layer = nn.Linear(4*4*32, fc_layer_dim)
-        self.mean_layer = nn.Linear(fc_layer_dim, latent_dim)
-        self.log_std_layer = nn.Linear(fc_layer_dim, latent_dim)
+        self.fc_layer = torch.nn.utils.weight_norm(nn.Linear(4*4*32, fc_layer_dim))
+        self.mean_layer = torch.nn.utils.weight_norm(nn.Linear(fc_layer_dim, latent_dim))
+        self.log_std_layer = torch.nn.utils.weight_norm(nn.Linear(fc_layer_dim, latent_dim))
 
         self.epsilon_mean = nn.Parameter(torch.tensor(0.0), requires_grad=False) # need to do this to ensure epsilon on cuda
         self.epsilon_std = nn.Parameter(torch.tensor(1.0), requires_grad=False)
         self.epsilon_sample_layer = torch.distributions.normal.Normal(self.epsilon_mean, self.epsilon_std)
-        self.h_layer = nn.Linear(fc_layer_dim, h_dim)
+        self.h_layer = torch.nn.utils.weight_norm(nn.Linear(fc_layer_dim, h_dim))
 
         self.IAF_steps = nn.ModuleList([])
         for i in range(n_IAF_steps):

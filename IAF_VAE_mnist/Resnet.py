@@ -3,21 +3,21 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class ResnetBlock(nn.Module):
-    def __init__(self, input_filters, filter_size, stride, kernel_size=3, deconv=False,
+    def __init__(self, input_filters, filter_size, stride, kernel_size=3, deconv=False, padding=1,
                  output_padding=0):
         super(ResnetBlock, self).__init__()
         self.stride = stride
         if deconv is False:
             self.conv = torch.nn.utils.weight_norm(nn.Conv2d(input_filters, filter_size,
                                                              kernel_size,
-                                                             stride, padding=1))
+                                                             stride, padding=padding))
             if stride == 2:
                 self.identity_mapping = nn.Conv2d(input_filters, filter_size,
                                              kernel_size=1, stride=stride)
         else:
             self.conv = torch.nn.utils.weight_norm(nn.ConvTranspose2d(input_filters,
                                                                       filter_size, kernel_size, stride,
-                                                                       padding=1,
+                                                                       padding=padding,
                                                                       output_padding=output_padding))
             if stride == 2:
                 self.identity_mapping = nn.ConvTranspose2d(input_filters, filter_size,

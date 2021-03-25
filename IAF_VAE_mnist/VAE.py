@@ -7,8 +7,9 @@ import torch.nn.functional as F
 import numpy as np
 from datetime import datetime
 import pathlib, os
-#from tqdm import tqdm
-from tqdm.notebook import tqdm
+from tqdm import tqdm
+#from tqdm.notebook import tqdm
+from Utils.epoch_manager import EpochManager
 
 class VAE_model(nn.Module):
     def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450,
@@ -97,23 +98,24 @@ class VAE:
         return marginal_running_mean
 
 
-    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True, lr_schedule=False,
-              save_info_during_training=True, n_lr_cycles = 3, epoch_per_info_min=50):
+    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
+              lr_decay=True, validation_based_decay = True, early_stopping=True,
+              early_stopping_criterion=20,
+              save_info_during_training=True):
         """
         :param EPOCHS: number of epochs
         :param train_loader: train data loader
         :param test_loader: test data loader
         :param save_model: whether to save model during training
-        :param lr_schedule: whether to decay learning rate
+        :param lr_decay: whether to decay learning rate
         :param save_info_during_training: whether to save & display loss throughout training
         :return: train_history, test_history, p_x (depends whichever of these exist based on function settings
         """
-
-        if lr_schedule is True:  # number of decay steps
-            n_decay_steps = 8
-            epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
-            epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
-            original_lr = self.optimizer.param_groups[0]["lr"]
+        epoch_per_info_min = 50
+        epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
+                                     early_stopping=early_stopping,
+                                     early_stopping_criterion=early_stopping_criterion,
+                                     validation_based_decay=validation_based_decay)
         epoch_per_info = max(min(epoch_per_info_min, round(EPOCHS / 10)), 1)
         if save_info_during_training is True:
             train_history = {"loss": [],
@@ -157,13 +159,6 @@ class VAE:
                     running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), running_log_p_x_given_z, i)
                     running_log_p_z = running_mean(log_p_z_per_batch.item(), running_log_p_z, i)
 
-            if lr_schedule is True and EPOCH > 50: # use max lr for first 50 epoch
-                if EPOCH % epoch_per_cycle == 0:
-                    print("learning rate reset")
-                    self.optimizer.param_groups[0]["lr"] = original_lr
-                elif EPOCH % epoch_per_decay == 0:
-                    print("learning rate decayed")
-                    self.optimizer.param_groups[0]["lr"] *= 0.5
 
             if save_info_during_training is True:
                 train_history["loss"].append(running_loss)
@@ -176,7 +171,6 @@ class VAE:
                           f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
                           f"running_log_q_z_given_x: {running_log_q_z_given_x} \n"
                           f"running_log_p_z: {running_log_p_z} \n")
-
 
 
             if test_loader is not None and save_info_during_training is True:
@@ -192,6 +186,7 @@ class VAE:
                     test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), test_running_log_p_x_given_z, i)
                     test_running_log_p_z = running_mean(log_p_z_per_batch.item(), test_running_log_p_z, i)
 
+
                 test_history["loss"].append(test_running_loss)
                 test_history["log_p_x_given_z"].append(test_running_log_p_x_given_z)
                 test_history["log_q_z_given_x"].append(test_running_log_q_z_given_x)
@@ -203,6 +198,10 @@ class VAE:
                           f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
                           f"test running_log_q_z_given_x: {test_running_log_q_z_given_x} \n"
                           f"test running_log_p_z: {test_running_log_p_z} \n")
+
+                halt_training = epoch_manager.manage(EPOCH, test_history["loss"])
+                if halt_training:
+                    break
 
 
             if save_model is True and EPOCH % (round(EPOCHS/3) + 1) == 0 and EPOCH > 10:
@@ -236,4 +235,4 @@ if __name__ == "__main__":
               decoder_fc_dim=450, constant_sigma=True)
     vae.model(data)
     # vae.VAE_model.encoder.IAF_steps[0].FinalLayer.state_dict() # useful for checking sigma constant
-    #vae.train(EPOCHS = 3, train_loader=train_loader, save_model=False) #, test_loader=test_loader)
+    vae.train(EPOCHS = 40, train_loader=train_loader, save_model=False, test_loader=test_loader)

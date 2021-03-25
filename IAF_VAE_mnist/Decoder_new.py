@@ -6,8 +6,8 @@ from IAF_VAE_mnist.Resnet import ResnetBlock
 class Decoder(nn.Module):
     def __init__(self, latent_dim, fc_dim=100):
         super(Decoder, self).__init__()
-        self.fc1 = nn.Linear(latent_dim, fc_dim)
-        self.fc2 = nn.Linear(fc_dim, 4*4*32)
+        self.fc1 = torch.nn.utils.weight_norm(nn.Linear(latent_dim, fc_dim))
+        self.fc2 = torch.nn.utils.weight_norm(nn.Linear(fc_dim, 4*4*32))
         self.deconv_resnet_blocks = nn.ModuleList([])
         self.deconv_resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=2, kernel_size=3, deconv=True))
         self.deconv_resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=1, kernel_size=3,

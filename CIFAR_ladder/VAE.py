@@ -54,13 +54,8 @@ class VAE_ladder(VAE):
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader, lr_schedule=False, n_lr_cycles=1, epoch_per_info_min=50,
-              save_model=False):
-        if lr_schedule is True:  # number of decay steps
-            n_decay_steps = 5
-            epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
-            epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
-            original_lr = self.optimizer.param_groups[0]["lr"]
+    def train(self, EPOCHS, train_loader, test_loader, lr_decay=True, epoch_per_info_min=50,
+              save_model=False, early_stopping=True, early_stopping_criterion=20):
         epoch_per_info = max(min(epoch_per_info_min, round(EPOCHS / 10)), 1)
 
         train_history = {"loss": [],
@@ -95,14 +90,6 @@ class VAE_ladder(VAE):
                 running_KL = running_mean(KL_mean.item(), running_KL, i)
                 running_KL_free_bits = running_mean(-KL_free_bits_term.item(), running_KL_free_bits, i)
 
-            if lr_schedule is True and EPOCH > 50: # use max lr for first 50 epoch
-                if EPOCH % epoch_per_cycle == 0:
-                    print("learning rate reset")
-                    self.optimizer.param_groups[0]["lr"] = original_lr
-                elif EPOCH % epoch_per_decay == 0:
-                    print("learning rate decayed")
-                    self.optimizer.param_groups[0]["lr"] *= 0.5
-
 
             for i, (x, _) in enumerate(test_loader):
                 torch.no_grad()
@@ -115,7 +102,6 @@ class VAE_ladder(VAE):
                 test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), test_running_log_p_x_given_z, i)
                 test_running_KL = running_mean(KL_mean.item(), test_running_KL, i)
                 test_running_KL_free_bits = running_mean(-KL_free_bits_term.item(), test_running_KL_free_bits, i)
-
 
             train_history["loss"].append(running_loss)
             train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
@@ -136,6 +122,11 @@ class VAE_ladder(VAE):
                       f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
                       f"test running_KL: {test_running_KL} \n"
                       f"test running KL free bits {test_running_KL_free_bits}")
+
+            if early_stopping and EPOCH > early_stopping_criterion + 1:
+                if np.all(test_history[-early_stopping_criterion:] > test_history[-early_stopping_criterion-1]):
+                    print(f"early stopping due to {early_stopping_criterion} steps without improvement")
+                    break
 
         if save_model is True:
             print("model saved")

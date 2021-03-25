@@ -112,7 +112,10 @@ class VAE:
         return loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch
 
     def train(self, EPOCHS, train_loader, test_loader, lr_schedule=False, n_lr_cycles=1, epoch_per_info_min=50,
-              save_model=False):
+              save_model=False, early_stopping = True):
+        if early_stopping is True:
+            counts_with_increased_test_loss = 0
+            early_stopping_criterion = 10  # if test loss is higher for 10 epoch in a row we stop
         if lr_schedule is True:  # number of decay steps
             n_decay_steps = 5
             epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)

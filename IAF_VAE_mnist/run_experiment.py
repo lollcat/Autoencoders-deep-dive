@@ -33,7 +33,7 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
     start_time = time.time()
     train_history, test_history, p_x = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=test_loader,
                                                  save_model=save,
-                                                 n_lr_cycles=n_lr_cycles, lr_schedule=lr_schedule)
+                                                 n_lr_cycles=n_lr_cycles, lr_decay=lr_schedule)
     run_time = time.time() - start_time
     print(f"runtime for training (with marginal estimation) is {round(run_time/3600, 2)} hours")
     if save:

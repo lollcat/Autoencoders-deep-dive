@@ -22,7 +22,7 @@ class Encoder(nn.Module):
         self.resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=1, kernel_size=3, deconv=False))
         self.resnet_blocks.append(ResnetBlock(input_filters=32, filter_size=32, stride=2, kernel_size=3, deconv=False))
 
-        self.fc_layer = nn.Linear(4*4*32, fc_layer_dim)
+        self.fc_layer = torch.nn.utils.weight_norm(nn.Linear(4*4*32, fc_layer_dim))
         self.mean_layer = nn.Linear(fc_layer_dim, latent_dim)
         self.log_std_layer = nn.Linear(fc_layer_dim, latent_dim)
 

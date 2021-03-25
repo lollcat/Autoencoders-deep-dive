@@ -29,7 +29,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=256, experiment_name="", s
     vae.load_NN_model("IAF_VAE_mnist/saved_models/latent_dim_2__n_IAF_steps_0__h_dim_200_IAF_node_width_320/2021_03_18-06_02_46_AM/epochs_1000__model")
     start_time = time.time()
     train_history = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=None, save_model=save_model,
-                              lr_schedule=lr_schedule,
+                              lr_decay=lr_schedule,
                               save_info_during_training=save_info_during_training)
     run_time = time.time() - start_time
     print(f"runtime for training is {round(run_time/3600, 2)} hours")
