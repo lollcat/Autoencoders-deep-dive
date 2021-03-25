@@ -55,8 +55,13 @@ class VAE_ladder(VAE):
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader, lr_decay=True,
-              save_model=False, early_stopping=True, early_stopping_criterion=20):
+    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
+              lr_decay=True, validation_based_decay = True, early_stopping=True,
+              early_stopping_criterion=20):
+        epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
+                                     early_stopping=early_stopping,
+                                     early_stopping_criterion=early_stopping_criterion,
+                                     validation_based_decay=validation_based_decay)
         epoch_per_info = max(round(EPOCHS / 10), 1)
         train_history = {"loss": [],
                          "log_p_x_given_z": [],
@@ -123,10 +128,9 @@ class VAE_ladder(VAE):
                       f"test running_KL: {test_running_KL} \n"
                       f"test running KL free bits {test_running_KL_free_bits}")
 
-            if early_stopping and EPOCH > early_stopping_criterion + 1:
-                if np.all(test_history[-early_stopping_criterion:] > test_history[-early_stopping_criterion-1]):
-                    print(f"early stopping due to {early_stopping_criterion} steps without improvement")
-                    break
+            halt_training = epoch_manager.manage(EPOCH, test_history["loss"])
+            if halt_training:
+                break
 
         if save_model is True:
             print("model saved")

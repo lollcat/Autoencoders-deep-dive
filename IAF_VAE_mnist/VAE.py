@@ -202,7 +202,6 @@ class VAE:
                 if halt_training:
                     break
 
-
             if save_model is True and EPOCH % (round(EPOCHS/3) + 1) == 0 and EPOCH > 10:
                 print(f"saving checkpoint model at epoch {EPOCH}")
                 self.save_NN_model(EPOCH)

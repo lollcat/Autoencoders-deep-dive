@@ -112,16 +112,13 @@ class VAE:
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader, lr_schedule=False, n_lr_cycles=1,
-              save_model=False, early_stopping = True):
-        if early_stopping is True:
-            counts_with_increased_test_loss = 0
-            early_stopping_criterion = 10  # if test loss is higher for 10 epoch in a row we stop
-        if lr_schedule is True:  # number of decay steps
-            n_decay_steps = 5
-            epoch_per_decay = max(int(EPOCHS/n_lr_cycles / n_decay_steps), 1)
-            epoch_per_cycle = int(EPOCHS/n_lr_cycles) + 2
-            original_lr = self.optimizer.param_groups[0]["lr"]
+    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
+              lr_decay=True, validation_based_decay = True, early_stopping=True,
+              early_stopping_criterion=20):
+        epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
+                                     early_stopping=early_stopping,
+                                     early_stopping_criterion=early_stopping_criterion,
+                                     validation_based_decay=validation_based_decay)
         epoch_per_info = max(round(EPOCHS / 10), 1)
         train_history = {"loss": [],
                          "log_p_x_given_z": [],
@@ -162,14 +159,6 @@ class VAE:
                 running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), running_log_p_x_given_z, i)
                 running_log_p_z = running_mean(log_p_z_per_batch.item(), running_log_p_z, i)
 
-            if lr_schedule is True and EPOCH > 50: # use max lr for first 50 epoch
-                if EPOCH % epoch_per_cycle == 0:
-                    self.optimizer.param_groups[0]["lr"] = original_lr
-                    print("learning rate reset")
-                elif EPOCH % epoch_per_decay == 0:
-                    self.optimizer.param_groups[0]["lr"] *= 0.5
-                    print("learning rate decayed")
-
             train_history["loss"].append(running_loss)
             train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
             train_history["log_q_z_given_x"].append(running_log_q_z_given_x)
@@ -204,6 +193,10 @@ class VAE:
                       f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
                       f"test running_log_q_z_given_x: {test_running_log_q_z_given_x} \n"
                       f"test running_log_p_z: {test_running_log_p_z} \n")
+
+            halt_training = epoch_manager.manage(EPOCH, test_history["loss"])
+            if halt_training:
+                break
 
         if save_model is True:
             self.save_NN_model(EPOCHS)
