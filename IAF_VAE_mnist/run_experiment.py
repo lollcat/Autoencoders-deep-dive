@@ -43,7 +43,7 @@ def run_experiment(vae_kwargs, epochs=2000, batch_size=100, experiment_name="", 
 
         with open(f"{results_path}_final_results", "w") as g:
             g.write("\n".join([f"{vae_setting} \n\n"
-                               f"n_lr_cycles={n_lr_cycles}, lr_schedule={lr_decay} \n\n"
+                               f"lr_decay={lr_decay} \n\n"
                                f"marginal likelihood: {p_x}",
                                f"test ELBO:     {-test_history['loss'][-1]}",
                                f"train ELBO:     {-train_history['loss'][-1]}",
