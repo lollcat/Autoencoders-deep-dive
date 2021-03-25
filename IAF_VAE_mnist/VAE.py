@@ -100,7 +100,7 @@ class VAE:
 
     def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
               lr_decay=True, validation_based_decay = True, early_stopping=True,
-              early_stopping_criterion=20,
+              early_stopping_criterion=40,
               save_info_during_training=True):
         """
         :param EPOCHS: number of epochs

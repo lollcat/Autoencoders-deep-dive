@@ -114,7 +114,7 @@ class VAE:
 
     def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
               lr_decay=True, validation_based_decay = True, early_stopping=True,
-              early_stopping_criterion=20):
+              early_stopping_criterion=40):
         epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
                                      early_stopping=early_stopping,
                                      early_stopping_criterion=early_stopping_criterion,
