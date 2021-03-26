@@ -2,7 +2,7 @@ import torch
 from datetime import datetime
 from MNIST_ladder.model import VAE_ladder_model
 from IAF_VAE_mnist.VAE import VAE
-
+raise Exception("this is deprecated - and was for playing around")
 
 class VAE_ladder(VAE):
     def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, use_GPU = True, name="",

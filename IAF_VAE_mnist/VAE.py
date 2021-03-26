@@ -1,5 +1,5 @@
 from IAF_VAE_mnist.Encoder import Encoder
-from IAF_VAE_mnist.Decoder_new import Decoder
+from IAF_VAE_mnist.Decoder import Decoder
 from Utils.running_mean import running_mean
 import torch
 import torch.nn as nn
