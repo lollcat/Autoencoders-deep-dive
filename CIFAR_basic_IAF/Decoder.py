@@ -30,7 +30,7 @@ class Decoder(nn.Module):
         x = torch.reshape(x, (-1, 32, 4, 4))
         for resnet_block in self.deconv_resnet_blocks:
             x = resnet_block(x)
-        mean = torch.sigmoid(self.deconv_mean(x))
+        mean = self.deconv_mean(x) #torch.sigmoid()
         log_sigma = self.deconv_log_sigma(x)
         return mean, log_sigma
 
