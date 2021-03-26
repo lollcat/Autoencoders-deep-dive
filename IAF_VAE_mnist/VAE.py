@@ -172,9 +172,6 @@ class VAE:
                 running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.item(), running_log_q_z_given_x, i)
                 running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), running_log_p_x_given_z, i)
                 running_log_p_z = running_mean(log_p_z_per_batch.item(), running_log_p_z, i)
-                if i > 2:
-                    break
-
 
 
             train_history["loss"].append(running_loss)
@@ -201,9 +198,6 @@ class VAE:
                     test_running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.item(), test_running_log_q_z_given_x, i)
                     test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), test_running_log_p_x_given_z, i)
                     test_running_log_p_z = running_mean(log_p_z_per_batch.item(), test_running_log_p_z, i)
-                    if i > 2:
-                        break
-
 
                 test_history["loss"].append(test_running_loss)
                 test_history["log_p_x_given_z"].append(test_running_log_p_x_given_z)
@@ -226,7 +220,7 @@ class VAE:
                 self.save_NN_model(EPOCH)
 
         if test_loader is not None:
-            log_p_x = self.get_marginal(test_loader, n_samples=1)
+            log_p_x = self.get_marginal(test_loader, n_samples=128)
             print(f"marginal log likelihood is {log_p_x}")
             if save is True:
                 print("model saved")

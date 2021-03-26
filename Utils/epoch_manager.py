@@ -9,7 +9,7 @@ class EpochManager:
         self.early_stopping = early_stopping
         self.early_stopping_criterion = early_stopping_criterion
         self.validation_based_decay = validation_based_decay
-        self.max_decay_steps = 5
+        self.max_decay_steps = 7
         if validation_based_decay:
             self.n_decay_steps_counter = 0
             self.decay_step_criterion = int(early_stopping_criterion/2)
