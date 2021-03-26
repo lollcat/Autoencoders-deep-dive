@@ -9,12 +9,15 @@ class EpochManager:
         self.early_stopping = early_stopping
         self.early_stopping_criterion = early_stopping_criterion
         self.validation_based_decay = validation_based_decay
-        self.max_decay_steps = 8
+        self.max_decay_steps = 5
         if validation_based_decay:
             self.n_decay_steps_counter = 0
             self.decay_step_criterion = int(early_stopping_criterion/2)
+            self.lr_decay_factor = 0.1
         else:
             self.epoch_per_decay = max(int(EPOCHS/self.max_decay_steps) + 1, 1)
+            self.lr_decay_factor = 0.5
+
 
     def manage(self, EPOCH, test_history):
         test_history = np.array(test_history)
@@ -29,7 +32,7 @@ class EpochManager:
                 if EPOCH % self.decay_step_criterion:
                     if EPOCH > self.decay_step_criterion: # just to make sure we don't get a slicing error
                         if np.all(test_history[-self.decay_step_criterion:] > test_history[-self.decay_step_criterion - 1]):
-                            self.optimizer.param_groups[0]["lr"] *= 0.5
+                            self.optimizer.param_groups[0]["lr"] *= self.lr_decay_factor
                             self.n_decay_steps_counter += 1
                             print(f"lr decay due to {self.decay_step_criterion} steps without improvement")
                             print(f"learning rate decayed to {self.optimizer.param_groups[0]['lr']}")
@@ -39,7 +42,7 @@ class EpochManager:
                                 halt_training = True
             else: # fixed number of decay steps
                 if EPOCH % self.epoch_per_decay == 0:
-                    self.optimizer.param_groups[0]["lr"] *= 0.5
+                    self.optimizer.param_groups[0]["lr"] *= self.lr_decay_factor
                     print(f"learning rate decayed to {self.optimizer.param_groups[0]['lr']}")
         return halt_training
 

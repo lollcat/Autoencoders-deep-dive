@@ -26,7 +26,7 @@ class VAE_model(nn.Module):
         return reconstruction_means, reconstruction_log_sigma, log_q_z_given_x, log_p_z
 
 class VAE:
-    def __init__(self, latent_dim=2, n_IAF_steps=2, h_dim=32, IAF_node_width=32, encoder_fc_dim=32, decoder_fc_dim=32
+    def __init__(self, latent_dim=32, n_IAF_steps=2, h_dim=200, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450
                  , use_GPU = True, name="", constant_sigma=False):
         if use_GPU is True:
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
