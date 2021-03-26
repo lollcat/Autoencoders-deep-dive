@@ -114,6 +114,8 @@ class VAE:
 
     def discretized_log_lik(self, sample, mu, log_sigma, binsize=1/256.0):
         # based on https://github.com/openai/iaf/blob/ad33fe4872bf6e4b4f387e709a625376bb8b0d9d/tf_utils/distributions.py#L28
+        sample = sample - 0.5
+        mu = torch.clip(mu - 0.5, -0.5 + 1 / 512., 0.5 - 1 / 512)
         scale = torch.exp(log_sigma)
         sample = (torch.floor(sample / binsize) * binsize - mu) / scale
         log_p_x_given_z = torch.log(torch.sigmoid(sample + binsize / scale) - torch.sigmoid(sample) + 1e-7)
