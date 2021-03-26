@@ -4,6 +4,8 @@ import matplotlib as mpl
 import numpy as np
 
 def plot_train_test(train_history, test_history):
+    if "name" in train_history:
+        del(train_history["name"])
     figure, axs = plt.subplots(len(train_history), 1, figsize=(6, 10))
     for i, key in enumerate(train_history):
         axs[i].plot(train_history[key])

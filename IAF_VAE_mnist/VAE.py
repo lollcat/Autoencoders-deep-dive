@@ -249,13 +249,15 @@ class VAE:
 
 
 if __name__ == "__main__":
+    # see example run for a cleaner example - this __main__ is for fiddling around
     from Utils.load_binirised_mnist import load_data
     train_loader, test_loader = load_data(100)
     data = next(iter(train_loader))[0]
     print(data.shape)
-    vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20,
-              IAF_node_width=450, encoder_fc_dim=450,
-              decoder_fc_dim=450, constant_sigma=True)
+    experiment_dict = {"latent_dim":32, "n_IAF_steps":2, "h_dim":20,
+              "IAF_node_width":450, "encoder_fc_dim":450,
+              "decoder_fc_dim":450, "constant_sigma":True}
+    vae = VAE(**experiment_dict)
     #vae.model(data)
     # vae.VAE_model.encoder.IAF_steps[0].FinalLayer.state_dict() # useful for checking sigma constant
     vae.train(EPOCHS = 2, train_loader=train_loader, save=True, test_loader=test_loader)
