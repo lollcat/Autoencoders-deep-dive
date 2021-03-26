@@ -18,4 +18,5 @@ if __name__ == '__main__':
 
     import matplotlib.pyplot as plt
     figure, axs = plot_train_test(train_history, test_history)
+    plot_original_and_reconstruction()
     plt.show()

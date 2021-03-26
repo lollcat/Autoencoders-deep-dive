@@ -23,8 +23,8 @@ def plot_original_and_reconstruction(vae, test_loader):
     for i in range(n * n):
         row = int(i / n)
         col = i % n
-        axs_original[row, col].imshow(np.moveaxis(data_chunk[i, :, :, :].detach().numpy(), source=0, destination=-1),
-                             cmap="gray")
+        axs_original[row, col].imshow(np.squeeze(data_chunk[i, :, :, :].detach().numpy()),
+                                      cmap="gray")
         axs_original[row, col].axis('off')
         # reconstruction
         axs_reconstruct[row, col].imshow(np.squeeze(prediction[i, :, :, :]), cmap="gray")
