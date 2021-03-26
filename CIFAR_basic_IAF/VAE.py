@@ -52,9 +52,10 @@ class VAE:
         return self.model.encoder(x_data)[0].cpu().detach().numpy()
 
     def save_NN_model(self, epochs_trained_for = 0, additional_name_info=""):
-        model_path = self.save_NN_path + f"epochs_{epochs_trained_for}__model__" + additional_name_info
+        base_dir = pathlib.Path.cwd().parent
+        model_path = base_dir / self.save_NN_path / f"epochs_{epochs_trained_for}__model__{additional_name_info}"
         pathlib.Path(os.path.join(os.getcwd(), model_path)).parent.mkdir(parents=True, exist_ok=True)
-        torch.save(self.model.state_dict(), model_path)
+        torch.save(self.model.state_dict(), str(model_path))
 
     def load_NN_model(self, path):
         self.model.load_state_dict(torch.load(path, map_location=torch.device(self.device)))
