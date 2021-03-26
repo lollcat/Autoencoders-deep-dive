@@ -28,7 +28,7 @@ def run_experiment(vae_kwargs, epochs=100, batch_size=256, experiment_name="", s
     model_path = "Results_and_trained_models/IAF_VAE_mnist/saved_models/latent_dim_2__n_IAF_steps_8__h_dim_200_IAF_node_width_320/2021_03_18-07_47_26_AM/epochs_2000__model"
     vae.load_NN_model(model_path)
     start_time = time.time()
-    train_history = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=None, save_model=save_model,
+    train_history = vae.train(EPOCHS=epochs, train_loader=train_loader, test_loader=None, save=save_model,
                               lr_decay=lr_schedule,
                               save_info_during_training=save_info_during_training)
     run_time = time.time() - start_time

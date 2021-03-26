@@ -55,7 +55,7 @@ class VAE_ladder(VAE):
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
+    def train(self, EPOCHS, train_loader, test_loader=None, save=True,
               lr_decay=True, validation_based_decay = True, early_stopping=True,
               early_stopping_criterion=40):
         epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
@@ -63,11 +63,13 @@ class VAE_ladder(VAE):
                                      early_stopping_criterion=early_stopping_criterion,
                                      validation_based_decay=validation_based_decay)
         epoch_per_info = max(round(EPOCHS / 10), 1)
-        train_history = {"loss": [],
+        train_history = {"name": "train",
+                         "loss": [],
                          "log_p_x_given_z": [],
                          "KL": [],
                          "KL_free_bits": []}
-        test_history = {"loss": [],
+        test_history = {"name": "test",
+                        "loss": [],
                      "log_p_x_given_z": [],
                      "KL": [],
                      "KL_free_bits": []}
@@ -134,13 +136,29 @@ class VAE_ladder(VAE):
             if halt_training:
                 break
 
-        if save_model is True:
+            if save is True and EPOCH % (round(EPOCHS / 3) + 1) == 0 and EPOCH > 10:
+                print(f"saving checkpoint model at epoch {EPOCH}")
+                self.save_NN_model(EPOCH)
+
+        bits_per_dim = self.get_bits_per_dim(test_loader=test_loader)
+        bits_per_dim_lower_bound = self.get_bits_per_dim(test_loader, n_samples=1)  # 1 sample gives us lower bound
+        print(f"{bits_per_dim} bits per dim \n {bits_per_dim_lower_bound} bits per dim lower bound")
+        if save is True:
             print("model saved")
             self.save_NN_model(EPOCHS)
-
-        bits_per_dim = self.get_bits_per_dim(test_loader)
-        print(bits_per_dim)
+            self.save_training_info(numpy_dicts=[train_history, test_history],
+                                    single_value_dict={"bits per dim": bits_per_dim,
+                                                       "bits per dim lower bound": bits_per_dim_lower_bound,
+                                                       "test loss": -test_history['loss'][-1],
+                                                       "train loss": -train_history['loss'][-1],
+                                                       "EPOCHS MAX": EPOCHS,
+                                                       "EPOCHS Actual": EPOCH + 1,
+                                                       "lr_decay": lr_decay,
+                                                       "early_stopping": early_stopping,
+                                                       "early_stopping_criterion": early_stopping_criterion,
+                                                       "validation_based_decay": validation_based_decay})
         return train_history, test_history, bits_per_dim
+
 
 
 if __name__ == '__main__':
@@ -154,9 +172,9 @@ if __name__ == '__main__':
     test_model = VAE_ladder(**experiment_dict)
     print(test_model.get_bits_per_dim(test_loader, n_samples=3))
     train_history, test_history, bits_per_dim = test_model.train(2, train_loader, test_loader,
-                                                                  lr_schedule=False, n_lr_cycles=1,
-                                                                  epoch_per_info_min=50,
-                                                                  save_model=False)
+                                                                 lr_schedule=False, n_lr_cycles=1,
+                                                                 epoch_per_info_min=50,
+                                                                 save=False)
     fig_original, axs_original, fig_reconstruct, axs_reconstruct = \
         plot_original_and_reconstruction(test_model, test_loader)
     import matplotlib.pyplot as plt

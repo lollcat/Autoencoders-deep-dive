@@ -30,4 +30,4 @@ if __name__ == "__main__":
     data = next(iter(train_loader))[0]
     print(data.shape)
     vae = VAE_ladder(latent_dim=3, n_rungs=2, n_IAF_steps=1, IAF_node_width=8)
-    vae.train(EPOCHS = 1, train_loader=train_loader, save_model=False, test_loader=test_loader)
+    vae.train(EPOCHS = 1, train_loader=train_loader, save=False, test_loader=test_loader)

@@ -10,6 +10,7 @@ import pathlib, os
 #from tqdm import tqdm
 from tqdm.notebook import tqdm
 from Utils.epoch_manager import EpochManager
+import pandas as pd
 
 class VAE_model(nn.Module):
     def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450,
@@ -38,7 +39,7 @@ class VAE:
             .to(self.device)
 
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-        self.save_NN_path = f"Results_and_trained_models/IAF_VAE_mnist/saved_models/{name}__latent_dim_{latent_dim}" \
+        self.save_NN_path = f"Results_and_trained_models/IAF_VAE_mnist/{name}__latent_dim_{latent_dim}" \
                             f"__n_IAF_steps_{n_IAF_steps}__h_dim_{h_dim}_constant_sigma_{constant_sigma}__" \
                             f"IAF_node_width_{IAF_node_width}/{current_time}/"
         self.BCE_loss = torch.nn.BCEWithLogitsLoss(reduction="none")
@@ -51,8 +52,25 @@ class VAE:
     def save_NN_model(self, epochs_trained_for = 0, additional_name_info=""):
         base_dir = pathlib.Path.cwd().parent
         model_path = base_dir / self.save_NN_path / f"epochs_{epochs_trained_for}__model__{additional_name_info}"
-        pathlib.Path(os.path.join(os.getcwd(), model_path)).parent.mkdir(parents=True, exist_ok=True)
+        pathlib.Path(model_path).parent.mkdir(parents=True, exist_ok=True)
         torch.save(self.model.state_dict(), str(model_path))
+
+    def save_training_info(self, numpy_dicts, single_value_dict):
+        base_dir = pathlib.Path.cwd().parent
+        main_path = base_dir / self.save_NN_path
+        pathlib.Path(main_path).mkdir(parents=True, exist_ok=True)
+        for numpy_dict in numpy_dicts: # train and test info
+            df = pd.DataFrame(numpy_dict)
+            df_path = main_path / f'{numpy_dict["name"]}.csv'
+            df.to_csv(df_path)
+
+        summary_results = ""
+        for key in single_value_dict:
+            summary_results += f"{key} : {single_value_dict[key]}\n"
+        summary_results_path = str(main_path / "summary_results.txt")
+        with open(summary_results_path, "w") as g:
+            g.write(summary_results)
+
 
     def load_NN_model(self, path):
         self.model.load_state_dict(torch.load(path, map_location=torch.device(self.device)))
@@ -99,15 +117,14 @@ class VAE:
         return marginal_running_mean
 
 
-    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
+    def train(self, EPOCHS, train_loader, test_loader=None, save=True,
               lr_decay=True, validation_based_decay = True, early_stopping=True,
-              early_stopping_criterion=40,
-              save_info_during_training=True):
+              early_stopping_criterion=40):
         """
         :param EPOCHS: number of epochs
         :param train_loader: train data loader
         :param test_loader: test data loader
-        :param save_model: whether to save model during training
+        :param save: whether to save model during training
         :param lr_decay: whether to decay learning rate
         :param save_info_during_training: whether to save & display loss throughout training
         :return: train_history, test_history, p_x (depends whichever of these exist based on function settings
@@ -117,30 +134,28 @@ class VAE:
                                      early_stopping_criterion=early_stopping_criterion,
                                      validation_based_decay=validation_based_decay)
         epoch_per_info = max(round(EPOCHS / 10), 1)
-        if save_info_during_training is True:
-            train_history = {"loss": [],
-                             "log_p_x_given_z": [],
-                             "log_q_z_given_x": [],
-                             "log_p_z ": []}
-            if test_loader is not None:
-                test_history = {"loss": [],
-                             "log_p_x_given_z": [],
-                             "log_q_z_given_x": [],
-                             "log_p_z ": []}
-            else:
-                test_history = None
+        train_history = {"name": "train",
+            "loss": [],
+                         "log_p_x_given_z": [],
+                         "log_q_z_given_x": [],
+                         "log_p_z ": []}
+        if test_loader is not None:
+            test_history = {"name":"test",
+                "loss": [],
+                         "log_p_x_given_z": [],
+                         "log_q_z_given_x": [],
+                         "log_p_z ": []}
 
         for EPOCH in tqdm(range(EPOCHS)):
-            if save_info_during_training is True:
-                running_loss = 0
-                running_log_q_z_given_x = 0
-                running_log_p_x_given_z = 0
-                running_log_p_z = 0
+            running_loss = 0
+            running_log_q_z_given_x = 0
+            running_log_p_x_given_z = 0
+            running_log_p_z = 0
 
-                test_running_loss = 0
-                test_running_log_q_z_given_x = 0
-                test_running_log_p_x_given_z = 0
-                test_running_log_p_z = 0
+            test_running_loss = 0
+            test_running_log_q_z_given_x = 0
+            test_running_log_p_x_given_z = 0
+            test_running_log_p_z = 0
 
 
             for i, (x,) in enumerate(train_loader):
@@ -153,27 +168,28 @@ class VAE:
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
-                if save_info_during_training is True:
-                    running_loss = running_mean(loss.item(), running_loss, i)
-                    running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.item(), running_log_q_z_given_x, i)
-                    running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), running_log_p_x_given_z, i)
-                    running_log_p_z = running_mean(log_p_z_per_batch.item(), running_log_p_z, i)
+                running_loss = running_mean(loss.item(), running_loss, i)
+                running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.item(), running_log_q_z_given_x, i)
+                running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), running_log_p_x_given_z, i)
+                running_log_p_z = running_mean(log_p_z_per_batch.item(), running_log_p_z, i)
+                if i > 2:
+                    break
 
 
-            if save_info_during_training is True:
-                train_history["loss"].append(running_loss)
-                train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
-                train_history["log_q_z_given_x"].append(running_log_q_z_given_x)
-                train_history["log_p_z "].append(running_log_p_z)
-                if EPOCH % epoch_per_info == 0 or EPOCH == EPOCHS - 1:
-                    print(f"Epoch: {EPOCH + 1} \n"
-                          f"running loss: {running_loss} \n"
-                          f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
-                          f"running_log_q_z_given_x: {running_log_q_z_given_x} \n"
-                          f"running_log_p_z: {running_log_p_z} \n")
+
+            train_history["loss"].append(running_loss)
+            train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
+            train_history["log_q_z_given_x"].append(running_log_q_z_given_x)
+            train_history["log_p_z "].append(running_log_p_z)
+            if EPOCH % epoch_per_info == 0 or EPOCH == EPOCHS - 1:
+                print(f"Epoch: {EPOCH + 1} \n"
+                      f"running loss: {running_loss} \n"
+                      f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
+                      f"running_log_q_z_given_x: {running_log_q_z_given_x} \n"
+                      f"running_log_p_z: {running_log_p_z} \n")
 
 
-            if test_loader is not None and save_info_during_training is True:
+            if test_loader is not None:
                 for i, (x,) in enumerate(test_loader):
                     torch.no_grad()
                     x = x.to(self.device)
@@ -185,6 +201,8 @@ class VAE:
                     test_running_log_q_z_given_x = running_mean(log_q_z_given_x_per_batch.item(), test_running_log_q_z_given_x, i)
                     test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), test_running_log_p_x_given_z, i)
                     test_running_log_p_z = running_mean(log_p_z_per_batch.item(), test_running_log_p_z, i)
+                    if i > 2:
+                        break
 
 
                 test_history["loss"].append(test_running_loss)
@@ -203,25 +221,31 @@ class VAE:
                 if halt_training:
                     break
 
-            if save_model is True and EPOCH % (round(EPOCHS/3) + 1) == 0 and EPOCH > 10:
+            if save is True and EPOCH % (round(EPOCHS / 3) + 1) == 0 and EPOCH > 10:
                 print(f"saving checkpoint model at epoch {EPOCH}")
                 self.save_NN_model(EPOCH)
 
-            if save_info_during_training is False and EPOCH % (round(EPOCHS/10) + 1) == 0:
-                print(f"EPOCH {EPOCH}")
-
-        if save_model is True:
-            print("model saved")
-            self.save_NN_model(EPOCHS)
-
         if test_loader is not None:
-            p_x = self.get_marginal(test_loader, n_samples=128)
-            print(f"marginal log likelihood is {p_x}")
-            return train_history, test_history, p_x
-        elif save_info_during_training is True:
-            return train_history
+            log_p_x = self.get_marginal(test_loader, n_samples=1)
+            print(f"marginal log likelihood is {log_p_x}")
+            if save is True:
+                print("model saved")
+                self.save_NN_model(EPOCHS)
+                self.save_training_info(numpy_dicts=[train_history, test_history],
+                                        single_value_dict={"log_p_x" : log_p_x,
+                                                           "test ELBO" : -test_history['loss'][-1],
+                                                           "train ELBO" : -train_history['loss'][-1],
+                                                           "EPOCHS MAX": EPOCHS,
+                                                           "EPOCHS Actual" : EPOCH+1,
+                                                           "lr_decay":lr_decay,
+                                                           "early_stopping": early_stopping,
+                                     "early_stopping_criterion":early_stopping_criterion,
+                                     "validation_based_decay":validation_based_decay})
+            return train_history, test_history, log_p_x
         else:
-            return
+            self.save_training_info(numpy_dicts=[train_history, test_history],
+                                    single_value_dict={})
+            return train_history
 
 
 if __name__ == "__main__":
@@ -232,6 +256,6 @@ if __name__ == "__main__":
     vae = VAE(latent_dim=32, n_IAF_steps=2, h_dim=20,
               IAF_node_width=450, encoder_fc_dim=450,
               decoder_fc_dim=450, constant_sigma=True)
-    vae.model(data)
+    #vae.model(data)
     # vae.VAE_model.encoder.IAF_steps[0].FinalLayer.state_dict() # useful for checking sigma constant
-    vae.train(EPOCHS = 40, train_loader=train_loader, save_model=False, test_loader=test_loader)
+    vae.train(EPOCHS = 2, train_loader=train_loader, save=True, test_loader=test_loader)

@@ -10,6 +10,7 @@ from tqdm.notebook import tqdm
 import pathlib, os
 from datetime import datetime
 from Utils.epoch_manager import EpochManager
+import pandas as pd
 
 
 class VAE_model(nn.Module):
@@ -54,8 +55,24 @@ class VAE:
     def save_NN_model(self, epochs_trained_for = 0, additional_name_info=""):
         base_dir = pathlib.Path.cwd().parent
         model_path = base_dir / self.save_NN_path / f"epochs_{epochs_trained_for}__model__{additional_name_info}"
-        pathlib.Path(os.path.join(os.getcwd(), model_path)).parent.mkdir(parents=True, exist_ok=True)
+        pathlib.Path(model_path).parent.mkdir(parents=True, exist_ok=True)
         torch.save(self.model.state_dict(), str(model_path))
+
+    def save_training_info(self, numpy_dicts, single_value_dict):
+        base_dir = pathlib.Path.cwd().parent
+        main_path = base_dir / self.save_NN_path
+        pathlib.Path(main_path).mkdir(parents=True, exist_ok=True)
+        for numpy_dict in numpy_dicts: # train and test info
+            df = pd.DataFrame(numpy_dict)
+            df_path = main_path / f'{numpy_dict["name"]}.csv'
+            df.to_csv(df_path)
+
+        summary_results = ""
+        for key in single_value_dict:
+            summary_results += f"{key} : {single_value_dict[key]}\n"
+        summary_results_path = str(main_path / "summary_results.txt")
+        with open(summary_results_path, "w") as g:
+            g.write(summary_results)
 
     def load_NN_model(self, path):
         self.model.load_state_dict(torch.load(path, map_location=torch.device(self.device)))
@@ -113,7 +130,7 @@ class VAE:
         loss = -ELBO
         return loss, log_p_x_given_z_per_batch, log_q_z_given_x_per_batch, log_p_z_per_batch
 
-    def train(self, EPOCHS, train_loader, test_loader=None, save_model=True,
+    def train(self, EPOCHS, train_loader, test_loader, save=True,
               lr_decay=True, validation_based_decay = True, early_stopping=True,
               early_stopping_criterion=40):
         epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
@@ -121,17 +138,17 @@ class VAE:
                                      early_stopping_criterion=early_stopping_criterion,
                                      validation_based_decay=validation_based_decay)
         epoch_per_info = max(round(EPOCHS / 10), 1)
-        train_history = {"loss": [],
+        train_history = {"name": "train",
+                        "loss": [],
                          "log_p_x_given_z": [],
                          "log_q_z_given_x": [],
                          "log_p_z ": []}
-        if test_loader is not None:
-            test_history = {"loss": [],
-                         "log_p_x_given_z": [],
-                         "log_q_z_given_x": [],
-                         "log_p_z ": []}
-        else:
-            test_history = None
+        test_history = {"name": "test",
+                        "loss": [],
+                     "log_p_x_given_z": [],
+                     "log_q_z_given_x": [],
+                     "log_p_z ": []}
+
 
         for EPOCH in tqdm(range(EPOCHS)):
             running_loss = 0
@@ -199,11 +216,27 @@ class VAE:
             if halt_training:
                 break
 
-        if save_model is True:
-            self.save_NN_model(EPOCHS)
-            print("model saved")
+            if save is True and EPOCH % (round(EPOCHS / 3) + 1) == 0 and EPOCH > 10:
+                print(f"saving checkpoint model at epoch {EPOCH}")
+                self.save_NN_model(EPOCH)
+
         bits_per_dim = self.get_bits_per_dim(test_loader=test_loader)
-        print(bits_per_dim)
+        bits_per_dim_lower_bound = self.get_bits_per_dim(test_loader, n_samples=1)  # 1 sample gives us lower bound
+        print(f"{bits_per_dim} bits per dim \n {bits_per_dim_lower_bound} bits per dim lower bound")
+        if save is True:
+            print("model saved")
+            self.save_NN_model(EPOCHS)
+            self.save_training_info(numpy_dicts=[train_history, test_history],
+                                    single_value_dict={"bits per dim": bits_per_dim,
+                                                       "bits per dim lower bound": bits_per_dim_lower_bound,
+                                                       "test loss": -test_history['loss'][-1],
+                                                       "train loss": -train_history['loss'][-1],
+                                                       "EPOCHS MAX": EPOCHS,
+                                                       "EPOCHS Actual": EPOCH + 1,
+                                                       "lr_decay": lr_decay,
+                                                       "early_stopping": early_stopping,
+                                                       "early_stopping_criterion": early_stopping_criterion,
+                                                       "validation_based_decay": validation_based_decay})
         return train_history, test_history, bits_per_dim
 
 
@@ -215,7 +248,7 @@ if __name__ == "__main__":
     data_chunk = next(iter(train_loader))[0]
     vae = VAE()
     print(vae.get_bits_per_dim(test_loader=test_loader, n_samples=3))
-    vae.train(EPOCHS = 1, train_loader=train_loader, test_loader=test_loader, save_model=False)
+    vae.train(EPOCHS = 1, train_loader=train_loader, test_loader=test_loader, save=False)
     """
     n = 5
     data_chunk = next(iter(train_loader))[0][0:n**2, :, :, :]
