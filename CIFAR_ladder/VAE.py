@@ -87,6 +87,8 @@ class VAE_ladder(VAE):
                 reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term,  KL_q_p = self.model(x)
                 KL_mean = torch.mean(KL_q_p)
                 loss, log_p_x_given_z_per_batch = self.loss_function(reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term, x)
+                if torch.isnan(loss).item():
+                    raise Exception("NAN loss encountered")
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
