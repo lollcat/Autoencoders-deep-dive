@@ -40,7 +40,7 @@ class VAE:
         self.BCE_loss = torch.nn.BCEWithLogitsLoss(reduction="none")
         self.optimizer = torch.optim.Adamax(self.model.parameters())
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-        self.save_NN_path = f"Results_and_trained_models/CIFAR_basic_IAF/saved_models/{name}__latent_dim_{latent_dim}" \
+        self.save_NN_path = f"Results_and_trained_models/CIFAR_basic_IAF/{name}__latent_dim_{latent_dim}" \
                             f"__n_IAF_steps_{n_IAF_steps}__constant_sigma_{constant_sigma}__" \
                             f"IAF_node_width_{IAF_node_width}/{current_time}/"
 
