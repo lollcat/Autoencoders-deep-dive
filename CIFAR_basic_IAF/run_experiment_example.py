@@ -2,6 +2,7 @@ from CIFAR_basic_IAF.VAE import VAE
 from Utils.load_CIFAR import load_data
 from IAF_VAE_mnist.Experiment_dicts import experiment_dicts_paper # we use the same basic archetecture that we used for mnist
 from Utils.CIFAR_plotting import plot_original_and_reconstruction
+from Utils.mnist_plotting import plot_train_test
 
 
 batch_size = 100
