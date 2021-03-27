@@ -1,18 +1,13 @@
-from Utils.running_mean import running_mean
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from datetime import datetime
-import pathlib, os
-from tqdm import tqdm
-#from tqdm.notebook import tqdm
 from CIFAR_ladder.model import VAE_ladder_model
-from CIFAR_basic_IAF.VAE import VAE
-from Utils.epoch_manager import EpochManager
+from CIFAR_base_class.BaseClass import CIFAR_BASE
 
 
-class VAE_ladder(VAE):
+class VAE_ladder(CIFAR_BASE):
     # note this class inherits important functions from CIFAR_basic_IAF\VAE such as bits per dim
     def __init__(self, latent_dim=32, n_rungs=4, n_IAF_steps=1, IAF_node_width=450, use_GPU = True, name="",
                  constant_sigma=False, lambda_free_bits=0.25):
@@ -27,140 +22,6 @@ class VAE_ladder(VAE):
                             f"__n_IAF_steps_{n_IAF_steps}__n_rungs_{n_rungs}__constant_sigma_{constant_sigma}__" \
                             f"IAF_node_width_{IAF_node_width}/{current_time}/"
 
-    @torch.no_grad()
-    def get_marginal_batch(self, x_batch, n_samples = 128):
-        """
-       This first calculates the estimate of the marginal p(x) for each datapoint in the test set, using importance sampling
-       and then returns the mean p(x) across the different points
-       Note inner operating is aggregating across samples for each point, outer operation aggregates over different points
-       Use log sum x trick described in https://blog.feedly.com/tricks-of-the-trade-logsumexp/, using pytorches library
-        """
-        samples = []
-        for n in range(n_samples):
-            reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term,  KL_q_p = self.model(x_batch)
-            log_p_x_given_z = self.discretized_log_lik(x_batch, reconstruction_mu, reconstruction_log_sigma)
-            # dim batch_size
-            log_monte_carlo_sample = log_p_x_given_z - KL_q_p
-            samples.append(torch.unsqueeze(log_monte_carlo_sample, dim=0))
-        log_monte_carlo_sample_s = torch.cat(samples, dim=0)
-        log_p_x_per_sample = torch.logsumexp(log_monte_carlo_sample_s, dim=0) - torch.log(torch.tensor(n_samples).float())
-        mean_log_p_x = torch.mean(log_p_x_per_sample)
-        return mean_log_p_x.item()
-
-    def loss_function(self, reconstruction_means, reconstruction_log_sigmas
-                      , KL_free_bits_term, x_target):
-        log_p_x_given_z = self.discretized_log_lik(x_target, reconstruction_means, reconstruction_log_sigmas)
-        log_p_x_given_z_per_batch = torch.mean(log_p_x_given_z)
-        ELBO = log_p_x_given_z_per_batch + KL_free_bits_term
-        loss = -ELBO
-        return loss, log_p_x_given_z_per_batch
-
-    def train(self, EPOCHS, train_loader, test_loader=None, save=True,
-              lr_decay=True, validation_based_decay=True, early_stopping=True,
-              early_stopping_criterion=40):
-        epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
-                                     early_stopping=early_stopping,
-                                     early_stopping_criterion=early_stopping_criterion,
-                                     validation_based_decay=validation_based_decay)
-        epoch_per_info = max(round(EPOCHS / 10), 1)
-        train_history = {"name": "train",
-                         "loss": [],
-                         "log_p_x_given_z": [],
-                         "KL": [],
-                         "KL_free_bits": []}
-        test_history = {"name": "test",
-                        "loss": [],
-                     "log_p_x_given_z": [],
-                     "KL": [],
-                     "KL_free_bits": []}
-
-        for EPOCH in tqdm(range(EPOCHS)):
-            running_loss = 0
-            running_log_p_x_given_z = 0
-            running_KL = 0
-            running_KL_free_bits = 0
-
-            test_running_loss = 0
-            test_running_log_p_x_given_z = 0
-            test_running_KL = 0
-            test_running_KL_free_bits = 0
-            for i, (x, _) in enumerate(train_loader):
-                x = x.to(self.device)
-                reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term,  KL_q_p = self.model(x)
-                KL_mean = torch.mean(KL_q_p)
-                loss, log_p_x_given_z_per_batch = self.loss_function(reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term, x)
-                if torch.isnan(loss).item():
-                    raise Exception("NAN loss encountered")
-                self.optimizer.zero_grad()
-                loss.backward()
-                self.optimizer.step()
-                running_loss = running_mean(loss.item(), running_loss, i)
-                running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), running_log_p_x_given_z, i)
-                running_KL = running_mean(KL_mean.item(), running_KL, i)
-                running_KL_free_bits = running_mean(-KL_free_bits_term.item(), running_KL_free_bits, i)
-
-
-            for i, (x, _) in enumerate(test_loader):
-                torch.no_grad()
-                x = x.to(self.device)
-                reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term, KL_q_p = self.model(x)
-                KL_mean = torch.mean(KL_q_p)
-                loss, log_p_x_given_z_per_batch = \
-                    self.loss_function(reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term, x)
-                test_running_loss = running_mean(loss.item(), test_running_loss, i)
-                test_running_log_p_x_given_z = running_mean(log_p_x_given_z_per_batch.item(), test_running_log_p_x_given_z, i)
-                test_running_KL = running_mean(KL_mean.item(), test_running_KL, i)
-                test_running_KL_free_bits = running_mean(-KL_free_bits_term.item(), test_running_KL_free_bits, i)
-
-            train_history["loss"].append(running_loss)
-            train_history["log_p_x_given_z"].append(running_log_p_x_given_z)
-            train_history["KL"].append(running_KL)
-            train_history["KL_free_bits"].append(running_KL_free_bits)
-            test_history["loss"].append(test_running_loss)
-            test_history["log_p_x_given_z"].append(test_running_log_p_x_given_z)
-            test_history["KL"].append(test_running_KL)
-            test_history["KL_free_bits"].append(test_running_KL_free_bits)
-
-            if EPOCH % epoch_per_info == 0 or EPOCH == EPOCHS - 1:
-                print(f"Epoch: {EPOCH + 1} \n"
-                      f"running loss: {running_loss} \n"
-                      f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
-                      f"running_KL: {running_KL} \n"
-                      f"running KL free bits {running_KL_free_bits}")
-                print(f"test running loss: {test_running_loss} \n"
-                      f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
-                      f"test running_KL: {test_running_KL} \n"
-                      f"test running KL free bits {test_running_KL_free_bits}")
-
-            halt_training = epoch_manager.manage(EPOCH, test_history["loss"])
-            if halt_training:
-                break
-
-            if save is True and EPOCH % (round(EPOCHS / 3) + 1) == 0 and EPOCH > 10:
-                print(f"saving checkpoint model at epoch {EPOCH}")
-                self.save_NN_model(EPOCH)
-
-        bits_per_dim = self.get_bits_per_dim(test_loader=test_loader)
-        bits_per_dim_lower_bound = self.get_bits_per_dim(test_loader, n_samples=1)  # 1 sample gives us lower bound
-        print(f"{bits_per_dim} bits per dim \n {bits_per_dim_lower_bound} bits per dim lower bound")
-        if save is True:
-            print("model saved")
-            self.save_NN_model(EPOCHS)
-            self.save_training_info(numpy_dicts=[train_history, test_history],
-                                    single_value_dict={"bits per dim": bits_per_dim,
-                                                       "bits per dim lower bound": bits_per_dim_lower_bound,
-                                                       "test loss": -test_history['loss'][-1],
-                                                       "train loss": -train_history['loss'][-1],
-                                                       "EPOCHS MAX": EPOCHS,
-                                                       "EPOCHS Actual": EPOCH + 1,
-                                                       "lr_decay": lr_decay,
-                                                       "early_stopping": early_stopping,
-                                                       "early_stopping_criterion": early_stopping_criterion,
-                                                       "validation_based_decay": validation_based_decay})
-        return train_history, test_history, bits_per_dim
-
-
-
 if __name__ == '__main__':
     from Utils.load_CIFAR import load_data
     from Utils.mnist_plotting import plot_train_test
@@ -170,7 +31,7 @@ if __name__ == '__main__':
     x_data = next(iter(train_loader))[0].to(device)
     experiment_dict = {"latent_dim": 3, "n_IAF_steps": 1, "IAF_node_width": 10, "n_rungs": 4}
     test_model = VAE_ladder(**experiment_dict)
-    print(test_model.get_bits_per_dim(test_loader, n_samples=3))
+    print(test_model.get_bits_per_dim(test_loader, n_samples=1))
     train_history, test_history, bits_per_dim = test_model.train(2, train_loader, test_loader, save=False,
               lr_decay=True, validation_based_decay=True, early_stopping=True,
               early_stopping_criterion=40)

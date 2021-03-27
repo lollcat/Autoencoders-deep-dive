@@ -80,6 +80,6 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     train_loader, test_loader = load_data(26)
     data = next(iter(train_loader))[0].to(device)
-    test_model = VAE_ladder_model(latent_dim=10, n_rungs=3, n_IAF_steps=1, IAF_node_width=20)
+    test_model = VAE_ladder_model()
     reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term,  KL_q_p = test_model(data)
     print(reconstruction_mu.shape, reconstruction_log_sigma.shape, KL_free_bits_term.shape, KL_q_p.shape)
