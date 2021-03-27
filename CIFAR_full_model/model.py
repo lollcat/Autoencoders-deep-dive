@@ -4,12 +4,13 @@ import torch.nn.functional as F
 import numpy as np
 from CIFAR_full_model.latent_block import LatentBlock
 from CIFAR_full_model.updward_block import UpwardBlock
+from CIFAR_full_model.x_z_dim_change_blocks import x_to_z_dim_Block, z_to_x_dim_Block
 
 class VAE_ladder_model(nn.Module):
     """
     We have written Mnist version a bit more generally
     """
-    def __init__(self, n_rungs=4, lambda_free_bits=0.25):
+    def __init__(self, n_rungs=4, n_downsample_to_z=2, lambda_free_bits=0.25, with_IAF=True, IAF_n_hidden_layers=1):
         super(VAE_ladder_model, self).__init__()
         self.lambda_free_bits = lambda_free_bits
         self.n_rungs = n_rungs
@@ -18,18 +19,17 @@ class VAE_ladder_model(nn.Module):
         self.generative_block_conv1 = nn.ModuleList([])
         self.generative_block_mean_prior = nn.ModuleList([])
         self.generative_block_log_std_prior = nn.ModuleList([])
+        self.z_back_to_x_dim = nn.ModuleList([])
         self.generative_block_conv2 = nn.ModuleList([])
         for rung in range(n_rungs):
-            self.upward_blocks.append(UpwardBlock())
-            self.latent_blocks.append(LatentBlock())
-
+            self.upward_blocks.append(UpwardBlock(n_downsample_to_z=n_downsample_to_z))
+            self.latent_blocks.append(LatentBlock(with_IAF=with_IAF, n_hidden_layers=IAF_n_hidden_layers))
         for rung in range(n_rungs):
             self.generative_block_conv1.append(torch.nn.utils.weight_norm(nn.Conv2d(in_channels=3, out_channels=3,
                                                              kernel_size=3, stride=1, padding=1)))
-            self.generative_block_mean_prior.append(torch.nn.utils.weight_norm(nn.Conv2d(in_channels=3, out_channels=3,
-                                                             kernel_size=3, stride=1, padding=1)))
-            self.generative_block_log_std_prior.append(torch.nn.utils.weight_norm(nn.Conv2d(in_channels=3, out_channels=3,
-                                                             kernel_size=3, stride=1, padding=1)))
+            self.generative_block_mean_prior.append(x_to_z_dim_Block(n_downsample=n_downsample_to_z))
+            self.generative_block_log_std_prior.append(x_to_z_dim_Block(n_downsample=n_downsample_to_z))
+            self.z_back_to_x_dim.append(z_to_x_dim_Block(n_up_sample=n_downsample_to_z))
             # we get 3 channels from conv1 and 3 channels from fc processing of latent
             self.generative_block_conv2.append(torch.nn.utils.weight_norm(nn.Conv2d(in_channels=6, out_channels=3,
                                                              kernel_size=3, stride=1, padding=1)))
@@ -59,7 +59,8 @@ class VAE_ladder_model(nn.Module):
             z, log_q_z_given_x = self.latent_blocks[j](posterior_mean, posterior_log_std, iaf_h)
             prior_std = torch.exp(prior_log_std)
             log_p_z = self.unit_MVG_Guassian_log_prob(z, prior_mean, prior_std)
-            generative_concat_features = torch.cat([z, generative_conv1], dim=1)
+            z_back_to_x_dim = self.z_back_to_x_dim[j](z)
+            generative_concat_features = torch.cat([z_back_to_x_dim, generative_conv1], dim=1)
             generative_conv2 = F.elu(self.generative_block_conv2[j](generative_concat_features))
             generative_conv_starting = generative_conv2 + generative_conv_starting  # now loop to next rung
             rung_KL = log_q_z_given_x - log_p_z

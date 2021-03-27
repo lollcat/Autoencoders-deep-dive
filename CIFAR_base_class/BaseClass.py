@@ -170,7 +170,7 @@ class CIFAR_BASE:
                       f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
                       f"running_KL: {running_KL} \n"
                       f"running KL free bits {running_KL_free_bits}")
-                print(f"test running loss: {test_running_loss} \n"
+                print(f"\n\ntest running loss: {test_running_loss} \n"
                       f"test running_log_p_x_given_z: {test_running_log_p_x_given_z} \n"
                       f"test running_KL: {test_running_KL} \n"
                       f"test running KL free bits {test_running_KL_free_bits}")

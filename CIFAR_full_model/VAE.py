@@ -4,10 +4,11 @@ from CIFAR_base_class.BaseClass import CIFAR_BASE
 from CIFAR_full_model.model import VAE_ladder_model
 
 class CIFAR_VAE_fancy(CIFAR_BASE):
-    def __init__(self, n_rungs=4, lambda_free_bits=0.25, name=""):
+    def __init__(self, n_rungs=4, lambda_free_bits=0.25, with_IAF=True, IAF_n_hidden_layers=1, name=""):
         super(CIFAR_VAE_fancy, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = VAE_ladder_model(n_rungs=n_rungs, lambda_free_bits=lambda_free_bits).to(self.device)
+        self.model = VAE_ladder_model(n_rungs=n_rungs, lambda_free_bits=lambda_free_bits, with_IAF=with_IAF,
+                                      IAF_n_hidden_layers=IAF_n_hidden_layers).to(self.device)
         self.optimizer = torch.optim.Adamax(self.model.parameters())
         current_time = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
         self.save_NN_path = f"Results_and_trained_models/CIFAR_full_model/" \
