@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import torch
 
-def plot_original_and_reconstruction(vae, train_loader, n = 4):
-    data_chunk = next(iter(train_loader))[0][0:n ** 2, :, :, :]
+def plot_original_and_reconstruction(vae, test_loader, n = 4):
+    torch.manual_seed(0)
+    data_chunk = next(iter(test_loader))[0][0:n ** 2, :, :, :]
     # plot original
     fig_original = plt.figure(figsize=(5., 5.))
     from mpl_toolkits.axes_grid1 import ImageGrid

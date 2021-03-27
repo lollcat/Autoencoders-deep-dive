@@ -17,6 +17,7 @@ class VAE_model(nn.Module):
     def __init__(self, latent_dim, n_IAF_steps, h_dim, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450,
                  constant_sigma=False):
         super(VAE_model, self).__init__()
+        self.latent_dim = latent_dim
         self.encoder = Encoder(latent_dim=latent_dim, fc_layer_dim=encoder_fc_dim, n_IAF_steps=n_IAF_steps,
                                h_dim=h_dim, IAF_node_width=IAF_node_width, constant_sigma=constant_sigma)
         self.decoder = Decoder(latent_dim=latent_dim, fc_dim=decoder_fc_dim)
@@ -25,6 +26,13 @@ class VAE_model(nn.Module):
         z, log_q_z_given_x, log_p_z = self.encoder(x)
         reconstruction_means, reconstruction_log_sigma = self.decoder(z)
         return reconstruction_means, reconstruction_log_sigma, log_q_z_given_x, log_p_z
+
+    def sample(self, n_images=1):
+        # epsilon also N(0,1) so we can use it to sample from the prior
+        z = self.encoder.epsilon_sample_layer.rsample((n_images, self.latent_dim))
+        reconstruction_means, reconstruction_log_sigma = self.decoder(z)
+        return reconstruction_means, reconstruction_log_sigma
+
 
 class VAE:
     def __init__(self, latent_dim=32, n_IAF_steps=2, h_dim=200, IAF_node_width=320, encoder_fc_dim=450, decoder_fc_dim=450

@@ -5,8 +5,8 @@ import torch.nn.functional as F
 import numpy as np
 from datetime import datetime
 import pathlib, os
-#from tqdm import tqdm
-from tqdm.notebook import tqdm
+from tqdm import tqdm
+#from tqdm.notebook import tqdm
 from CIFAR_ladder.model import VAE_ladder_model
 from CIFAR_basic_IAF.VAE import VAE
 from Utils.epoch_manager import EpochManager
@@ -56,7 +56,7 @@ class VAE_ladder(VAE):
         return loss, log_p_x_given_z_per_batch
 
     def train(self, EPOCHS, train_loader, test_loader=None, save=True,
-              lr_decay=True, validation_based_decay = True, early_stopping=True,
+              lr_decay=True, validation_based_decay=True, early_stopping=True,
               early_stopping_criterion=40):
         epoch_manager = EpochManager(self.optimizer, EPOCHS, lr_decay=lr_decay,
                                      early_stopping=early_stopping,
@@ -171,10 +171,9 @@ if __name__ == '__main__':
     experiment_dict = {"latent_dim": 3, "n_IAF_steps": 1, "IAF_node_width": 10, "n_rungs": 4}
     test_model = VAE_ladder(**experiment_dict)
     print(test_model.get_bits_per_dim(test_loader, n_samples=3))
-    train_history, test_history, bits_per_dim = test_model.train(2, train_loader, test_loader,
-                                                                 lr_schedule=False, n_lr_cycles=1,
-                                                                 epoch_per_info_min=50,
-                                                                 save=False)
+    train_history, test_history, bits_per_dim = test_model.train(2, train_loader, test_loader, save=False,
+              lr_decay=True, validation_based_decay=True, early_stopping=True,
+              early_stopping_criterion=40)
     fig_original, axs_original, fig_reconstruct, axs_reconstruct = \
         plot_original_and_reconstruction(test_model, test_loader)
     import matplotlib.pyplot as plt
