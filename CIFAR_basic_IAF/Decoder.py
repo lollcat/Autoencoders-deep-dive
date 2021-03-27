@@ -21,7 +21,8 @@ class Decoder(nn.Module):
         # note unlike mnist we now have 3 output channels
         self.deconv_mean = ResnetBlock(input_filters=16, filter_size=3, stride=2, kernel_size=3,
                                                      deconv=True, output_padding=1)
-        self.log_sigma = torch.nn.Parameter(torch.zeros(3, 32, 32))
+        self.deconv_log_sigma = ResnetBlock(input_filters=16, filter_size=3, stride=2, kernel_size=3,
+                                                     deconv=True, output_padding=1)
 
     def forward(self, x):
         x = F.elu(self.fc1(x))
@@ -30,7 +31,7 @@ class Decoder(nn.Module):
         for resnet_block in self.deconv_resnet_blocks:
             x = resnet_block(x)
         mean = torch.sigmoid(self.deconv_mean(x))
-        log_sigma = self.log_sigma.repeat(mean.shape[0], 1, 1, 1)
+        log_sigma = self.deconv_log_sigma(x)
         return mean, log_sigma
 
 
