@@ -4,8 +4,8 @@ import numpy as np
 import torch
 from Utils.epoch_manager import EpochManager
 import pathlib, os
-from tqdm import tqdm
-#from tqdm.notebook import tqdm
+#from tqdm import tqdm
+from tqdm.notebook import tqdm
 
 class CIFAR_BASE:
     # base class used for CIFAR models
