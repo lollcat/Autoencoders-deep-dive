@@ -165,7 +165,7 @@ class CIFAR_BASE:
             test_history["KL_free_bits"].append(test_running_KL_free_bits)
 
             if EPOCH % epoch_per_info == 0 or EPOCH == EPOCHS - 1:
-                print(f"Epoch: {EPOCH + 1} \n"
+                print(f"\n\n\nEpoch: {EPOCH + 1} \n"
                       f"running loss: {running_loss} \n"
                       f"running_log_p_x_given_z: {running_log_p_x_given_z} \n"
                       f"running_KL: {running_KL} \n"

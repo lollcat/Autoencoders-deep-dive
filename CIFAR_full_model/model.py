@@ -77,6 +77,26 @@ class VAE_ladder_model(nn.Module):
     def unit_MVG_Guassian_log_prob(self, sample, mu=0, sigma=1):
         return -0.5*torch.sum((sample - mu)**2/sigma**2 + np.log(2*np.pi) + 2*torch.log(sigma), dim=[1,2,3])
 
+    def sample_from_latent_prior(self, x):
+        # sample from priors - i.e. top down processing without bottom up z conditioned on x.
+        # x just used for dim
+        generative_conv_starting = torch.ones_like(x)
+        for j in reversed(range(self.n_rungs)):
+            generative_conv1 = F.elu(self.generative_block_conv1[j](generative_conv_starting))
+            prior_mean = self.generative_block_mean_prior[j](generative_conv1)
+            prior_log_std = self.generative_block_log_std_prior[j](generative_conv1)
+            prior_std = torch.exp(prior_log_std)
+            z = torch.normal(prior_mean, prior_std)
+            log_p_z = self.unit_MVG_Guassian_log_prob(z, prior_mean, prior_std)
+            z_back_to_x_dim = self.z_back_to_x_dim[j](z)
+            generative_concat_features = torch.cat([z_back_to_x_dim, generative_conv1], dim=1)
+            generative_conv2 = F.elu(self.generative_block_conv2[j](generative_concat_features))
+            generative_conv_starting = generative_conv2 + generative_conv_starting  # now loop to next rung
+        reconstruction_mu = torch.sigmoid(self.reconstruction_mu(generative_conv_starting))
+        reconstruction_log_sigma = self.reconstruction_log_sigma(generative_conv_starting)
+
+        return reconstruction_mu, reconstruction_log_sigma
+
 
 if __name__ == '__main__':
     from Utils.load_CIFAR import load_data
@@ -86,3 +106,5 @@ if __name__ == '__main__':
     test_model = VAE_ladder_model()
     reconstruction_mu, reconstruction_log_sigma, KL_free_bits_term,  KL_q_p = test_model(data)
     print(reconstruction_mu.shape, reconstruction_log_sigma.shape, KL_free_bits_term.shape, KL_q_p.shape)
+    sample = test_model.sample_from_latent_prior(data)
+    print(sample[0].shape)
