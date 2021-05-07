@@ -1,6 +1,6 @@
 # Autoencoders-deep-dive
-Pytorch implementation of IAF paper (see "Pytorch" Branch)
+Pytorch implementation of [IAF paper](https://arxiv.org/abs/1606.04934)
 <br>
-See Report Here [here](https://github.com/lollcat/Autoencoders-deep-dive/blob/Pytorch/Report.pdf)
+See Report [here](https://github.com/lollcat/Autoencoders-deep-dive/blob/Pytorch/Report.pdf)
 
 
